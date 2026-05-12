@@ -49,7 +49,6 @@ thead th{text-align:left;padding:9px 13px;font-size:.71rem;text-transform:upperc
 .r3{background:rgba(34,197,94,.2);color:var(--gr);}
 .en{font-weight:600;font-size:.93rem;}
 .dn{font-size:.7rem;color:var(--mu);background:var(--s2);border-radius:5px;padding:2px 7px;margin-left:8px;border:1px solid var(--bd);}
-/* warning badge for double-mandated */
 .warn-badge{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:20px;font-size:.68rem;font-weight:700;background:rgba(245,158,11,.2);color:var(--am);border:1px solid rgba(245,158,11,.4);}
 .af{background:var(--s);border:1px solid var(--bd);border-radius:12px;padding:20px;margin-bottom:20px;display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;}
 .fg{display:flex;flex-direction:column;gap:5px;flex:1;min-width:160px;}
@@ -69,16 +68,18 @@ textarea{resize:vertical;min-height:70px;}
 .md .fg{margin-bottom:13px;}
 .ma{display:flex;gap:10px;margin-top:18px;justify-content:flex-end;}
 .cm{color:var(--tx);margin:10px 0 18px;font-size:.87rem;line-height:1.6;}
-.ea{display:flex;gap:6px;align-items:center;}
+.ea{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
 .bu,.bdo{background:var(--s2);border:1px solid var(--bd);color:var(--tx);padding:4px 9px;border-radius:6px;font-size:.79rem;}
 .bu:hover,.bdo:hover{background:var(--bd);}
+.bedit{background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.4);color:#93c5fd;padding:4px 10px;border-radius:6px;font-size:.77rem;}
+.bedit:hover{background:rgba(59,130,246,.3);}
 .brm{background:rgba(220,38,38,.15);border:1px solid rgba(220,38,38,.4);color:#f87171;padding:4px 10px;border-radius:6px;font-size:.77rem;}
 .brm:hover{background:rgba(220,38,38,.3);}
 .other-hrs{display:none;}
 .other-hrs.show{display:flex;}
 .hint{font-size:.72rem;color:var(--mu);margin-top:4px;}
 .badge-del{background:rgba(220,38,38,.12);border:1px solid rgba(220,38,38,.35);color:#f87171;padding:3px 9px;border-radius:6px;font-size:.72rem;cursor:pointer;white-space:nowrap;}
-.badge-del:hover{background:rgba(220,38,34,.28);}
+.badge-del:hover{background:rgba(220,38,38,.28);}
 .sort-note{font-size:.72rem;color:var(--mu);margin-bottom:14px;padding:8px 12px;background:var(--s);border:1px solid var(--bd);border-radius:8px;}
 .mc-pill{display:inline-block;padding:2px 9px;border-radius:20px;font-size:.75rem;font-weight:700;min-width:28px;text-align:center;}
 .mc-0{background:rgba(34,197,94,.15);color:var(--gr);border:1px solid rgba(34,197,94,.3);}
@@ -119,7 +120,7 @@ textarea{resize:vertical;min-height:70px;}
     </div>
     <div class="sort-note">
       ⓘ Queue sorts automatically by mandation count (fewest first), then by oldest last mandation date as tiebreaker.
-      Use ▲▼ in the Employees tab to manually override order after a late entry. Click <strong>Auto-Sort Now</strong> to re-apply fair sort at any time.
+      Use ▲▼ in the Employees tab to manually override after a late entry. Click <strong>Auto-Sort Now</strong> to re-apply fair sort at any time.
     </div>
     <table>
       <thead><tr><th>#</th><th>Employee</th><th>Count</th><th>Last Mandated</th><th>Action</th></tr></thead>
@@ -194,6 +195,20 @@ textarea{resize:vertical;min-height:70px;}
   </div>
 </div>
 
+<!-- EDIT EMPLOYEE MODAL -->
+<div class="mo" id="editModal">
+  <div class="md">
+    <h2>Edit Employee</h2>
+    <div class="sub">Update name or DSN — mandation history is preserved.</div>
+    <div class="fg"><label>Full Name</label><input id="eName" type="text" placeholder="First Last"></div>
+    <div class="fg"><label>DSN (optional)</label><input id="eDSN" type="text" placeholder="e.g. 1760"></div>
+    <div class="ma">
+      <button class="bs" onclick="closeEdit()">Cancel</button>
+      <button class="bp" onclick="saveEdit()">✔ Save Changes</button>
+    </div>
+  </div>
+</div>
+
 <!-- CONFIRM MODAL -->
 <div class="mo" id="cModal">
   <div class="md">
@@ -233,20 +248,14 @@ function sv(s){try{localStorage.setItem(KY,JSON.stringify(s));}catch(e){alert('S
 var S=ld();
 
 function getActive(){return S.employees.filter(function(e){return e.active;}).sort(function(a,b){return a.order-b.order;});}
-
 function mCount(id){return S.mandations.filter(function(m){return m.empId===id;}).length;}
-
 function lastMandateDT(id){
   var a=S.mandations.filter(function(m){return m.empId===id;});
   if(!a.length)return null;
   a.sort(function(x,y){return new Date(y.dt)-new Date(x.dt);});
   return a[0].dt;
 }
-function lastM(id){
-  var dt=lastMandateDT(id);
-  return dt?new Date(dt).toLocaleDateString():'Never';
-}
-
+function lastM(id){var dt=lastMandateDT(id);return dt?new Date(dt).toLocaleDateString():'Never';}
 function yearCount(){var y=new Date().getFullYear();return S.mandations.filter(function(m){return new Date(m.dt).getFullYear()===y;}).length;}
 function fmtDT(iso){if(!iso)return'—';var d=new Date(iso);return d.toLocaleDateString()+' '+d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}
 function nowLocal(){var d=new Date(),p=function(n){return String(n).padStart(2,'0');};return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+'T'+p(d.getHours())+':'+p(d.getMinutes());}
@@ -254,26 +263,22 @@ function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/<
 function normalise(){getActive().forEach(function(e,i){e.order=i;});}
 function shiftLabel(m){if(m.shift==='Other'&&m.hrs){return m.hrs+' hrs';}return m.shift||'—';}
 
-// ── Auto-sort: fewest mandations first, tiebreak = oldest last mandation ──
 function doAutoSort(){
   var list=getActive();
   list.sort(function(a,b){
-    var ca=mCount(a.id), cb=mCount(b.id);
+    var ca=mCount(a.id),cb=mCount(b.id);
     if(ca!==cb)return ca-cb;
-    // tiebreak: whoever was mandated longest ago goes first
-    // never mandated (null) = goes first (treat as very old date)
-    var da=lastMandateDT(a.id), db=lastMandateDT(b.id);
-    if(!da&&!db)return a.name.localeCompare(b.name); // both never — alpha
-    if(!da)return -1; // a never mandated — a goes first
-    if(!db)return 1;  // b never mandated — b goes first
-    return new Date(da)-new Date(db); // older date = goes first
+    var da=lastMandateDT(a.id),db=lastMandateDT(b.id);
+    if(!da&&!db)return a.name.localeCompare(b.name);
+    if(!da)return -1;
+    if(!db)return 1;
+    return new Date(da)-new Date(db);
   });
   list.forEach(function(e,i){e.order=i;});
   sv(S);render();
 }
 
-// count pill colour
-function countPill(count, minCount, maxCount){
+function countPill(count,minCount,maxCount){
   var cls='mc-low';
   if(count===0)cls='mc-0';
   else if(count===minCount)cls='mc-low';
@@ -297,11 +302,10 @@ function rQueue(){
   var list=getActive(),tb=document.getElementById('qBody');
   if(!list.length){tb.innerHTML='<tr><td colspan="5" class="emp">No active employees.</td></tr>';return;}
   var counts=list.map(function(e){return mCount(e.id);});
-  var minC=Math.min.apply(null,counts), maxC=Math.max.apply(null,counts);
+  var minC=Math.min.apply(null,counts),maxC=Math.max.apply(null,counts);
   tb.innerHTML=list.map(function(e,i){
     var r=i+1,rc=r===1?'r1':r===2?'r2':r===3?'r3':'';
     var cnt=mCount(e.id);
-    // warn if this person has more mandations than the minimum
     var warn=cnt>minC?'<span class="warn-badge">+' +(cnt-minC)+' vs min</span>':'';
     return'<tr class="qr">'+
       '<td><span class="rk '+rc+'">'+r+'</span></td>'+
@@ -317,7 +321,7 @@ function rEmps(){
   var list=getActive(),tb=document.getElementById('eBody');
   if(!list.length){tb.innerHTML='<tr><td colspan="6" class="emp">No employees.</td></tr>';return;}
   var counts=list.map(function(e){return mCount(e.id);});
-  var minC=Math.min.apply(null,counts), maxC=Math.max.apply(null,counts);
+  var minC=Math.min.apply(null,counts),maxC=Math.max.apply(null,counts);
   tb.innerHTML=list.map(function(e,i){
     var cnt=mCount(e.id);
     return'<tr class="er">'+
@@ -329,6 +333,7 @@ function rEmps(){
       '<td><div class="ea">'+
         '<button class="bu"'+(i===0?' disabled':'')+' onclick="mvE(\''+e.id+'\',-1)">▲</button>'+
         '<button class="bdo"'+(i===list.length-1?' disabled':'')+' onclick="mvE(\''+e.id+'\',1)">▼</button>'+
+        '<button class="bedit" onclick="openEdit(\''+e.id+'\')">✏ Edit</button>'+
         '<button class="brm" onclick="cRm(\''+e.id+'\')">Remove</button>'+
       '</div></td>'+
     '</tr>';
@@ -355,6 +360,26 @@ function rHist(){
       '<td><button class="badge-del" onclick="cDelMand(\''+x.id+'\')">✕ Delete</button></td>'+
     '</tr>';
   }).join('');
+}
+
+// ── Edit Employee ─────────────────────────────────────────────
+var editEmpId=null;
+function openEdit(id){
+  editEmpId=id;
+  var e=S.employees.find(function(x){return x.id===id;});
+  if(!e)return;
+  document.getElementById('eName').value=e.name;
+  document.getElementById('eDSN').value=e.dsn||'';
+  document.getElementById('editModal').classList.add('open');
+}
+function closeEdit(){document.getElementById('editModal').classList.remove('open');editEmpId=null;}
+function saveEdit(){
+  var name=document.getElementById('eName').value.trim();
+  var dsn=document.getElementById('eDSN').value.trim();
+  if(!name){alert('Please enter a name.');return;}
+  var e=S.employees.find(function(x){return x.id===editEmpId;});
+  if(e){e.name=name;e.dsn=dsn;}
+  sv(S);closeEdit();render();
 }
 
 // ── Shift modal helper ────────────────────────────────────────
@@ -394,10 +419,7 @@ function doMand(){
     if(!/^\d+$/.test(hrs)||parseInt(hrs)<1||parseInt(hrs)>99){alert('Please enter a valid number of hours (1–99).');return;}
   }
   S.mandations.push({id:'m'+Date.now(),empId:mEid,dt:dt,shift:sh,hrs:sh==='Other'?parseInt(hrs):null,notes:document.getElementById('mNo').value.trim(),by:by,at:new Date().toISOString()});
-  // auto-sort after every mandation
-  sv(S);
-  doAutoSort(); // this calls sv and render internally
-  closeM();
+  sv(S);doAutoSort();closeM();
 }
 
 // ── Delete mandation ──────────────────────────────────────────
@@ -437,15 +459,13 @@ function cRm(id){
   });
 }
 
-// ── Reset to alphabetical ─────────────────────────────────────
+// ── Reset & Export ────────────────────────────────────────────
 function cReset(){
-  shC('Reset to Alphabetical Order','This returns all employees to alphabetical order and clears mandation counts for a fresh year start. All history log records are preserved.',function(){
+  shC('Reset to Alphabetical Order','This returns all employees to alphabetical order. All history log records are preserved.',function(){
     getActive().sort(function(a,b){return a.name.localeCompare(b.name);}).forEach(function(e,i){e.order=i;});
     sv(S);render();
   });
 }
-
-// ── Export CSV ────────────────────────────────────────────────
 function expCSV(){
   var rows=[['#','DateTime','Employee','DSN','Shift','Hours','RecordedBy','Notes']];
   S.mandations.slice().sort(function(a,b){return new Date(b.dt)-new Date(a.dt);}).forEach(function(m,i){
@@ -477,6 +497,7 @@ function sw(name){
 }
 
 document.getElementById('mModal').addEventListener('click',function(e){if(e.target===this)closeM();});
+document.getElementById('editModal').addEventListener('click',function(e){if(e.target===this)closeEdit();});
 document.getElementById('cModal').addEventListener('click',function(e){if(e.target===this)closeC();});
 render();
 </script>
