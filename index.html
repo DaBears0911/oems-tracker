@@ -34,7 +34,6 @@ button{cursor:pointer;border:none;border-radius:8px;font-weight:600;font-size:.8
 .bsm{padding:6px 13px;font-size:.77rem;}
 .bm{background:linear-gradient(135deg,#dc2626,#9f1239);color:#fff;padding:7px 14px;font-size:.77rem;border-radius:7px;}
 .bm:hover{filter:brightness(1.15);}
-/* Queue table */
 table{width:100%;border-collapse:separate;border-spacing:0 5px;}
 thead th{text-align:left;padding:9px 13px;font-size:.71rem;text-transform:uppercase;letter-spacing:.8px;color:var(--mu);}
 .qr{background:var(--s);border-radius:10px;}
@@ -50,15 +49,8 @@ thead th{text-align:left;padding:9px 13px;font-size:.71rem;text-transform:upperc
 .en{font-weight:600;font-size:.93rem;}
 .dn{font-size:.7rem;color:var(--mu);background:var(--s2);border-radius:5px;padding:2px 7px;margin-left:8px;border:1px solid var(--bd);}
 .warn-badge{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:20px;font-size:.68rem;font-weight:700;background:rgba(245,158,11,.2);color:var(--am);border:1px solid rgba(245,158,11,.4);}
-/* Drag-and-drop employee rows */
 .emp-list{width:100%;margin-top:8px;}
-.emp-card{
-  display:flex;align-items:center;gap:10px;
-  background:var(--s);border:1px solid var(--bd);border-radius:10px;
-  padding:10px 14px;margin-bottom:6px;cursor:grab;
-  transition:background .15s, box-shadow .15s;
-  user-select:none;
-}
+.emp-card{display:flex;align-items:center;gap:10px;background:var(--s);border:1px solid var(--bd);border-radius:10px;padding:10px 14px;margin-bottom:6px;cursor:grab;transition:background .15s,box-shadow .15s;user-select:none;}
 .emp-card:hover{background:var(--s2);}
 .emp-card.dragging{opacity:.4;cursor:grabbing;}
 .emp-card.drag-over{border-color:var(--ac);box-shadow:0 0 0 2px rgba(59,130,246,.4);background:var(--s2);}
@@ -79,7 +71,7 @@ thead th{text-align:left;padding:9px 13px;font-size:.71rem;text-transform:upperc
 .mc-low{background:rgba(59,130,246,.15);color:#93c5fd;border:1px solid rgba(59,130,246,.3);}
 .mc-high{background:rgba(245,158,11,.18);color:var(--am);border:1px solid rgba(245,158,11,.35);}
 .mc-over{background:rgba(239,68,68,.18);color:var(--re);border:1px solid rgba(239,68,68,.35);}
-/* Add form */
+.hire-badge{font-size:.7rem;color:var(--mu);background:var(--s2);border-radius:5px;padding:2px 7px;margin-left:6px;border:1px solid var(--bd);}
 .af{background:var(--s);border:1px solid var(--bd);border-radius:12px;padding:20px;margin-bottom:20px;display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;}
 .fg{display:flex;flex-direction:column;gap:5px;flex:1;min-width:160px;}
 .fg label{font-size:.74rem;color:var(--mu);font-weight:600;text-transform:uppercase;letter-spacing:.6px;}
@@ -90,7 +82,6 @@ textarea{resize:vertical;min-height:70px;}
 .hf input,.hf select{max-width:200px;flex:1;width:auto;}
 .shb{display:inline-block;padding:3px 9px;border-radius:20px;font-size:.7rem;font-weight:700;background:rgba(99,102,241,.2);color:#a5b4fc;border:1px solid rgba(99,102,241,.3);}
 .empty{text-align:center;color:var(--mu);padding:48px 0;font-size:.92rem;}
-/* Modals */
 .mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;align-items:center;justify-content:center;}
 .mo.open{display:flex;}
 .md{background:var(--s);border:1px solid var(--bd);border-radius:16px;padding:28px;width:100%;max-width:480px;box-shadow:0 20px 60px rgba(0,0,0,.5);margin:16px;}
@@ -106,6 +97,7 @@ textarea{resize:vertical;min-height:70px;}
 .badge-del:hover{background:rgba(220,38,38,.28);}
 .sort-note{font-size:.72rem;color:var(--mu);margin-bottom:14px;padding:8px 12px;background:var(--s);border:1px solid var(--bd);border-radius:8px;}
 .drag-hint{font-size:.72rem;color:var(--mu);margin-bottom:12px;padding:8px 12px;background:var(--s);border:1px solid var(--bd);border-radius:8px;}
+.sort-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
 ::-webkit-scrollbar{width:7px;}
 ::-webkit-scrollbar-track{background:var(--bg);}
 ::-webkit-scrollbar-thumb{background:var(--bd);border-radius:4px;}
@@ -152,14 +144,19 @@ textarea{resize:vertical;min-height:70px;}
   <div class="pn" id="pn-employees">
     <div class="af">
       <div class="fg"><label>Full Name</label><input id="nNm" type="text" placeholder="First Last"></div>
-      <div class="fg" style="max-width:150px"><label>DSN (optional)</label><input id="nDN" type="text" placeholder="e.g. 1760"></div>
+      <div class="fg" style="max-width:140px"><label>DSN (optional)</label><input id="nDN" type="text" placeholder="e.g. 1760"></div>
+      <div class="fg" style="max-width:170px"><label>Hire Date (optional)</label><input id="nHire" type="date"></div>
       <button class="bp" onclick="addEmp()">+ Add Employee</button>
     </div>
     <div class="ab">
       <h2>All Employees</h2>
-      <button class="bs bsm" onclick="doAutoSort()">⇅ Auto-Sort by Mandations</button>
+      <button class="bs bsm" onclick="doAutoSort()">⇅ Sort by Mandations</button>
     </div>
-    <div class="drag-hint">☰ Drag the <strong>≡ handle</strong> on any row to reorder by seniority. Changes save automatically.</div>
+    <div class="sort-btns">
+      <button class="bs bsm" onclick="sortByHire('asc')">📅 Seniority (Oldest First)</button>
+      <button class="bs bsm" onclick="sortByHire('desc')">📅 Newest Hire First</button>
+    </div>
+    <div class="drag-hint">☰ Drag the <strong>≡ handle</strong> on any row to reorder manually. Changes save automatically.</div>
     <div class="emp-list" id="empList"></div>
   </div>
 
@@ -217,9 +214,10 @@ textarea{resize:vertical;min-height:70px;}
 <div class="mo" id="editModal">
   <div class="md">
     <h2>Edit Employee</h2>
-    <div class="sub">Update name or DSN — mandation history is preserved.</div>
+    <div class="sub">Update details — mandation history is preserved.</div>
     <div class="fg"><label>Full Name</label><input id="eName" type="text" placeholder="First Last"></div>
     <div class="fg"><label>DSN (optional)</label><input id="eDSN" type="text" placeholder="e.g. 1760"></div>
+    <div class="fg"><label>Hire Date (optional)</label><input id="eHire" type="date"></div>
     <div class="ma">
       <button class="bs" onclick="closeEdit()">Cancel</button>
       <button class="bp" onclick="saveEdit()">✔ Save Changes</button>
@@ -242,24 +240,29 @@ textarea{resize:vertical;min-height:70px;}
 <script>
 var KY='oems_v1';
 var DF=[
-  {name:'Michelle Wrigley',dsn:'1760'},{name:'Nick Fensom',dsn:'1795'},
-  {name:'Ryan Young',dsn:'1786'},{name:'Jason Butler',dsn:'1743'},
-  {name:'Pat Lenz',dsn:'1793'},{name:'Terry Sill',dsn:'1765'},
-  {name:'Marty Nungesser',dsn:'1720'},{name:'Tom McCarver',dsn:'1758'},
-  {name:'Doug Sutphin',dsn:'17115'},{name:'Ryan Hodge',dsn:'17111'},
-  {name:'Jay Garrett',dsn:'1709'},{name:'Kayla Hoese',dsn:'17116'},
-  {name:'Patty Hefner',dsn:'17114'},{name:'Nick Grotowski',dsn:''},
-  {name:'Tony Mannino',dsn:'17118'},{name:'Rick Palmer',dsn:'1780'},
-  {name:'Pat Battoe',dsn:'1737'},{name:'Donovan Knapp',dsn:''},
-  {name:'Alyssa Dainelson',dsn:''},{name:'Chase McDaniel',dsn:''},
-  {name:'Kevin Brown',dsn:''},{name:'Grace Nikolaisen',dsn:''},
-  {name:'Nancy Yererlehner',dsn:''},{name:'Jake Johnston',dsn:''},
-  {name:'Ricky Palmer',dsn:''},{name:'Greg Muskopf',dsn:'1788'}
+  {name:'Michelle Wrigley',dsn:'1760',hire:''},{name:'Nick Fensom',dsn:'1795',hire:''},
+  {name:'Ryan Young',dsn:'1786',hire:''},{name:'Jason Butler',dsn:'1743',hire:''},
+  {name:'Pat Lenz',dsn:'1793',hire:''},{name:'Terry Sill',dsn:'1765',hire:''},
+  {name:'Marty Nungesser',dsn:'1720',hire:''},{name:'Tom McCarver',dsn:'1758',hire:''},
+  {name:'Doug Sutphin',dsn:'17115',hire:''},{name:'Ryan Hodge',dsn:'17111',hire:''},
+  {name:'Jay Garrett',dsn:'1709',hire:''},{name:'Kayla Hoese',dsn:'17116',hire:''},
+  {name:'Patty Hefner',dsn:'17114',hire:''},{name:'Nick Grotowski',dsn:'',hire:''},
+  {name:'Tony Mannino',dsn:'17118',hire:''},{name:'Rick Palmer',dsn:'1780',hire:''},
+  {name:'Pat Battoe',dsn:'1737',hire:''},{name:'Donovan Knapp',dsn:'',hire:''},
+  {name:'Alyssa Dainelson',dsn:'',hire:''},{name:'Chase McDaniel',dsn:'',hire:''},
+  {name:'Kevin Brown',dsn:'',hire:''},{name:'Grace Nikolaisen',dsn:'',hire:''},
+  {name:'Nancy Yererlehner',dsn:'',hire:''},{name:'Jake Johnston',dsn:'',hire:''},
+  {name:'Ricky Palmer',dsn:'',hire:''},{name:'Greg Muskopf',dsn:'1788',hire:''}
 ];
 
 function ld(){
-  try{var r=localStorage.getItem(KY);if(r)return JSON.parse(r);}catch(e){}
-  var emp=DF.map(function(e,i){return{id:'e'+Date.now()+'_'+i,name:e.name,dsn:e.dsn,order:i,active:true};});
+  try{var r=localStorage.getItem(KY);if(r){
+    var parsed=JSON.parse(r);
+    // migrate old records that don't have hire date
+    parsed.employees.forEach(function(e){if(e.hire===undefined)e.hire='';});
+    return parsed;
+  }}catch(e){}
+  var emp=DF.map(function(e,i){return{id:'e'+Date.now()+'_'+i,name:e.name,dsn:e.dsn,hire:e.hire,order:i,active:true};});
   var s={employees:emp,mandations:[]};sv(s);return s;
 }
 function sv(s){try{localStorage.setItem(KY,JSON.stringify(s));}catch(e){alert('Storage error: '+e);}}
@@ -276,16 +279,29 @@ function lastMandateDT(id){
 function lastM(id){var dt=lastMandateDT(id);return dt?new Date(dt).toLocaleDateString():'Never';}
 function yearCount(){var y=new Date().getFullYear();return S.mandations.filter(function(m){return new Date(m.dt).getFullYear()===y;}).length;}
 function fmtDT(iso){if(!iso)return'—';var d=new Date(iso);return d.toLocaleDateString()+' '+d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}
+function fmtDate(d){if(!d)return'';var p=d.split('-');return p[1]+'/'+p[2]+'/'+p[0];}
 function nowLocal(){var d=new Date(),p=function(n){return String(n).padStart(2,'0');};return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+'T'+p(d.getHours())+':'+p(d.getMinutes());}
 function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function normalise(){getActive().forEach(function(e,i){e.order=i;});}
 function shiftLabel(m){if(m.shift==='Other'&&m.hrs){return m.hrs+' hrs';}return m.shift||'—';}
-
 function countPill(count,minC,maxC){
   var cls=count===0?'mc-0':count===minC?'mc-low':count===maxC&&maxC>minC?'mc-over':'mc-high';
   return'<span class="mc-pill '+cls+'">'+count+'</span>';
 }
 
+// ── Sort by hire date ─────────────────────────────────────────
+function sortByHire(dir){
+  var list=getActive();
+  list.sort(function(a,b){
+    var ha=a.hire||'9999-99-99', hb=b.hire||'9999-99-99';
+    if(dir==='asc') return ha.localeCompare(hb);  // oldest first = seniority
+    else            return hb.localeCompare(ha);  // newest first
+  });
+  list.forEach(function(e,i){e.order=i;});
+  sv(S);render();
+}
+
+// ── Auto-sort by mandations ───────────────────────────────────
 function doAutoSort(){
   var list=getActive();
   list.sort(function(a,b){
@@ -330,24 +346,22 @@ function rQueue(){
   }).join('');
 }
 
-// ── Drag and drop employees ───────────────────────────────────
 var dragSrcId=null;
-
 function rEmps(){
   var list=getActive();
   var el=document.getElementById('empList');
   if(!list.length){el.innerHTML='<div class="empty">No employees.</div>';return;}
   var counts=list.map(function(e){return mCount(e.id);});
   var minC=Math.min.apply(null,counts),maxC=Math.max.apply(null,counts);
-
   el.innerHTML=list.map(function(e,i){
     var cnt=mCount(e.id);
+    var hireTxt=e.hire?'<span class="hire-badge">📅 '+fmtDate(e.hire)+'</span>':'<span class="hire-badge" style="opacity:.45">📅 No hire date</span>';
     return'<div class="emp-card" draggable="true" data-id="'+e.id+'">'+
       '<span class="drag-handle" title="Drag to reorder">&#9776;</span>'+
       '<span class="emp-order">'+(i+1)+'</span>'+
       '<div class="emp-info">'+
-        '<div class="emp-name-txt">'+esc(e.name)+(e.dsn?'<span class="dn">DSN '+esc(e.dsn)+'</span>':'')+'</div>'+
-        '<div class="emp-meta">'+countPill(cnt,minC,maxC)+' mandations &nbsp;|&nbsp; Last: '+lastM(e.id)+'</div>'+
+        '<div class="emp-name-txt">'+esc(e.name)+(e.dsn?'<span class="dn">DSN '+esc(e.dsn)+'</span>':'')+hireTxt+'</div>'+
+        '<div class="emp-meta">'+countPill(cnt,minC,maxC)+' mandations &nbsp;|&nbsp; Last mandated: '+lastM(e.id)+'</div>'+
       '</div>'+
       '<div class="emp-actions">'+
         '<button class="bu" onclick="mvE(\''+e.id+'\',-1)"'+(i===0?' disabled':'')+'>▲</button>'+
@@ -358,7 +372,6 @@ function rEmps(){
     '</div>';
   }).join('');
 
-  // Attach drag events
   var cards=el.querySelectorAll('.emp-card');
   cards.forEach(function(card){
     card.addEventListener('dragstart',function(ev){
@@ -380,14 +393,12 @@ function rEmps(){
       ev.preventDefault();
       var targetId=card.getAttribute('data-id');
       if(dragSrcId&&dragSrcId!==targetId){
-        var list=getActive();
-        var srcIdx=-1,tgtIdx=-1;
+        var list=getActive(),srcIdx=-1,tgtIdx=-1;
         for(var i=0;i<list.length;i++){
           if(list[i].id===dragSrcId)srcIdx=i;
           if(list[i].id===targetId)tgtIdx=i;
         }
         if(srcIdx>-1&&tgtIdx>-1){
-          // Reorder: remove src, insert at target position
           var moved=list.splice(srcIdx,1)[0];
           list.splice(tgtIdx,0,moved);
           list.forEach(function(e,i){e.order=i;});
@@ -427,15 +438,15 @@ function openEdit(id){
   var e=S.employees.find(function(x){return x.id===id;});if(!e)return;
   document.getElementById('eName').value=e.name;
   document.getElementById('eDSN').value=e.dsn||'';
+  document.getElementById('eHire').value=e.hire||'';
   document.getElementById('editModal').classList.add('open');
 }
 function closeEdit(){document.getElementById('editModal').classList.remove('open');editEmpId=null;}
 function saveEdit(){
   var name=document.getElementById('eName').value.trim();
-  var dsn=document.getElementById('eDSN').value.trim();
   if(!name){alert('Please enter a name.');return;}
   var e=S.employees.find(function(x){return x.id===editEmpId;});
-  if(e){e.name=name;e.dsn=dsn;}
+  if(e){e.name=name;e.dsn=document.getElementById('eDSN').value.trim();e.hire=document.getElementById('eHire').value;}
   sv(S);closeEdit();render();
 }
 
@@ -491,11 +502,11 @@ function cDelMand(mandId){
 
 // ── Employees ─────────────────────────────────────────────────
 function addEmp(){
-  var name=document.getElementById('nNm').value.trim(),dsn=document.getElementById('nDN').value.trim();
+  var name=document.getElementById('nNm').value.trim(),dsn=document.getElementById('nDN').value.trim(),hire=document.getElementById('nHire').value;
   if(!name){alert('Please enter a name.');return;}
   var a=getActive(),max=a.length?Math.max.apply(null,a.map(function(e){return e.order;})):-1;
-  S.employees.push({id:'e'+Date.now(),name:name,dsn:dsn,order:max+1,active:true});
-  document.getElementById('nNm').value='';document.getElementById('nDN').value='';
+  S.employees.push({id:'e'+Date.now(),name:name,dsn:dsn,hire:hire,order:max+1,active:true});
+  document.getElementById('nNm').value='';document.getElementById('nDN').value='';document.getElementById('nHire').value='';
   sv(S);render();
 }
 function mvE(id,dir){
@@ -522,10 +533,10 @@ function cReset(){
   });
 }
 function expCSV(){
-  var rows=[['#','DateTime','Employee','DSN','Shift','Hours','RecordedBy','Notes']];
+  var rows=[['#','DateTime','Employee','DSN','HireDate','Shift','Hours','RecordedBy','Notes']];
   S.mandations.slice().sort(function(a,b){return new Date(b.dt)-new Date(a.dt);}).forEach(function(m,i){
     var e=S.employees.find(function(x){return x.id===m.empId;});
-    rows.push([i+1,m.dt,e?e.name:'Removed',e?e.dsn||'':'',m.shift,m.hrs||'',m.by||'',(m.notes||'').replace(/"/g,'""')]);
+    rows.push([i+1,m.dt,e?e.name:'Removed',e?e.dsn||'':'',e?e.hire||'':'',m.shift,m.hrs||'',m.by||'',(m.notes||'').replace(/"/g,'""')]);
   });
   var csv=rows.map(function(r){return r.map(function(c){return'"'+c+'"';}).join(',');}).join('\r\n');
   var a=document.createElement('a');
