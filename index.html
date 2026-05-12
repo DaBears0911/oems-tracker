@@ -34,14 +34,14 @@ button{cursor:pointer;border:none;border-radius:8px;font-weight:600;font-size:.8
 .bsm{padding:6px 13px;font-size:.77rem;}
 .bm{background:linear-gradient(135deg,#dc2626,#9f1239);color:#fff;padding:7px 14px;font-size:.77rem;border-radius:7px;}
 .bm:hover{filter:brightness(1.15);}
+/* Queue table */
 table{width:100%;border-collapse:separate;border-spacing:0 5px;}
 thead th{text-align:left;padding:9px 13px;font-size:.71rem;text-transform:uppercase;letter-spacing:.8px;color:var(--mu);}
 .qr{background:var(--s);border-radius:10px;}
 .qr:hover{background:var(--s2);}
-.qr td,.er td,.hr td{padding:11px 13px;}
-.qr td:first-child,.er td:first-child,.hr td:first-child{border-radius:10px 0 0 10px;}
-.qr td:last-child,.er td:last-child,.hr td:last-child{border-radius:0 10px 10px 0;}
-.er{background:var(--s);border-radius:8px;}
+.qr td,.hr td{padding:11px 13px;}
+.qr td:first-child,.hr td:first-child{border-radius:10px 0 0 10px;}
+.qr td:last-child,.hr td:last-child{border-radius:0 10px 10px 0;}
 .hr{background:var(--s);border-radius:8px;}
 .rk{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;font-weight:800;font-size:.87rem;background:var(--s2);color:var(--mu);}
 .r1{background:rgba(239,68,68,.25);color:var(--re);}
@@ -50,6 +50,36 @@ thead th{text-align:left;padding:9px 13px;font-size:.71rem;text-transform:upperc
 .en{font-weight:600;font-size:.93rem;}
 .dn{font-size:.7rem;color:var(--mu);background:var(--s2);border-radius:5px;padding:2px 7px;margin-left:8px;border:1px solid var(--bd);}
 .warn-badge{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:20px;font-size:.68rem;font-weight:700;background:rgba(245,158,11,.2);color:var(--am);border:1px solid rgba(245,158,11,.4);}
+/* Drag-and-drop employee rows */
+.emp-list{width:100%;margin-top:8px;}
+.emp-card{
+  display:flex;align-items:center;gap:10px;
+  background:var(--s);border:1px solid var(--bd);border-radius:10px;
+  padding:10px 14px;margin-bottom:6px;cursor:grab;
+  transition:background .15s, box-shadow .15s;
+  user-select:none;
+}
+.emp-card:hover{background:var(--s2);}
+.emp-card.dragging{opacity:.4;cursor:grabbing;}
+.emp-card.drag-over{border-color:var(--ac);box-shadow:0 0 0 2px rgba(59,130,246,.4);background:var(--s2);}
+.drag-handle{font-size:1.1rem;color:var(--mu);cursor:grab;padding:0 4px;}
+.emp-order{font-weight:800;color:var(--mu);min-width:24px;text-align:center;font-size:.88rem;}
+.emp-info{flex:1;}
+.emp-name-txt{font-weight:600;font-size:.93rem;}
+.emp-meta{font-size:.72rem;color:var(--mu);margin-top:2px;}
+.emp-actions{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
+.bu,.bdo{background:var(--s2);border:1px solid var(--bd);color:var(--tx);padding:4px 9px;border-radius:6px;font-size:.79rem;}
+.bu:hover,.bdo:hover{background:var(--bd);}
+.bedit{background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.4);color:#93c5fd;padding:4px 10px;border-radius:6px;font-size:.77rem;}
+.bedit:hover{background:rgba(59,130,246,.3);}
+.brm{background:rgba(220,38,38,.15);border:1px solid rgba(220,38,38,.4);color:#f87171;padding:4px 10px;border-radius:6px;font-size:.77rem;}
+.brm:hover{background:rgba(220,38,38,.3);}
+.mc-pill{display:inline-block;padding:2px 9px;border-radius:20px;font-size:.75rem;font-weight:700;min-width:28px;text-align:center;margin-right:6px;}
+.mc-0{background:rgba(34,197,94,.15);color:var(--gr);border:1px solid rgba(34,197,94,.3);}
+.mc-low{background:rgba(59,130,246,.15);color:#93c5fd;border:1px solid rgba(59,130,246,.3);}
+.mc-high{background:rgba(245,158,11,.18);color:var(--am);border:1px solid rgba(245,158,11,.35);}
+.mc-over{background:rgba(239,68,68,.18);color:var(--re);border:1px solid rgba(239,68,68,.35);}
+/* Add form */
 .af{background:var(--s);border:1px solid var(--bd);border-radius:12px;padding:20px;margin-bottom:20px;display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;}
 .fg{display:flex;flex-direction:column;gap:5px;flex:1;min-width:160px;}
 .fg label{font-size:.74rem;color:var(--mu);font-weight:600;text-transform:uppercase;letter-spacing:.6px;}
@@ -59,7 +89,8 @@ textarea{resize:vertical;min-height:70px;}
 .hf{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
 .hf input,.hf select{max-width:200px;flex:1;width:auto;}
 .shb{display:inline-block;padding:3px 9px;border-radius:20px;font-size:.7rem;font-weight:700;background:rgba(99,102,241,.2);color:#a5b4fc;border:1px solid rgba(99,102,241,.3);}
-.emp{text-align:center;color:var(--mu);padding:48px 0;font-size:.92rem;}
+.empty{text-align:center;color:var(--mu);padding:48px 0;font-size:.92rem;}
+/* Modals */
 .mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;align-items:center;justify-content:center;}
 .mo.open{display:flex;}
 .md{background:var(--s);border:1px solid var(--bd);border-radius:16px;padding:28px;width:100%;max-width:480px;box-shadow:0 20px 60px rgba(0,0,0,.5);margin:16px;}
@@ -68,24 +99,13 @@ textarea{resize:vertical;min-height:70px;}
 .md .fg{margin-bottom:13px;}
 .ma{display:flex;gap:10px;margin-top:18px;justify-content:flex-end;}
 .cm{color:var(--tx);margin:10px 0 18px;font-size:.87rem;line-height:1.6;}
-.ea{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
-.bu,.bdo{background:var(--s2);border:1px solid var(--bd);color:var(--tx);padding:4px 9px;border-radius:6px;font-size:.79rem;}
-.bu:hover,.bdo:hover{background:var(--bd);}
-.bedit{background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.4);color:#93c5fd;padding:4px 10px;border-radius:6px;font-size:.77rem;}
-.bedit:hover{background:rgba(59,130,246,.3);}
-.brm{background:rgba(220,38,38,.15);border:1px solid rgba(220,38,38,.4);color:#f87171;padding:4px 10px;border-radius:6px;font-size:.77rem;}
-.brm:hover{background:rgba(220,38,38,.3);}
 .other-hrs{display:none;}
 .other-hrs.show{display:flex;}
 .hint{font-size:.72rem;color:var(--mu);margin-top:4px;}
 .badge-del{background:rgba(220,38,38,.12);border:1px solid rgba(220,38,38,.35);color:#f87171;padding:3px 9px;border-radius:6px;font-size:.72rem;cursor:pointer;white-space:nowrap;}
 .badge-del:hover{background:rgba(220,38,38,.28);}
 .sort-note{font-size:.72rem;color:var(--mu);margin-bottom:14px;padding:8px 12px;background:var(--s);border:1px solid var(--bd);border-radius:8px;}
-.mc-pill{display:inline-block;padding:2px 9px;border-radius:20px;font-size:.75rem;font-weight:700;min-width:28px;text-align:center;}
-.mc-0{background:rgba(34,197,94,.15);color:var(--gr);border:1px solid rgba(34,197,94,.3);}
-.mc-low{background:rgba(59,130,246,.15);color:#93c5fd;border:1px solid rgba(59,130,246,.3);}
-.mc-high{background:rgba(245,158,11,.18);color:var(--am);border:1px solid rgba(245,158,11,.35);}
-.mc-over{background:rgba(239,68,68,.18);color:var(--re);border:1px solid rgba(239,68,68,.35);}
+.drag-hint{font-size:.72rem;color:var(--mu);margin-bottom:12px;padding:8px 12px;background:var(--s);border:1px solid var(--bd);border-radius:8px;}
 ::-webkit-scrollbar{width:7px;}
 ::-webkit-scrollbar-track{background:var(--bg);}
 ::-webkit-scrollbar-thumb{background:var(--bd);border-radius:4px;}
@@ -120,7 +140,7 @@ textarea{resize:vertical;min-height:70px;}
     </div>
     <div class="sort-note">
       ⓘ Queue sorts automatically by mandation count (fewest first), then by oldest last mandation date as tiebreaker.
-      Use ▲▼ in the Employees tab to manually override after a late entry. Click <strong>Auto-Sort Now</strong> to re-apply fair sort at any time.
+      Use the Employees tab to manually set seniority order. Click <strong>Auto-Sort Now</strong> to re-apply fair sort at any time.
     </div>
     <table>
       <thead><tr><th>#</th><th>Employee</th><th>Count</th><th>Last Mandated</th><th>Action</th></tr></thead>
@@ -137,12 +157,10 @@ textarea{resize:vertical;min-height:70px;}
     </div>
     <div class="ab">
       <h2>All Employees</h2>
-      <button class="bs bsm" onclick="doAutoSort()">⇅ Auto-Sort</button>
+      <button class="bs bsm" onclick="doAutoSort()">⇅ Auto-Sort by Mandations</button>
     </div>
-    <table>
-      <thead><tr><th>Order</th><th>Name</th><th>DSN</th><th>Mandations</th><th>Last Mandated</th><th>Actions</th></tr></thead>
-      <tbody id="eBody"></tbody>
-    </table>
+    <div class="drag-hint">☰ Drag the <strong>≡ handle</strong> on any row to reorder by seniority. Changes save automatically.</div>
+    <div class="emp-list" id="empList"></div>
   </div>
 
   <!-- HISTORY -->
@@ -263,6 +281,11 @@ function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/<
 function normalise(){getActive().forEach(function(e,i){e.order=i;});}
 function shiftLabel(m){if(m.shift==='Other'&&m.hrs){return m.hrs+' hrs';}return m.shift||'—';}
 
+function countPill(count,minC,maxC){
+  var cls=count===0?'mc-0':count===minC?'mc-low':count===maxC&&maxC>minC?'mc-over':'mc-high';
+  return'<span class="mc-pill '+cls+'">'+count+'</span>';
+}
+
 function doAutoSort(){
   var list=getActive();
   list.sort(function(a,b){
@@ -270,21 +293,11 @@ function doAutoSort(){
     if(ca!==cb)return ca-cb;
     var da=lastMandateDT(a.id),db=lastMandateDT(b.id);
     if(!da&&!db)return a.name.localeCompare(b.name);
-    if(!da)return -1;
-    if(!db)return 1;
+    if(!da)return -1;if(!db)return 1;
     return new Date(da)-new Date(db);
   });
   list.forEach(function(e,i){e.order=i;});
   sv(S);render();
-}
-
-function countPill(count,minCount,maxCount){
-  var cls='mc-low';
-  if(count===0)cls='mc-0';
-  else if(count===minCount)cls='mc-low';
-  else if(count===maxCount&&maxCount>minCount)cls='mc-over';
-  else if(count>minCount)cls='mc-high';
-  return'<span class="mc-pill '+cls+'">'+count+'</span>';
 }
 
 function render(){rStats();rQueue();rEmps();rHist();}
@@ -300,13 +313,13 @@ function rStats(){
 
 function rQueue(){
   var list=getActive(),tb=document.getElementById('qBody');
-  if(!list.length){tb.innerHTML='<tr><td colspan="5" class="emp">No active employees.</td></tr>';return;}
+  if(!list.length){tb.innerHTML='<tr><td colspan="5" class="empty">No active employees.</td></tr>';return;}
   var counts=list.map(function(e){return mCount(e.id);});
   var minC=Math.min.apply(null,counts),maxC=Math.max.apply(null,counts);
   tb.innerHTML=list.map(function(e,i){
     var r=i+1,rc=r===1?'r1':r===2?'r2':r===3?'r3':'';
     var cnt=mCount(e.id);
-    var warn=cnt>minC?'<span class="warn-badge">+' +(cnt-minC)+' vs min</span>':'';
+    var warn=cnt>minC?'<span class="warn-badge">+'+(cnt-minC)+' vs min</span>':'';
     return'<tr class="qr">'+
       '<td><span class="rk '+rc+'">'+r+'</span></td>'+
       '<td><span class="en">'+esc(e.name)+'</span>'+(e.dsn?'<span class="dn">DSN '+esc(e.dsn)+'</span>':'')+warn+'</td>'+
@@ -317,27 +330,72 @@ function rQueue(){
   }).join('');
 }
 
+// ── Drag and drop employees ───────────────────────────────────
+var dragSrcId=null;
+
 function rEmps(){
-  var list=getActive(),tb=document.getElementById('eBody');
-  if(!list.length){tb.innerHTML='<tr><td colspan="6" class="emp">No employees.</td></tr>';return;}
+  var list=getActive();
+  var el=document.getElementById('empList');
+  if(!list.length){el.innerHTML='<div class="empty">No employees.</div>';return;}
   var counts=list.map(function(e){return mCount(e.id);});
   var minC=Math.min.apply(null,counts),maxC=Math.max.apply(null,counts);
-  tb.innerHTML=list.map(function(e,i){
+
+  el.innerHTML=list.map(function(e,i){
     var cnt=mCount(e.id);
-    return'<tr class="er">'+
-      '<td style="color:var(--mu);font-weight:700">'+(i+1)+'</td>'+
-      '<td class="en">'+esc(e.name)+'</td>'+
-      '<td>'+(e.dsn?'<span class="dn">DSN '+esc(e.dsn)+'</span>':'<span style="color:var(--mu)">—</span>')+'</td>'+
-      '<td>'+countPill(cnt,minC,maxC)+'</td>'+
-      '<td style="color:var(--mu);font-size:.82rem">'+lastM(e.id)+'</td>'+
-      '<td><div class="ea">'+
-        '<button class="bu"'+(i===0?' disabled':'')+' onclick="mvE(\''+e.id+'\',-1)">▲</button>'+
-        '<button class="bdo"'+(i===list.length-1?' disabled':'')+' onclick="mvE(\''+e.id+'\',1)">▼</button>'+
+    return'<div class="emp-card" draggable="true" data-id="'+e.id+'">'+
+      '<span class="drag-handle" title="Drag to reorder">&#9776;</span>'+
+      '<span class="emp-order">'+(i+1)+'</span>'+
+      '<div class="emp-info">'+
+        '<div class="emp-name-txt">'+esc(e.name)+(e.dsn?'<span class="dn">DSN '+esc(e.dsn)+'</span>':'')+'</div>'+
+        '<div class="emp-meta">'+countPill(cnt,minC,maxC)+' mandations &nbsp;|&nbsp; Last: '+lastM(e.id)+'</div>'+
+      '</div>'+
+      '<div class="emp-actions">'+
+        '<button class="bu" onclick="mvE(\''+e.id+'\',-1)"'+(i===0?' disabled':'')+'>▲</button>'+
+        '<button class="bdo" onclick="mvE(\''+e.id+'\',1)"'+(i===list.length-1?' disabled':'')+'>▼</button>'+
         '<button class="bedit" onclick="openEdit(\''+e.id+'\')">✏ Edit</button>'+
         '<button class="brm" onclick="cRm(\''+e.id+'\')">Remove</button>'+
-      '</div></td>'+
-    '</tr>';
+      '</div>'+
+    '</div>';
   }).join('');
+
+  // Attach drag events
+  var cards=el.querySelectorAll('.emp-card');
+  cards.forEach(function(card){
+    card.addEventListener('dragstart',function(ev){
+      dragSrcId=card.getAttribute('data-id');
+      card.classList.add('dragging');
+      ev.dataTransfer.effectAllowed='move';
+    });
+    card.addEventListener('dragend',function(){
+      card.classList.remove('dragging');
+      el.querySelectorAll('.emp-card').forEach(function(c){c.classList.remove('drag-over');});
+    });
+    card.addEventListener('dragover',function(ev){
+      ev.preventDefault();
+      ev.dataTransfer.dropEffect='move';
+      el.querySelectorAll('.emp-card').forEach(function(c){c.classList.remove('drag-over');});
+      card.classList.add('drag-over');
+    });
+    card.addEventListener('drop',function(ev){
+      ev.preventDefault();
+      var targetId=card.getAttribute('data-id');
+      if(dragSrcId&&dragSrcId!==targetId){
+        var list=getActive();
+        var srcIdx=-1,tgtIdx=-1;
+        for(var i=0;i<list.length;i++){
+          if(list[i].id===dragSrcId)srcIdx=i;
+          if(list[i].id===targetId)tgtIdx=i;
+        }
+        if(srcIdx>-1&&tgtIdx>-1){
+          // Reorder: remove src, insert at target position
+          var moved=list.splice(srcIdx,1)[0];
+          list.splice(tgtIdx,0,moved);
+          list.forEach(function(e,i){e.order=i;});
+          sv(S);render();
+        }
+      }
+    });
+  });
 }
 
 function rHist(){
@@ -347,7 +405,7 @@ function rHist(){
   if(srch)m=m.filter(function(x){var e=S.employees.find(function(y){return y.id===x.empId;});return e&&e.name.toLowerCase().indexOf(srch)>=0;});
   if(sf){if(sf==='other-hrs'){m=m.filter(function(x){return x.shift==='Other';});}else{m=m.filter(function(x){return x.shift===sf;});}}
   var tb=document.getElementById('hBody');
-  if(!m.length){tb.innerHTML='<tr><td colspan="7" class="emp">No mandations recorded yet.</td></tr>';return;}
+  if(!m.length){tb.innerHTML='<tr><td colspan="7" class="empty">No mandations recorded yet.</td></tr>';return;}
   tb.innerHTML=m.map(function(x,i){
     var e=S.employees.find(function(y){return y.id===x.empId;});
     return'<tr class="hr">'+
@@ -366,8 +424,7 @@ function rHist(){
 var editEmpId=null;
 function openEdit(id){
   editEmpId=id;
-  var e=S.employees.find(function(x){return x.id===id;});
-  if(!e)return;
+  var e=S.employees.find(function(x){return x.id===id;});if(!e)return;
   document.getElementById('eName').value=e.name;
   document.getElementById('eDSN').value=e.dsn||'';
   document.getElementById('editModal').classList.add('open');
@@ -382,7 +439,7 @@ function saveEdit(){
   sv(S);closeEdit();render();
 }
 
-// ── Shift modal helper ────────────────────────────────────────
+// ── Shift modal ───────────────────────────────────────────────
 function onShiftChange(){
   var val=document.getElementById('mSh').value;
   var row=document.getElementById('otherHrsRow');
@@ -405,7 +462,6 @@ function openM(id){
   document.getElementById('mModal').classList.add('open');
 }
 function closeM(){document.getElementById('mModal').classList.remove('open');mEid=null;}
-
 function doMand(){
   if(!mEid)return;
   var by=document.getElementById('mBy').value.trim();
@@ -426,10 +482,9 @@ function doMand(){
 function cDelMand(mandId){
   var m=S.mandations.find(function(x){return x.id===mandId;});if(!m)return;
   var e=S.employees.find(function(x){return x.id===m.empId;});
-  var name=e?e.name:'Removed employee';
   shC('Delete Mandation Record',
-    'Delete the mandation for <strong>'+esc(name)+'</strong> on '+fmtDT(m.dt)+'?<br><br>'+
-    '<span style="color:#f87171;font-size:.85rem;">⚠ This removes the record only. Use Auto-Sort Now to re-apply fair order after deleting.</span>',
+    'Delete the mandation for <strong>'+esc(e?e.name:'this employee')+'</strong> on '+fmtDT(m.dt)+'?<br><br>'+
+    '<span style="color:#f87171;font-size:.85rem;">⚠ Use Auto-Sort Now to re-apply fair order after deleting.</span>',
     function(){S.mandations=S.mandations.filter(function(x){return x.id!==mandId;});sv(S);render();}
   );
 }
