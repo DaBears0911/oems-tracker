@@ -44,6 +44,7 @@ thead th{text-align:left;padding:9px 13px;font-size:.71rem;text-transform:upperc
 .qr td:first-child,.hr td:first-child{border-radius:10px 0 0 10px;}
 .qr td:last-child,.hr td:last-child{border-radius:0 10px 10px 0;}
 .hr{background:var(--s);border-radius:8px;}
+.hr.sys-row{background:rgba(124,58,237,.07);border-left:3px solid rgba(124,58,237,.5);}
 .rk{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;font-weight:800;font-size:.87rem;background:var(--s2);color:var(--mu);}
 .r1{background:rgba(239,68,68,.25);color:var(--re);}
 .r2{background:rgba(245,158,11,.22);color:var(--am);}
@@ -51,7 +52,6 @@ thead th{text-align:left;padding:9px 13px;font-size:.71rem;text-transform:upperc
 .en{font-weight:600;font-size:.93rem;}
 .dn{font-size:.7rem;color:var(--mu);background:var(--s2);border-radius:5px;padding:2px 7px;margin-left:8px;border:1px solid var(--bd);}
 .warn-badge{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:20px;font-size:.68rem;font-weight:700;background:rgba(245,158,11,.2);color:var(--am);border:1px solid rgba(245,158,11,.4);}
-.period-badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:.68rem;font-weight:700;background:rgba(124,58,237,.2);color:#c4b5fd;border:1px solid rgba(124,58,237,.4);margin-left:6px;}
 .emp-list{width:100%;margin-top:8px;}
 .emp-card{display:flex;align-items:center;gap:10px;background:var(--s);border:1px solid var(--bd);border-radius:10px;padding:10px 14px;margin-bottom:6px;cursor:grab;transition:background .15s,box-shadow .15s;user-select:none;}
 .emp-card:hover{background:var(--s2);}
@@ -78,12 +78,16 @@ thead th{text-align:left;padding:9px 13px;font-size:.71rem;text-transform:upperc
 .af{background:var(--s);border:1px solid var(--bd);border-radius:12px;padding:20px;margin-bottom:20px;display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;}
 .fg{display:flex;flex-direction:column;gap:5px;flex:1;min-width:160px;}
 .fg label{font-size:.74rem;color:var(--mu);font-weight:600;text-transform:uppercase;letter-spacing:.6px;}
+.req{color:var(--re);}
 input,select,textarea{background:var(--s2);border:1px solid var(--bd);color:var(--tx);border-radius:8px;padding:9px 12px;font-size:.87rem;outline:none;font-family:inherit;transition:border .15s;width:100%;}
 input:focus,select:focus,textarea:focus{border-color:var(--ac);}
+input.err,select.err{border-color:var(--re)!important;}
 textarea{resize:vertical;min-height:70px;}
 .hf{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
 .hf input,.hf select{max-width:200px;flex:1;width:auto;}
 .shb{display:inline-block;padding:3px 9px;border-radius:20px;font-size:.7rem;font-weight:700;background:rgba(99,102,241,.2);color:#a5b4fc;border:1px solid rgba(99,102,241,.3);}
+.sys-badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:.7rem;font-weight:700;background:rgba(124,58,237,.2);color:#c4b5fd;border:1px solid rgba(124,58,237,.4);}
+.prior-badge{display:inline-block;padding:2px 7px;border-radius:20px;font-size:.68rem;font-weight:600;background:rgba(124,58,237,.12);color:#c4b5fd;border:1px solid rgba(124,58,237,.3);margin-left:6px;}
 .empty{text-align:center;color:var(--mu);padding:48px 0;font-size:.92rem;}
 .mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;align-items:center;justify-content:center;}
 .mo.open{display:flex;}
@@ -103,7 +107,7 @@ textarea{resize:vertical;min-height:70px;}
 .sort-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
 .ny-box{background:rgba(124,58,237,.08);border:1px solid rgba(124,58,237,.35);border-radius:10px;padding:14px 16px;margin-bottom:20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
 .ny-box p{font-size:.8rem;color:var(--mu);flex:1;line-height:1.6;}
-.hist-period{font-size:.72rem;color:#c4b5fd;background:rgba(124,58,237,.15);border:1px solid rgba(124,58,237,.3);border-radius:5px;padding:2px 8px;white-space:nowrap;}
+.hist-period-note{font-size:.72rem;color:var(--mu);margin-bottom:14px;padding:8px 12px;background:var(--s);border:1px solid var(--bd);border-radius:8px;}
 ::-webkit-scrollbar{width:7px;}
 ::-webkit-scrollbar-track{background:var(--bg);}
 ::-webkit-scrollbar-thumb{background:var(--bd);border-radius:4px;}
@@ -134,7 +138,7 @@ textarea{resize:vertical;min-height:70px;}
       <h2>Mandation Rotation Queue</h2>
       <button class="bs bsm" onclick="doAutoSort()">⇅ Auto-Sort Now</button>
       <button class="bs bsm" onclick="cReset()">↺ Reset to Alpha</button>
-      <button class="bs bsm" onclick="expCSV()">⬇ Export CSV</button>
+      <button class="bs bsm" onclick="expCSV()">⬇ Export Mandations</button>
     </div>
     <div class="sort-note" id="periodNote"></div>
     <table>
@@ -146,22 +150,22 @@ textarea{resize:vertical;min-height:70px;}
   <!-- EMPLOYEES -->
   <div class="pn" id="pn-employees">
     <div class="af">
-      <div class="fg"><label>Full Name</label><input id="nNm" type="text" placeholder="First Last"></div>
-      <div class="fg" style="max-width:140px"><label>DSN (optional)</label><input id="nDN" type="text" placeholder="e.g. 1760"></div>
-      <div class="fg" style="max-width:170px"><label>Hire Date (optional)</label><input id="nHire" type="date"></div>
+      <div class="fg"><label>Full Name <span class="req">*</span></label><input id="nNm" type="text" placeholder="First Last"></div>
+      <div class="fg" style="max-width:140px"><label>DSN</label><input id="nDN" type="text" placeholder="e.g. 1760"></div>
+      <div class="fg" style="max-width:170px"><label>Hire Date</label><input id="nHire" type="date"></div>
       <button class="bp" onclick="addEmp()">+ Add Employee</button>
     </div>
 
-    <!-- New Year Reset box -->
     <div class="ny-box">
       <div style="font-size:1.4rem">🎯</div>
-      <p><strong style="color:var(--tx)">New Period Reset</strong> — Zeros out all mandation counts for a fresh rotation start. All history log records are permanently preserved. Use this at the start of each year or whenever your department resets the rotation.</p>
+      <p><strong style="color:var(--tx)">New Period Reset</strong> — Zeros out all mandation counts for a fresh rotation start. Reorders list alphabetically. A system event is logged in the History Log with the name of whoever performs the reset. All mandation records are permanently preserved.</p>
       <button class="bny bsm" onclick="cNewYearReset()">🔄 New Period Reset</button>
     </div>
 
     <div class="ab">
       <h2>All Employees</h2>
       <button class="bs bsm" onclick="doAutoSort()">⇅ Sort by Mandations</button>
+      <button class="bs bsm" onclick="expRoster()">⬇ Export Roster</button>
     </div>
     <div class="sort-btns">
       <button class="bs bsm" onclick="sortByHire('asc')">📅 Seniority (Oldest First)</button>
@@ -175,8 +179,9 @@ textarea{resize:vertical;min-height:70px;}
   <div class="pn" id="pn-history">
     <div class="ab">
       <h2>Mandation History Log</h2>
-      <button class="bs bsm" onclick="expCSV()">⬇ Export CSV</button>
+      <button class="bs bsm" onclick="expCSV()">⬇ Export Mandations</button>
     </div>
+    <div class="hist-period-note" id="histPeriodNote"></div>
     <div class="hf">
       <input id="hSrch" type="text" placeholder="Search by name…" oninput="rHist()">
       <select id="hShift" onchange="rHist()">
@@ -185,7 +190,7 @@ textarea{resize:vertical;min-height:70px;}
       </select>
     </div>
     <table>
-      <thead><tr><th>#</th><th>Date / Time</th><th>Employee</th><th>Shift</th><th>Recorded By</th><th>Notes</th><th></th></tr></thead>
+      <thead><tr><th>#</th><th>Date / Time</th><th>Employee</th><th>Type</th><th>Recorded By</th><th>Notes</th><th></th></tr></thead>
       <tbody id="hBody"></tbody>
     </table>
   </div>
@@ -197,10 +202,13 @@ textarea{resize:vertical;min-height:70px;}
   <div class="md">
     <h2>Record Mandation</h2>
     <div class="sub" id="mSub"></div>
-    <div class="fg"><label>Recorded By</label><input id="mBy" type="text" placeholder="Your name"></div>
-    <div class="fg"><label>Date &amp; Time</label><input id="mDT" type="datetime-local"></div>
     <div class="fg">
-      <label>Shift Assigned</label>
+      <label>Recorded By <span class="req">*</span></label>
+      <input id="mBy" type="text" placeholder="Your name or DSN — required">
+    </div>
+    <div class="fg"><label>Date &amp; Time <span class="req">*</span></label><input id="mDT" type="datetime-local"></div>
+    <div class="fg">
+      <label>Shift Assigned <span class="req">*</span></label>
       <select id="mSh" onchange="onShiftChange()">
         <option value="Day">Day</option>
         <option value="Night">Night</option>
@@ -209,7 +217,7 @@ textarea{resize:vertical;min-height:70px;}
       </select>
     </div>
     <div class="fg other-hrs" id="otherHrsRow">
-      <label>Hours (numbers only)</label>
+      <label>Hours (numbers only) <span class="req">*</span></label>
       <input id="mHrs" type="number" min="1" max="99" step="1" placeholder="e.g. 6">
       <div class="hint">Enter the number of hours mandated (whole numbers only)</div>
     </div>
@@ -221,12 +229,35 @@ textarea{resize:vertical;min-height:70px;}
   </div>
 </div>
 
+<!-- NEW PERIOD RESET MODAL — requires recorded-by -->
+<div class="mo" id="nyModal">
+  <div class="md">
+    <h2>🔄 New Period Reset</h2>
+    <div class="sub">This action is permanent and will be logged. Please enter your name or DSN.</div>
+    <div class="fg">
+      <label>Performed By <span class="req">*</span></label>
+      <input id="nyBy" type="text" placeholder="Your name or DSN — required">
+    </div>
+    <div style="background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.3);border-radius:8px;padding:12px;margin-top:4px;font-size:.82rem;line-height:1.7;color:var(--mu);">
+      ✔ All mandation counts reset to zero<br>
+      ✔ List reorders alphabetically<br>
+      ✔ This event is logged in History with your name<br>
+      ✔ All mandation records permanently preserved<br>
+      <span style="color:#f87171">✖ This cannot be undone</span>
+    </div>
+    <div class="ma">
+      <button class="bs" onclick="closeNY()">Cancel</button>
+      <button class="bny" onclick="doNewYearReset()">Confirm Reset</button>
+    </div>
+  </div>
+</div>
+
 <!-- EDIT EMPLOYEE MODAL -->
 <div class="mo" id="editModal">
   <div class="md">
     <h2>Edit Employee</h2>
     <div class="sub">Update details — mandation history is preserved.</div>
-    <div class="fg"><label>Full Name</label><input id="eName" type="text" placeholder="First Last"></div>
+    <div class="fg"><label>Full Name <span class="req">*</span></label><input id="eName" type="text" placeholder="First Last"></div>
     <div class="fg"><label>DSN (optional)</label><input id="eDSN" type="text" placeholder="e.g. 1760"></div>
     <div class="fg"><label>Hire Date (optional)</label><input id="eHire" type="date"></div>
     <div class="ma">
@@ -271,28 +302,22 @@ function ld(){
     var p=JSON.parse(r);
     p.employees.forEach(function(e){if(e.hire===undefined)e.hire='';});
     if(!p.periodStart)p.periodStart=null;
+    if(!p.events)p.events=[];
     return p;
   }}catch(e){}
   var emp=DF.map(function(e,i){return{id:'e'+Date.now()+'_'+i,name:e.name,dsn:e.dsn,hire:e.hire,order:i,active:true};});
-  var s={employees:emp,mandations:[],periodStart:null};sv(s);return s;
+  var s={employees:emp,mandations:[],events:[],periodStart:null};sv(s);return s;
 }
 function sv(s){try{localStorage.setItem(KY,JSON.stringify(s));}catch(e){alert('Storage error: '+e);}}
 var S=ld();
 
 function getActive(){return S.employees.filter(function(e){return e.active;}).sort(function(a,b){return a.order-b.order;});}
-
-// Count mandations SINCE last period reset (or all time if no reset)
 function mCount(id){
-  var mands=S.mandations.filter(function(m){return m.empId===id;});
-  if(S.periodStart){
-    mands=mands.filter(function(m){return m.dt>=S.periodStart;});
-  }
-  return mands.length;
+  var m=S.mandations.filter(function(x){return x.empId===id;});
+  if(S.periodStart)m=m.filter(function(x){return x.dt>=S.periodStart;});
+  return m.length;
 }
-
-// All-time count for history reference
-function mCountAll(id){return S.mandations.filter(function(m){return m.empId===id;}).length;}
-
+function mCountAll(id){return S.mandations.filter(function(x){return x.empId===id;}).length;}
 function lastMandateDT(id){
   var a=S.mandations.filter(function(m){return m.empId===id;});
   if(!a.length)return null;
@@ -300,18 +325,10 @@ function lastMandateDT(id){
   return a[0].dt;
 }
 function lastM(id){var dt=lastMandateDT(id);return dt?new Date(dt).toLocaleDateString():'Never';}
-
-function yearCount(){
-  var y=new Date().getFullYear();
-  return S.mandations.filter(function(m){return new Date(m.dt).getFullYear()===y;}).length;
-}
-function periodCount(){
-  if(!S.periodStart)return S.mandations.length;
-  return S.mandations.filter(function(m){return m.dt>=S.periodStart;}).length;
-}
-
+function yearCount(){var y=new Date().getFullYear();return S.mandations.filter(function(m){return new Date(m.dt).getFullYear()===y;}).length;}
+function periodCount(){if(!S.periodStart)return S.mandations.length;return S.mandations.filter(function(m){return m.dt>=S.periodStart;}).length;}
 function fmtDT(iso){if(!iso)return'—';var d=new Date(iso);return d.toLocaleDateString()+' '+d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}
-function fmtDate(d){if(!d)return'';var p=d.split('-');return p[1]+'/'+p[2]+'/'+p[0];}
+function fmtDate(d){if(!d)return'—';var p=d.split('-');return p[1]+'/'+p[2]+'/'+p[0];}
 function nowLocal(){var d=new Date(),p=function(n){return String(n).padStart(2,'0');};return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+'T'+p(d.getHours())+':'+p(d.getMinutes());}
 function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function normalise(){getActive().forEach(function(e,i){e.order=i;});}
@@ -320,41 +337,10 @@ function countPill(count,minC,maxC){
   var cls=count===0?'mc-0':count===minC?'mc-low':count===maxC&&maxC>minC?'mc-over':'mc-high';
   return'<span class="mc-pill '+cls+'">'+count+'</span>';
 }
+function clrErr(id){var el=document.getElementById(id);if(el)el.classList.remove('err');}
+function markErr(id){var el=document.getElementById(id);if(el){el.classList.add('err');el.focus();}return false;}
 
-function periodLabel(){
-  if(!S.periodStart)return'(all time)';
-  return'(since '+new Date(S.periodStart).toLocaleDateString()+')';
-}
-
-// ── New Period Reset ──────────────────────────────────────────
-function cNewYearReset(){
-  shC('New Period Reset',
-    'This will reset all mandation <strong>counts to zero</strong> for a fresh rotation start and return the list to alphabetical order.<br><br>'+
-    '<span style="color:#c4b5fd">✔ All history log records are permanently preserved.<br>✔ The "This Year" stat resets naturally on Jan 1.<br>✔ Counts shown in the queue will reflect this new period only.</span><br><br>'+
-    '<strong style="color:#f87171">This cannot be undone. Are you sure?</strong>',
-    doNewYearReset
-  );
-}
-function doNewYearReset(){
-  // Store the reset timestamp — counts will only show mandations after this date
-  S.periodStart=new Date().toISOString();
-  // Reorder alphabetically
-  getActive().sort(function(a,b){return a.name.localeCompare(b.name);}).forEach(function(e,i){e.order=i;});
-  sv(S);render();
-}
-
-// ── Sort by hire date ─────────────────────────────────────────
-function sortByHire(dir){
-  var list=getActive();
-  list.sort(function(a,b){
-    var ha=a.hire||'9999-99-99',hb=b.hire||'9999-99-99';
-    return dir==='asc'?ha.localeCompare(hb):hb.localeCompare(ha);
-  });
-  list.forEach(function(e,i){e.order=i;});
-  sv(S);render();
-}
-
-// ── Auto-sort by mandations ───────────────────────────────────
+// ── Auto-sort ─────────────────────────────────────────────────
 function doAutoSort(){
   var list=getActive();
   list.sort(function(a,b){
@@ -369,33 +355,59 @@ function doAutoSort(){
   sv(S);render();
 }
 
+function sortByHire(dir){
+  var list=getActive();
+  list.sort(function(a,b){
+    var ha=a.hire||'9999-99-99',hb=b.hire||'9999-99-99';
+    return dir==='asc'?ha.localeCompare(hb):hb.localeCompare(ha);
+  });
+  list.forEach(function(e,i){e.order=i;});
+  sv(S);render();
+}
+
+// ── New Period Reset ──────────────────────────────────────────
+function cNewYearReset(){
+  document.getElementById('nyBy').value='';
+  document.getElementById('nyBy').classList.remove('err');
+  document.getElementById('nyModal').classList.add('open');
+}
+function closeNY(){document.getElementById('nyModal').classList.remove('open');}
+function doNewYearReset(){
+  var by=document.getElementById('nyBy').value.trim();
+  if(!by){markErr('nyBy');alert('Please enter your name or DSN to proceed.');return;}
+  var now=new Date().toISOString();
+  S.periodStart=now;
+  // Log system event
+  S.events.push({id:'ev'+Date.now(),type:'reset',by:by,dt:now,note:'New Period Reset — all counts reset to zero. Performed by: '+by});
+  // Reorder alphabetically
+  getActive().sort(function(a,b){return a.name.localeCompare(b.name);}).forEach(function(e,i){e.order=i;});
+  sv(S);closeNY();render();
+}
+
+// ── Render ────────────────────────────────────────────────────
 function render(){rStats();rQueue();rEmps();rHist();}
 
 function rStats(){
   var a=getActive(),n=a[0];
-  var pcnt=periodCount();
-  var ycnt=yearCount();
-  var pNote=S.periodStart?'<span class="hist-period">Period since '+new Date(S.periodStart).toLocaleDateString()+'</span>':'';
+  var pNote=S.periodStart?'<span style="font-size:.65rem;color:#c4b5fd;background:rgba(124,58,237,.15);border:1px solid rgba(124,58,237,.3);border-radius:4px;padding:1px 6px;margin-left:4px;">since '+new Date(S.periodStart).toLocaleDateString()+'</span>':'';
   document.getElementById('sBar').innerHTML=
     '<div class="st"><div class="sv">'+a.length+'</div><div class="sl">Active Employees</div></div>'+
     '<div class="st"><div class="sv">'+S.mandations.length+'</div><div class="sl">All-Time Total</div></div>'+
-    '<div class="st"><div class="sv">'+pcnt+'</div><div class="sl">This Period '+pNote+'</div></div>'+
-    '<div class="st"><div class="sv">'+ycnt+'</div><div class="sl">This Year</div></div>'+
+    '<div class="st"><div class="sv">'+periodCount()+'</div><div class="sl">This Period'+pNote+'</div></div>'+
+    '<div class="st"><div class="sv">'+yearCount()+'</div><div class="sl">This Year</div></div>'+
     '<div class="st next"><div class="sv">'+(n?esc(n.name):'—')+'</div><div class="sl">🔴 Next Up</div></div>';
 }
 
 function rQueue(){
   var list=getActive(),tb=document.getElementById('qBody');
-  var pl=periodLabel();
-  var pnote=document.getElementById('periodNote');
+  var pn=document.getElementById('periodNote');
   if(S.periodStart){
-    pnote.innerHTML='ⓘ Counts show mandations since the last period reset on <strong>'+new Date(S.periodStart).toLocaleDateString()+'</strong>. All-time history is preserved in the History Log tab.';
+    pn.innerHTML='ⓘ Counts show mandations since the last period reset on <strong>'+new Date(S.periodStart).toLocaleDateString()+'</strong>. Full history is in the History Log tab.';
   } else {
-    pnote.innerHTML='ⓘ Queue sorts automatically by mandation count (fewest first), then by oldest last mandation date as tiebreaker. Use <strong>Auto-Sort Now</strong> to re-apply at any time.';
+    pn.innerHTML='ⓘ Queue sorts by mandation count (fewest first), tiebreaker = oldest last mandated. Click <strong>Auto-Sort Now</strong> to re-apply at any time.';
   }
   var plEl=document.getElementById('periodLabel');
-  if(plEl)plEl.textContent=pl;
-
+  if(plEl)plEl.textContent=S.periodStart?'(since '+new Date(S.periodStart).toLocaleDateString()+')':'(all time)';
   if(!list.length){tb.innerHTML='<tr><td colspan="5" class="empty">No active employees.</td></tr>';return;}
   var counts=list.map(function(e){return mCount(e.id);});
   var minC=Math.min.apply(null,counts),maxC=Math.max.apply(null,counts);
@@ -420,16 +432,15 @@ function rEmps(){
   var counts=list.map(function(e){return mCount(e.id);});
   var minC=Math.min.apply(null,counts),maxC=Math.max.apply(null,counts);
   el.innerHTML=list.map(function(e,i){
-    var cnt=mCount(e.id);
-    var allCnt=mCountAll(e.id);
-    var hireTxt=e.hire?'<span class="hire-badge">📅 '+fmtDate(e.hire)+'</span>':'<span class="hire-badge" style="opacity:.45">📅 No hire date</span>';
-    var allTimeTxt=S.periodStart&&allCnt!==cnt?'<span style="color:var(--mu);font-size:.7rem"> ('+allCnt+' all-time)</span>':'';
+    var cnt=mCount(e.id),allCnt=mCountAll(e.id);
+    var hireTxt=e.hire?'<span class="hire-badge">📅 '+fmtDate(e.hire)+'</span>':'<span class="hire-badge" style="opacity:.4">📅 No hire date</span>';
+    var allTxt=S.periodStart&&allCnt!==cnt?' <span style="color:var(--mu);font-size:.7rem">('+allCnt+' all-time)</span>':'';
     return'<div class="emp-card" draggable="true" data-id="'+e.id+'">'+
       '<span class="drag-handle" title="Drag to reorder">&#9776;</span>'+
       '<span class="emp-order">'+(i+1)+'</span>'+
       '<div class="emp-info">'+
         '<div class="emp-name-txt">'+esc(e.name)+(e.dsn?'<span class="dn">DSN '+esc(e.dsn)+'</span>':'')+hireTxt+'</div>'+
-        '<div class="emp-meta">'+countPill(cnt,minC,maxC)+' this period'+allTimeTxt+' &nbsp;|&nbsp; Last mandated: '+lastM(e.id)+'</div>'+
+        '<div class="emp-meta">'+countPill(cnt,minC,maxC)+' this period'+allTxt+' &nbsp;|&nbsp; Last: '+lastM(e.id)+'</div>'+
       '</div>'+
       '<div class="emp-actions">'+
         '<button class="bu" onclick="mvE(\''+e.id+'\',-1)"'+(i===0?' disabled':'')+'>▲</button>'+
@@ -439,19 +450,18 @@ function rEmps(){
       '</div>'+
     '</div>';
   }).join('');
-
   var cards=el.querySelectorAll('.emp-card');
   cards.forEach(function(card){
     card.addEventListener('dragstart',function(ev){dragSrcId=card.getAttribute('data-id');card.classList.add('dragging');ev.dataTransfer.effectAllowed='move';});
     card.addEventListener('dragend',function(){card.classList.remove('dragging');el.querySelectorAll('.emp-card').forEach(function(c){c.classList.remove('drag-over');});});
-    card.addEventListener('dragover',function(ev){ev.preventDefault();ev.dataTransfer.dropEffect='move';el.querySelectorAll('.emp-card').forEach(function(c){c.classList.remove('drag-over');});card.classList.add('drag-over');});
+    card.addEventListener('dragover',function(ev){ev.preventDefault();el.querySelectorAll('.emp-card').forEach(function(c){c.classList.remove('drag-over');});card.classList.add('drag-over');});
     card.addEventListener('drop',function(ev){
       ev.preventDefault();
-      var targetId=card.getAttribute('data-id');
-      if(dragSrcId&&dragSrcId!==targetId){
-        var list=getActive(),srcIdx=-1,tgtIdx=-1;
-        for(var i=0;i<list.length;i++){if(list[i].id===dragSrcId)srcIdx=i;if(list[i].id===targetId)tgtIdx=i;}
-        if(srcIdx>-1&&tgtIdx>-1){var moved=list.splice(srcIdx,1)[0];list.splice(tgtIdx,0,moved);list.forEach(function(e,i){e.order=i;});sv(S);render();}
+      var tid=card.getAttribute('data-id');
+      if(dragSrcId&&dragSrcId!==tid){
+        var l=getActive(),si=-1,ti=-1;
+        for(var i=0;i<l.length;i++){if(l[i].id===dragSrcId)si=i;if(l[i].id===tid)ti=i;}
+        if(si>-1&&ti>-1){var mv=l.splice(si,1)[0];l.splice(ti,0,mv);l.forEach(function(e,i){e.order=i;});sv(S);render();}
       }
     });
   });
@@ -460,54 +470,163 @@ function rEmps(){
 function rHist(){
   var srch=(document.getElementById('hSrch').value||'').toLowerCase();
   var sf=document.getElementById('hShift').value;
-  var m=S.mandations.slice().sort(function(a,b){return new Date(b.dt)-new Date(a.dt);});
-  if(srch)m=m.filter(function(x){var e=S.employees.find(function(y){return y.id===x.empId;});return e&&e.name.toLowerCase().indexOf(srch)>=0;});
-  if(sf){if(sf==='other-hrs'){m=m.filter(function(x){return x.shift==='Other';});}else{m=m.filter(function(x){return x.shift===sf;});}}
+  var hn=document.getElementById('histPeriodNote');
+  if(S.periodStart){
+    hn.innerHTML='ⓘ All historical records are shown below. Records from before the last period reset (<strong>'+new Date(S.periodStart).toLocaleDateString()+'</strong>) appear slightly faded.';
+  } else {
+    hn.innerHTML='';
+  }
+
+  // Build combined list: mandations + system events
+  var items=[];
+  S.mandations.forEach(function(m){items.push({kind:'mand',dt:m.dt,data:m});});
+  if(S.events){S.events.forEach(function(ev){items.push({kind:'event',dt:ev.dt,data:ev});});}
+  items.sort(function(a,b){return new Date(b.dt)-new Date(a.dt);});
+
+  // Apply filters (only to mandation rows)
+  if(srch||sf){
+    items=items.filter(function(item){
+      if(item.kind==='event')return true; // always show system events
+      var m=item.data;
+      var e=S.employees.find(function(y){return y.id===m.empId;});
+      if(srch&&(!e||e.name.toLowerCase().indexOf(srch)<0))return false;
+      if(sf){
+        if(sf==='other-hrs'&&m.shift!=='Other')return false;
+        if(sf!=='other-hrs'&&m.shift!==sf)return false;
+      }
+      return true;
+    });
+  }
+
   var tb=document.getElementById('hBody');
-  if(!m.length){tb.innerHTML='<tr><td colspan="7" class="empty">No mandations recorded yet.</td></tr>';return;}
-  tb.innerHTML=m.map(function(x,i){
-    var e=S.employees.find(function(y){return y.id===x.empId;});
-    var isPrior=S.periodStart&&x.dt<S.periodStart;
-    return'<tr class="hr"'+(isPrior?' style="opacity:.55"':'')+'>'+
-      '<td style="color:var(--mu)">'+(m.length-i)+'</td>'+
-      '<td>'+fmtDT(x.dt)+(isPrior?'<span class="hist-period" style="margin-left:6px">prior period</span>':'')+'</td>'+
+  if(!items.length){tb.innerHTML='<tr><td colspan="7" class="empty">No records found.</td></tr>';return;}
+  var num=items.filter(function(x){return x.kind==='mand';}).length;
+  var idx=num;
+  tb.innerHTML=items.map(function(item){
+    if(item.kind==='event'){
+      var ev=item.data;
+      return'<tr class="hr sys-row">'+
+        '<td style="color:var(--mu)">—</td>'+
+        '<td>'+fmtDT(ev.dt)+'</td>'+
+        '<td colspan="2"><span class="sys-badge">🔄 System Event</span> <span style="font-size:.82rem;color:var(--tx);margin-left:6px">'+esc(ev.note)+'</span></td>'+
+        '<td>'+esc(ev.by)+'</td>'+
+        '<td colspan="2"></td>'+
+      '</tr>';
+    }
+    var m=item.data;
+    var e=S.employees.find(function(y){return y.id===m.empId;});
+    var isPrior=S.periodStart&&m.dt<S.periodStart;
+    var row='<tr class="hr"'+(isPrior?' style="opacity:.5"':'')+'>'+
+      '<td style="color:var(--mu)">'+(idx--)+'</td>'+
+      '<td>'+fmtDT(m.dt)+(isPrior?'<span class="prior-badge">prior period</span>':'')+'</td>'+
       '<td><span style="font-weight:600">'+(e?esc(e.name):'<em>Removed</em>')+'</span>'+(e&&e.dsn?'<span class="dn">DSN '+esc(e.dsn)+'</span>':'')+'</td>'+
-      '<td><span class="shb">'+esc(shiftLabel(x))+'</span></td>'+
-      '<td>'+esc(x.by||'—')+'</td>'+
-      '<td style="color:var(--mu)">'+esc(x.notes||'—')+'</td>'+
-      '<td><button class="badge-del" onclick="cDelMand(\''+x.id+'\')">✕ Delete</button></td>'+
+      '<td><span class="shb">'+esc(shiftLabel(m))+'</span></td>'+
+      '<td>'+esc(m.by||'—')+'</td>'+
+      '<td style="color:var(--mu)">'+esc(m.notes||'—')+'</td>'+
+      '<td><button class="badge-del" onclick="cDelMand(\''+m.id+'\')">✕ Delete</button></td>'+
     '</tr>';
+    return row;
   }).join('');
 }
 
-var editEmpId=null;
-function openEdit(id){editEmpId=id;var e=S.employees.find(function(x){return x.id===id;});if(!e)return;document.getElementById('eName').value=e.name;document.getElementById('eDSN').value=e.dsn||'';document.getElementById('eHire').value=e.hire||'';document.getElementById('editModal').classList.add('open');}
-function closeEdit(){document.getElementById('editModal').classList.remove('open');editEmpId=null;}
-function saveEdit(){var name=document.getElementById('eName').value.trim();if(!name){alert('Please enter a name.');return;}var e=S.employees.find(function(x){return x.id===editEmpId;});if(e){e.name=name;e.dsn=document.getElementById('eDSN').value.trim();e.hire=document.getElementById('eHire').value;}sv(S);closeEdit();render();}
-
-function onShiftChange(){var val=document.getElementById('mSh').value,row=document.getElementById('otherHrsRow');if(val==='Other'){row.classList.add('show');document.getElementById('mHrs').value='';document.getElementById('mHrs').focus();}else{row.classList.remove('show');}}
-
+// ── Mandate modal ─────────────────────────────────────────────
 var mEid=null;
-function openM(id){mEid=id;var e=S.employees.find(function(x){return x.id===id;});document.getElementById('mSub').textContent=e?'Employee: '+e.name+(e.dsn?' (DSN '+e.dsn+')':''):'';document.getElementById('mBy').value='';document.getElementById('mDT').value=nowLocal();document.getElementById('mSh').value='Day';document.getElementById('mHrs').value='';document.getElementById('otherHrsRow').classList.remove('show');document.getElementById('mNo').value='';document.getElementById('mModal').classList.add('open');}
+function openM(id){
+  mEid=id;
+  var e=S.employees.find(function(x){return x.id===id;});
+  document.getElementById('mSub').textContent=e?'Employee: '+e.name+(e.dsn?' (DSN '+e.dsn+')':''):'';
+  document.getElementById('mBy').value='';document.getElementById('mBy').classList.remove('err');
+  document.getElementById('mDT').value=nowLocal();
+  document.getElementById('mSh').value='Day';
+  document.getElementById('mHrs').value='';
+  document.getElementById('otherHrsRow').classList.remove('show');
+  document.getElementById('mNo').value='';
+  document.getElementById('mModal').classList.add('open');
+}
 function closeM(){document.getElementById('mModal').classList.remove('open');mEid=null;}
 function doMand(){
   if(!mEid)return;
-  var by=document.getElementById('mBy').value.trim(),dt=document.getElementById('mDT').value,sh=document.getElementById('mSh').value,hrs=document.getElementById('mHrs').value.trim();
-  if(!by){alert('Please enter who is recording this mandation.');return;}
-  if(!dt){alert('Please enter a date and time.');return;}
-  if(sh==='Other'){if(!hrs){alert('Please enter the number of hours.');return;}if(!/^\d+$/.test(hrs)||parseInt(hrs)<1||parseInt(hrs)>99){alert('Please enter a valid number of hours (1–99).');return;}}
+  var by=document.getElementById('mBy').value.trim();
+  var dt=document.getElementById('mDT').value;
+  var sh=document.getElementById('mSh').value;
+  var hrs=document.getElementById('mHrs').value.trim();
+  var ok=true;
+  if(!by){markErr('mBy');ok=false;}
+  if(!dt){markErr('mDT');ok=false;}
+  if(!ok){alert('Please fill in all required fields (marked with *).');return;}
+  if(sh==='Other'){
+    if(!hrs){alert('Please enter the number of hours.');return;}
+    if(!/^\d+$/.test(hrs)||parseInt(hrs)<1||parseInt(hrs)>99){alert('Please enter a valid number of hours (1–99).');return;}
+  }
   S.mandations.push({id:'m'+Date.now(),empId:mEid,dt:dt,shift:sh,hrs:sh==='Other'?parseInt(hrs):null,notes:document.getElementById('mNo').value.trim(),by:by,at:new Date().toISOString()});
   sv(S);doAutoSort();closeM();
 }
+function onShiftChange(){
+  var val=document.getElementById('mSh').value,row=document.getElementById('otherHrsRow');
+  if(val==='Other'){row.classList.add('show');document.getElementById('mHrs').value='';document.getElementById('mHrs').focus();}
+  else row.classList.remove('show');
+}
 
-function cDelMand(mandId){var m=S.mandations.find(function(x){return x.id===mandId;});if(!m)return;var e=S.employees.find(function(x){return x.id===m.empId;});shC('Delete Mandation Record','Delete the mandation for <strong>'+esc(e?e.name:'this employee')+'</strong> on '+fmtDT(m.dt)+'?<br><br><span style="color:#f87171;font-size:.85rem;">⚠ Use Auto-Sort Now to re-apply fair order after deleting.</span>',function(){S.mandations=S.mandations.filter(function(x){return x.id!==mandId;});sv(S);render();});}
+// ── Delete mandation ──────────────────────────────────────────
+function cDelMand(mandId){
+  var m=S.mandations.find(function(x){return x.id===mandId;});if(!m)return;
+  var e=S.employees.find(function(x){return x.id===m.empId;});
+  shC('Delete Mandation Record','Delete the mandation for <strong>'+esc(e?e.name:'this employee')+'</strong> on '+fmtDT(m.dt)+'?<br><br><span style="color:#f87171;font-size:.85rem;">⚠ Use Auto-Sort Now to re-apply fair order after deleting.</span>',
+    function(){S.mandations=S.mandations.filter(function(x){return x.id!==mandId;});sv(S);render();});
+}
 
-function addEmp(){var name=document.getElementById('nNm').value.trim(),dsn=document.getElementById('nDN').value.trim(),hire=document.getElementById('nHire').value;if(!name){alert('Please enter a name.');return;}var a=getActive(),max=a.length?Math.max.apply(null,a.map(function(e){return e.order;})):-1;S.employees.push({id:'e'+Date.now(),name:name,dsn:dsn,hire:hire,order:max+1,active:true});document.getElementById('nNm').value='';document.getElementById('nDN').value='';document.getElementById('nHire').value='';sv(S);render();}
-function mvE(id,dir){var list=getActive(),i=-1;for(var j=0;j<list.length;j++){if(list[j].id===id){i=j;break;}}var sw=list[i+dir];if(!sw)return;var tmp=list[i].order;list[i].order=sw.order;sw.order=tmp;sv(S);render();}
-function cRm(id){var e=S.employees.find(function(x){return x.id===id;});if(!e)return;shC('Remove Employee','Remove <strong>'+esc(e.name)+'</strong> from the active roster?<br><br>Their mandation history will be preserved in the log.',function(){var emp=S.employees.find(function(x){return x.id===id;});if(emp){emp.active=false;emp.order=9999;}normalise();sv(S);render();});}
+// ── Employees ─────────────────────────────────────────────────
+function addEmp(){
+  var name=document.getElementById('nNm').value.trim();
+  if(!name){markErr('nNm');alert('Name is required.');return;}
+  var dsn=document.getElementById('nDN').value.trim(),hire=document.getElementById('nHire').value;
+  var a=getActive(),max=a.length?Math.max.apply(null,a.map(function(e){return e.order;})):-1;
+  S.employees.push({id:'e'+Date.now(),name:name,dsn:dsn,hire:hire,order:max+1,active:true});
+  document.getElementById('nNm').value='';document.getElementById('nDN').value='';document.getElementById('nHire').value='';
+  sv(S);render();
+}
+function mvE(id,dir){
+  var list=getActive(),i=-1;
+  for(var j=0;j<list.length;j++){if(list[j].id===id){i=j;break;}}
+  var sw=list[i+dir];if(!sw)return;
+  var tmp=list[i].order;list[i].order=sw.order;sw.order=tmp;sv(S);render();
+}
+function cRm(id){
+  var e=S.employees.find(function(x){return x.id===id;});if(!e)return;
+  shC('Remove Employee','Remove <strong>'+esc(e.name)+'</strong> from the active roster?<br><br>Their mandation history will be preserved in the log.',function(){
+    var emp=S.employees.find(function(x){return x.id===id;});
+    if(emp){emp.active=false;emp.order=9999;}normalise();sv(S);render();
+  });
+}
 
-function cReset(){shC('Reset to Alphabetical Order','This returns all employees to alphabetical order only. Counts and history are not affected.',function(){getActive().sort(function(a,b){return a.name.localeCompare(b.name);}).forEach(function(e,i){e.order=i;});sv(S);render();});}
+// ── Edit Employee ─────────────────────────────────────────────
+var editEmpId=null;
+function openEdit(id){
+  editEmpId=id;
+  var e=S.employees.find(function(x){return x.id===id;});if(!e)return;
+  document.getElementById('eName').value=e.name;
+  document.getElementById('eDSN').value=e.dsn||'';
+  document.getElementById('eHire').value=e.hire||'';
+  document.getElementById('editModal').classList.add('open');
+}
+function closeEdit(){document.getElementById('editModal').classList.remove('open');editEmpId=null;}
+function saveEdit(){
+  var name=document.getElementById('eName').value.trim();
+  if(!name){markErr('eName');alert('Name is required.');return;}
+  var e=S.employees.find(function(x){return x.id===editEmpId;});
+  if(e){e.name=name;e.dsn=document.getElementById('eDSN').value.trim();e.hire=document.getElementById('eHire').value;}
+  sv(S);closeEdit();render();
+}
 
+// ── Reset & Export ────────────────────────────────────────────
+function cReset(){
+  shC('Reset to Alphabetical Order','This returns all employees to alphabetical order only. Counts and history are not affected.',function(){
+    getActive().sort(function(a,b){return a.name.localeCompare(b.name);}).forEach(function(e,i){e.order=i;});
+    sv(S);render();
+  });
+}
+
+// Export mandations CSV
 function expCSV(){
   var rows=[['#','DateTime','Employee','DSN','HireDate','Shift','Hours','RecordedBy','Notes','Period']];
   S.mandations.slice().sort(function(a,b){return new Date(b.dt)-new Date(a.dt);}).forEach(function(m,i){
@@ -516,17 +635,48 @@ function expCSV(){
     rows.push([i+1,m.dt,e?e.name:'Removed',e?e.dsn||'':'',e?e.hire||'':'',m.shift,m.hrs||'',m.by||'',(m.notes||'').replace(/"/g,'""'),period]);
   });
   var csv=rows.map(function(r){return r.map(function(c){return'"'+c+'"';}).join(',');}).join('\r\n');
-  var a=document.createElement('a');
-  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
-  a.download='OEMS_Mandation_'+new Date().toISOString().slice(0,10)+'.csv';
-  a.click();
+  dlCSV(csv,'OEMS_Mandation_'+new Date().toISOString().slice(0,10)+'.csv');
 }
 
-function shC(t,msg,fn){document.getElementById('cTit').textContent=t;document.getElementById('cMsg').innerHTML=msg;document.getElementById('cOK').onclick=function(){closeC();fn();};document.getElementById('cModal').classList.add('open');}
+// Export roster CSV
+function expRoster(){
+  var list=S.employees.filter(function(e){return e.active;}).sort(function(a,b){return a.order-b.order;});
+  var rows=[['Order','Name','DSN','HireDate','TotalMandations','ThisPeriodMandations','LastMandated']];
+  list.forEach(function(e,i){
+    rows.push([
+      i+1, e.name, e.dsn||'', e.hire?fmtDate(e.hire):'',
+      mCountAll(e.id), mCount(e.id), lastM(e.id)
+    ]);
+  });
+  var csv=rows.map(function(r){return r.map(function(c){return'"'+c+'"';}).join(',');}).join('\r\n');
+  dlCSV(csv,'OEMS_Roster_'+new Date().toISOString().slice(0,10)+'.csv');
+}
+
+function dlCSV(csv,filename){
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  a.download=filename;a.click();
+}
+
+// ── Confirm dialog ────────────────────────────────────────────
+function shC(t,msg,fn){
+  document.getElementById('cTit').textContent=t;
+  document.getElementById('cMsg').innerHTML=msg;
+  document.getElementById('cOK').onclick=function(){closeC();fn();};
+  document.getElementById('cModal').classList.add('open');
+}
 function closeC(){document.getElementById('cModal').classList.remove('open');}
-function sw(name){var tabs=['queue','employees','history'];document.querySelectorAll('.tab').forEach(function(t,i){t.classList.toggle('active',tabs[i]===name);});document.querySelectorAll('.pn').forEach(function(p){p.classList.remove('active');});document.getElementById('pn-'+name).classList.add('active');}
+
+// ── Tabs ──────────────────────────────────────────────────────
+function sw(name){
+  var tabs=['queue','employees','history'];
+  document.querySelectorAll('.tab').forEach(function(t,i){t.classList.toggle('active',tabs[i]===name);});
+  document.querySelectorAll('.pn').forEach(function(p){p.classList.remove('active');});
+  document.getElementById('pn-'+name).classList.add('active');
+}
 
 document.getElementById('mModal').addEventListener('click',function(e){if(e.target===this)closeM();});
+document.getElementById('nyModal').addEventListener('click',function(e){if(e.target===this)closeNY();});
 document.getElementById('editModal').addEventListener('click',function(e){if(e.target===this)closeEdit();});
 document.getElementById('cModal').addEventListener('click',function(e){if(e.target===this)closeC();});
 render();
