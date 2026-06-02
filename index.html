@@ -6,20 +6,11 @@
 <title>OEMS Mandation Rotation Tracker</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap');
-  :root {
-    --bg:#0f1117;--bg2:#181c25;--bg3:#1f2433;
-    --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);
-    --text:#e8eaf0;--text2:#8b92a8;--text3:#555e73;
-    --accent:#4f8ef7;--accent-bg:rgba(79,142,247,0.12);--accent-border:rgba(79,142,247,0.35);
-    --red:#f75959;--red-bg:rgba(247,89,89,0.12);--red-border:rgba(247,89,89,0.3);
-    --amber:#f7a94f;--amber-bg:rgba(247,169,79,0.12);--amber-border:rgba(247,169,79,0.3);
-    --green:#4fc98a;--green-bg:rgba(79,201,138,0.10);--green-border:rgba(79,201,138,0.28);
-    --radius:10px;--radius-sm:6px;
-  }
+  :root{--bg:#0f1117;--bg2:#181c25;--bg3:#1f2433;--border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);--text:#e8eaf0;--text2:#8b92a8;--text3:#555e73;--accent:#4f8ef7;--accent-bg:rgba(79,142,247,0.12);--accent-border:rgba(79,142,247,0.35);--red:#f75959;--red-bg:rgba(247,89,89,0.12);--red-border:rgba(247,89,89,0.3);--amber:#f7a94f;--amber-bg:rgba(247,169,79,0.12);--amber-border:rgba(247,169,79,0.3);--green:#4fc98a;--green-bg:rgba(79,201,138,0.10);--green-border:rgba(79,201,138,0.28);--radius:10px;--radius-sm:6px}
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.5}
   .shell{display:flex;min-height:100vh}
-  .sidebar{width:220px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column}
+  .sidebar{width:230px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column}
   .logo{padding:24px 20px 20px;border-bottom:1px solid var(--border)}
   .logo-title{font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase}
   .logo-sub{font-size:11px;color:var(--text3);margin-top:3px;font-family:'DM Mono',monospace}
@@ -28,6 +19,11 @@
   .nav-item:hover{background:var(--bg3);color:var(--text)}
   .nav-item.active{background:var(--accent-bg);color:var(--accent);border-color:var(--accent-border);font-weight:500}
   .nav-item svg{width:16px;height:16px;flex-shrink:0}
+  .nav-divider{border:none;border-top:1px solid var(--border);margin:8px 0}
+  .lock-btn{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:var(--radius-sm);cursor:pointer;font-size:13px;transition:all 0.15s;border:1px solid transparent;margin-bottom:2px;width:100%;background:none;font-family:'DM Sans',sans-serif}
+  .lock-btn.locked{color:var(--red)}.lock-btn.unlocked{color:var(--green)}
+  .lock-btn:hover{background:var(--bg3)}
+  .lock-btn svg{width:16px;height:16px;flex-shrink:0}
   .sidebar-footer{padding:16px 20px;border-top:1px solid var(--border);font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;line-height:1.8}
   .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-right:5px;vertical-align:middle}
   .main{flex:1;overflow-y:auto}
@@ -51,43 +47,52 @@
   .btn.sm{padding:5px 10px;font-size:12px}
   .btn svg{width:14px;height:14px}
   .sec-title{font-size:12px;font-weight:500;color:var(--text2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px}
+  .sort-bar{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+  .sort-label{font-size:12px;color:var(--text2)}
+  .sort-btn{padding:4px 10px;font-size:12px;border-radius:var(--radius-sm);border:1px solid var(--border2);background:var(--bg3);color:var(--text2);cursor:pointer;transition:all .15s}
+  .sort-btn.active{background:var(--accent-bg);color:var(--accent);border-color:var(--accent-border)}
+  .sort-btn:hover{color:var(--text)}
   .card-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:20px}
-  .queue-header{display:grid;grid-template-columns:44px 1fr 80px 130px 150px;padding:10px 16px;border-bottom:1px solid var(--border);font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em}
-  .qrow{display:grid;grid-template-columns:44px 1fr 80px 130px 150px;border-bottom:1px solid var(--border);align-items:center;transition:background .12s}
+  .queue-header{display:grid;grid-template-columns:44px 1fr 80px 130px 160px;padding:10px 16px;border-bottom:1px solid var(--border);font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em}
+  .qrow{display:grid;grid-template-columns:44px 1fr 80px 130px 160px;border-bottom:1px solid var(--border);align-items:center;transition:background .12s}
   .qrow:last-child{border-bottom:none}
   .qrow:hover{background:var(--bg3)}
-  .qrow.r1{border-left:3px solid var(--red)}
-  .qrow.r2{border-left:3px solid var(--amber)}
-  .qrow.r3{border-left:3px solid var(--green)}
+  .qrow.r1{border-left:3px solid var(--red)}.qrow.r2{border-left:3px solid var(--amber)}.qrow.r3{border-left:3px solid var(--green)}
   .q-rank{padding:14px 0 14px 14px;font-family:'DM Mono',monospace;font-size:13px;color:var(--text3);font-weight:500}
   .qrow.r1 .q-rank{color:var(--red)}.qrow.r2 .q-rank{color:var(--amber)}.qrow.r3 .q-rank{color:var(--green)}
-  .q-cell{padding:14px 12px}
+  .q-cell{padding:12px}
   .q-name{font-size:14px;font-weight:500}
-  .q-dsn{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;margin-top:1px}
+  .q-sub{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;margin-top:2px}
   .badge{display:inline-block;font-size:10px;font-weight:600;letter-spacing:0.05em;padding:2px 7px;border-radius:20px;margin-left:8px;vertical-align:middle;text-transform:uppercase;background:var(--red-bg);color:var(--red);border:1px solid var(--red-border)}
-  .q-action{padding:14px 16px 14px 8px}
+  .q-action{padding:12px 16px 12px 8px}
+  .add-form{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:20px}
+  .form-grid{display:grid;grid-template-columns:1fr 130px 160px auto;gap:10px;align-items:end}
+  .fg-mini label{display:block;font-size:12px;color:var(--text2);margin-bottom:5px}
+  .fg-mini input{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;padding:8px 11px;outline:none;transition:border-color .15s}
+  .fg-mini input:focus{border-color:var(--accent)}
   .emp-row{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--border)}
   .emp-row:last-child{border-bottom:none}
   .emp-num{font-family:'DM Mono',monospace;font-size:12px;color:var(--text3);width:24px;flex-shrink:0}
   .emp-info{flex:1;min-width:0}
   .emp-name{font-size:13px;font-weight:500}
-  .emp-dsn{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace}
+  .emp-meta{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;margin-top:2px}
   .emp-actions{display:flex;gap:6px;flex-shrink:0}
+  .locked-note{font-size:11px;color:var(--text3);padding:4px 8px;border:1px solid var(--border);border-radius:var(--radius-sm)}
   .log-entry{display:grid;grid-template-columns:1fr auto;gap:12px;padding:14px 20px;border-bottom:1px solid var(--border);align-items:start}
   .log-entry:last-child{border-bottom:none}
   .log-name{font-size:14px;font-weight:500}
-  .log-meta{font-size:12px;color:var(--text2);margin-top:3px;line-height:1.6}
+  .log-meta{font-size:12px;color:var(--text2);margin-top:3px;line-height:1.7}
   .log-by{font-size:11px;color:var(--text3);margin-top:2px;font-family:'DM Mono',monospace}
-  .log-ts{font-size:12px;color:var(--text3);font-family:'DM Mono',monospace;white-space:nowrap;text-align:right}
-  .add-form{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:20px}
-  .add-row{display:flex;gap:10px;flex-wrap:wrap}
-  .add-row input{flex:1;min-width:160px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;padding:8px 11px;outline:none}
-  .add-row input:focus{border-color:var(--accent)}
+  .log-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+  .log-ts{font-size:12px;color:var(--text3);font-family:'DM Mono',monospace;white-space:nowrap}
+  .settings-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px}
+  .settings-card h3{font-size:14px;font-weight:500;margin-bottom:14px}
   .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:100;align-items:center;justify-content:center}
   .modal-overlay.open{display:flex}
   .modal-box{background:var(--bg2);border:1px solid var(--border2);border-radius:14px;padding:28px;width:460px;max-width:95vw;max-height:92vh;overflow-y:auto}
+  .modal-box.sm{width:360px}
   .modal-box h3{font-size:17px;font-weight:600;margin-bottom:6px}
-  .modal-box .modal-sub{font-size:13px;color:var(--text2);margin-bottom:20px}
+  .modal-sub{font-size:13px;color:var(--text2);margin-bottom:20px}
   .fg{margin-bottom:14px}
   .fg label{display:block;font-size:12px;color:var(--text2);margin-bottom:5px}
   .fg input,.fg textarea,.fg select{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;padding:8px 11px;outline:none;transition:border-color .15s}
@@ -96,23 +101,25 @@
   .fg-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
   .modal-divider{border:none;border-top:1px solid var(--border);margin:16px 0}
   .modal-section{font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px}
-  .modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:6px}
-  .spinner{display:inline-block;width:14px;height:14px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle}
-  @keyframes spin{to{transform:rotate(360deg)}}
+  .modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:8px}
+  .err-msg{font-size:12px;color:var(--red);margin-top:6px;min-height:18px}
   .empty-state{text-align:center;padding:36px 20px;color:var(--text3);font-size:14px}
   input[type="datetime-local"]::-webkit-calendar-picker-indicator,
   input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(1) opacity(.4)}
-  @media(max-width:700px){
+  select option{background:var(--bg3);color:var(--text)}
+  @media(max-width:750px){
     .sidebar{display:none}
     .queue-header,.qrow{grid-template-columns:36px 1fr 70px}
     .queue-header>*:nth-child(n+4),.qrow>*:nth-child(n+4){display:none}
     .content,.topbar{padding-left:16px;padding-right:16px}
     .fg-row{grid-template-columns:1fr}
+    .form-grid{grid-template-columns:1fr 1fr}
   }
 </style>
 </head>
 <body>
 <div class="shell">
+
   <aside class="sidebar">
     <div class="logo">
       <div class="logo-title">OEMS</div>
@@ -131,6 +138,15 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
         History log
       </div>
+      <div class="nav-item" id="nav-settings" onclick="showView('settings')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        Settings
+      </div>
+      <hr class="nav-divider">
+      <button class="lock-btn locked" id="lock-btn" onclick="toggleLock()">
+        <svg id="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        <span id="lock-label">Locked</span>
+      </button>
     </nav>
     <div class="sidebar-footer">
       <div><span class="dot"></span>Saves locally</div>
@@ -140,7 +156,7 @@
 
   <div class="main">
 
-    <!-- QUEUE VIEW -->
+    <!-- QUEUE -->
     <div id="view-queue">
       <div class="topbar">
         <div><div class="page-title">Rotation queue</div><div class="page-sub">Employee #1 is next to be mandated</div></div>
@@ -148,7 +164,7 @@
           <button class="btn" onclick="exportCSV()">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Export CSV
           </button>
-          <button class="btn danger sm" onclick="document.getElementById('resetModal').classList.add('open')">Reset order</button>
+          <button class="btn danger sm" onclick="requireAuth(showResetModal,'The admin password is required to reset the rotation order.')">Reset to original</button>
         </div>
       </div>
       <div class="content">
@@ -158,7 +174,13 @@
           <div class="stat-card"><div class="stat-label">This year</div><div class="stat-val" id="st-year">0</div></div>
           <div class="stat-card"><div class="stat-label">Next up</div><div class="stat-val sm" id="st-next">—</div></div>
         </div>
-        <div class="sec-title">Queue — sorted by rotation order</div>
+        <div class="sort-bar">
+          <span class="sort-label">Sort:</span>
+          <button class="sort-btn active" id="sort-rotation" onclick="setQueueSort('rotation')">Rotation order</button>
+          <button class="sort-btn" id="sort-hire-new" onclick="setQueueSort('hire-new')">Hire date (newest)</button>
+          <button class="sort-btn" id="sort-hire-old" onclick="setQueueSort('hire-old')">Hire date (oldest)</button>
+          <button class="sort-btn" id="sort-alpha" onclick="setQueueSort('alpha')">Alphabetical</button>
+        </div>
         <div class="card-wrap">
           <div class="queue-header"><div>#</div><div>Employee</div><div>Total</div><div>Last mandated</div><div></div></div>
           <div id="queue-body"></div>
@@ -166,20 +188,23 @@
       </div>
     </div>
 
-    <!-- EMPLOYEES VIEW -->
+    <!-- EMPLOYEES -->
     <div id="view-employees" style="display:none">
       <div class="topbar">
-        <div><div class="page-title">Employees</div><div class="page-sub">Add, remove, or reorder staff</div></div>
+        <div><div class="page-title">Employees</div><div class="page-sub">Manage staff roster</div></div>
       </div>
       <div class="content">
-        <div class="sec-title">Add employee</div>
+        <div class="sec-title">Add employee <span id="add-lock-note" style="font-size:11px;color:var(--red);margin-left:6px;font-weight:400;text-transform:none;letter-spacing:0">🔒 Unlock to add or edit</span></div>
         <div class="add-form">
-          <div class="add-row">
-            <input id="new-name" placeholder="Full name" onkeydown="if(event.key==='Enter')addEmployee()" />
-            <input id="new-dsn" placeholder="DSN (optional)" style="max-width:160px" onkeydown="if(event.key==='Enter')addEmployee()" />
-            <button class="btn primary" onclick="addEmployee()">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add
-            </button>
+          <div class="form-grid">
+            <div class="fg-mini"><label>Full name</label><input id="new-name" placeholder="e.g. Jane Smith" onkeydown="if(event.key==='Enter')addEmployee()" /></div>
+            <div class="fg-mini"><label>DSN</label><input id="new-dsn" placeholder="e.g. 1760" /></div>
+            <div class="fg-mini"><label>Hire date</label><input type="date" id="new-hire" /></div>
+            <div class="fg-mini"><label>&nbsp;</label>
+              <button class="btn primary" onclick="addEmployee()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add
+              </button>
+            </div>
           </div>
         </div>
         <div class="sec-title">All employees</div>
@@ -187,14 +212,16 @@
       </div>
     </div>
 
-    <!-- LOG VIEW -->
+    <!-- LOG -->
     <div id="view-log" style="display:none">
       <div class="topbar">
-        <div>
-          <div class="page-title">History log</div>
-          <div class="page-sub">All recorded mandations — history kept even when employee is removed</div>
-        </div>
+        <div><div class="page-title">History log</div><div class="page-sub">All recorded mandations — history kept even if employee is removed</div></div>
         <div class="topbar-actions">
+          <div class="sort-bar" style="margin:0">
+            <span class="sort-label">Sort:</span>
+            <button class="sort-btn active" id="log-sort-new" onclick="setLogSort('new')">Newest first</button>
+            <button class="sort-btn" id="log-sort-old" onclick="setLogSort('old')">Oldest first</button>
+          </div>
           <button class="btn" onclick="exportCSV()">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Export CSV
           </button>
@@ -205,139 +232,283 @@
       </div>
     </div>
 
+    <!-- SETTINGS -->
+    <div id="view-settings" style="display:none">
+      <div class="topbar"><div><div class="page-title">Settings</div><div class="page-sub">Password and app options</div></div></div>
+      <div class="content" style="max-width:500px">
+        <div class="settings-card">
+          <h3>🔒 Change password</h3>
+          <div class="fg"><label>Current password</label><input type="password" id="pw-cur" placeholder="Current password" /></div>
+          <div class="fg"><label>New password</label><input type="password" id="pw-new" placeholder="New password" /></div>
+          <div class="fg"><label>Confirm new password</label><input type="password" id="pw-con" placeholder="Repeat new password" /></div>
+          <div class="err-msg" id="pw-err"></div>
+          <button class="btn primary" onclick="changePassword()">Update password</button>
+        </div>
+        <div class="settings-card">
+          <h3>🗑 Clear all data</h3>
+          <p style="font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.6">Permanently deletes all employees and mandation history. Cannot be undone.</p>
+          <button class="btn danger" onclick="requireAuth(clearAll,'Admin password required to clear all data.')">Clear all data</button>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
-<!-- ── MANDATE MODAL ── -->
+<!-- MANDATE MODAL -->
 <div class="modal-overlay" id="mandateModal">
   <div class="modal-box">
     <h3>Record mandation</h3>
-    <div class="modal-sub">All fields except employee name are optional but recommended.</div>
-
+    <div class="modal-sub">No password required to record a mandation.</div>
     <div class="modal-section">Who &amp; when notified</div>
     <div class="fg"><label>Employee</label><input id="m-emp" readonly style="opacity:.6" /></div>
     <div class="fg-row">
-      <div class="fg"><label>Recorded by</label><input id="m-user" placeholder="Your name or initials" /></div>
+      <div class="fg"><label>Recorded by (Name or DSN)</label><input id="m-user" placeholder="e.g. Sgt. Smith or 1760" /></div>
       <div class="fg"><label>Date &amp; time notified</label><input type="datetime-local" id="m-dt" /></div>
     </div>
-
     <hr class="modal-divider">
     <div class="modal-section">Shift details</div>
-
     <div class="fg-row">
       <div class="fg">
         <label>Shift type</label>
-        <select id="m-shift">
+        <select id="m-shift" onchange="toggleOtherShift()">
           <option value="">— Select —</option>
-          <option>8p–8a (Night)</option>
-          <option>8a–8p (Day)</option>
-          <option>6a–6p (Day 12)</option>
-          <option>6p–6a (Night 12)</option>
-          <option>Other</option>
+          <option value="7am–7pm Day">7am–7pm Day</option>
+          <option value="7pm–7am Night">7pm–7am Night</option>
+          <option value="Other">Other</option>
         </select>
       </div>
       <div class="fg"><label>Mandated shift date</label><input type="date" id="m-shiftdate" /></div>
     </div>
-
+    <div class="fg" id="other-shift-wrap" style="display:none">
+      <label>Other — describe shift hours</label>
+      <input id="m-shift-other" placeholder="e.g. 6am–2pm, 10pm–6am" />
+    </div>
     <div class="fg"><label>Notes / reason</label><textarea id="m-notes" placeholder="Who called off, circumstances, etc."></textarea></div>
-
     <div class="modal-actions">
       <button class="btn" onclick="closeModal('mandateModal')">Cancel</button>
-      <button class="btn primary" id="confirm-btn" onclick="confirmMandate()">
+      <button class="btn primary" onclick="confirmMandate()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width:14px;height:14px"><polyline points="20 6 9 17 4 12"/></svg>Confirm mandate
       </button>
     </div>
   </div>
 </div>
 
-<!-- ── RESET MODAL ── -->
+<!-- UNLOCK MODAL -->
+<div class="modal-overlay" id="unlockModal">
+  <div class="modal-box sm">
+    <h3>🔒 Admin password required</h3>
+    <div class="modal-sub" id="unlock-reason">Authentication required.</div>
+    <div class="fg"><label>Password</label><input type="password" id="unlock-pw" placeholder="Enter password" onkeydown="if(event.key==='Enter')submitUnlock()" /></div>
+    <div class="err-msg" id="unlock-err"></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('unlockModal')">Cancel</button>
+      <button class="btn primary" onclick="submitUnlock()">Unlock</button>
+    </div>
+  </div>
+</div>
+
+<!-- RESET MODAL -->
 <div class="modal-overlay" id="resetModal">
-  <div class="modal-box" style="max-width:360px">
+  <div class="modal-box sm">
     <h3>Reset rotation order?</h3>
-    <p style="color:var(--text2);font-size:14px;line-height:1.6;margin-bottom:20px">Sorts queue back to alphabetical order. All mandation history and counts are preserved.</p>
+    <p style="color:var(--text2);font-size:14px;line-height:1.6;margin-bottom:20px">Returns queue to alphabetical order. All mandation history and counts are preserved.</p>
     <div class="modal-actions">
       <button class="btn" onclick="closeModal('resetModal')">Cancel</button>
-      <button class="btn danger" onclick="doReset()">Reset order</button>
+      <button class="btn danger" onclick="confirmReset()">Reset order</button>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE LOG MODAL -->
+<div class="modal-overlay" id="deleteLogModal">
+  <div class="modal-box sm">
+    <h3>Delete this entry?</h3>
+    <p style="color:var(--text2);font-size:14px;line-height:1.6;margin-bottom:20px">This mandation record will be permanently removed and the employee's count adjusted.</p>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('deleteLogModal')">Cancel</button>
+      <button class="btn danger" onclick="confirmDeleteLog()">Delete entry</button>
     </div>
   </div>
 </div>
 
 <script>
-const STORE = 'oems_v4';
-const DEFAULT_ROSTER = [
-  ['Michelle Wrigley','1760'],['Nick Fensom','1795'],['Ryan Young','1786'],
-  ['Jason Butler','1743'],['Pat Lenz','1793'],['Terry Sill','1765'],
-  ['Marty Nungesser','1720'],['Tom McCarver','1758'],['Doug Sutphin','17115'],
-  ['Ryan Hodge','17111'],['Jay Garrett','1709'],['Kayla Hoese','17116'],
-  ['Patty Hefner','17114'],['Nick Grotowski',''],['Tony Mannino','17118'],
-  ['Rick Palmer','1780'],['Pat Battoe','1737'],['Donovan Knapp',''],
-  ['Alyssa Dainelson',''],['Chase McDaniel',''],['Kevin Brown',''],
-  ['Grace Nikolaisen',''],['Nancy Yererlehner',''],['Jake Johnston',''],
-  ['Ricky Palmer',''],['Greg Muskopf','1788']
+const STORE='oems_v5';
+const DEFAULT_PW='oems2026';
+const DEFAULT_ROSTER=[
+  ['Michelle Wrigley','1760',''],['Nick Fensom','1795',''],['Ryan Young','1786',''],
+  ['Jason Butler','1743',''],['Pat Lenz','1793',''],['Terry Sill','1765',''],
+  ['Marty Nungesser','1720',''],['Tom McCarver','1758',''],['Doug Sutphin','17115',''],
+  ['Ryan Hodge','17111',''],['Jay Garrett','1709',''],['Kayla Hoese','17116',''],
+  ['Patty Hefner','17114',''],['Nick Grotowski','',''],['Tony Mannino','17118',''],
+  ['Rick Palmer','1780',''],['Pat Battoe','1737',''],['Donovan Knapp','',''],
+  ['Alyssa Dainelson','',''],['Chase McDaniel','',''],['Kevin Brown','',''],
+  ['Grace Nikolaisen','',''],['Nancy Yererlehner','',''],['Jake Johnston','',''],
+  ['Ricky Palmer','',''],['Greg Muskopf','1788','']
 ];
 
-let state = {employees:[], log:[]};
-let pendingId = null;
+let state={employees:[],log:[],password:DEFAULT_PW};
+let sessionUnlocked=false;
+let pendingAuthCallback=null;
+let pendingMandateId=null;
+let pendingDeleteLogId=null;
+let queueSort='rotation';
+let logSort='new';
 
-function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2); }
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2);}
 
 function load(){
   try{
-    const raw = localStorage.getItem(STORE);
+    const raw=localStorage.getItem(STORE);
     if(raw){
-      state = JSON.parse(raw);
-      if(!state.employees) state.employees=[];
-      if(!state.log) state.log=[];
+      state=JSON.parse(raw);
+      if(!state.employees)state.employees=[];
+      if(!state.log)state.log=[];
+      if(!state.password)state.password=DEFAULT_PW;
+      // Ensure all log entries have ids
+      state.log.forEach(l=>{if(!l.id)l.id=uid();});
     } else {
-      state = {
-        employees: DEFAULT_ROSTER.map(([name,dsn])=>({id:uid(),name,dsn,count:0,lastMandate:null})),
-        log:[]
+      state={
+        employees:DEFAULT_ROSTER.map(([name,dsn,hire])=>({id:uid(),name,dsn,hireDate:hire,count:0,lastMandate:null})),
+        log:[],password:DEFAULT_PW
       };
       save();
     }
-  } catch(e){ state={employees:[],log:[]}; }
+  }catch(e){state={employees:[],log:[],password:DEFAULT_PW};}
 }
 
 function save(){
   try{
-    localStorage.setItem(STORE, JSON.stringify(state));
-    document.getElementById('last-saved').textContent =
-      new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
-  } catch(e){}
+    localStorage.setItem(STORE,JSON.stringify(state));
+    const el=document.getElementById('last-saved');
+    if(el)el.textContent=new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+  }catch(e){}
 }
 
+// ── AUTH ──
+function toggleLock(){
+  if(sessionUnlocked){sessionUnlocked=false;updateLockUI();renderAll();}
+  else requireAuth(()=>{},'Enter the admin password to unlock.');
+}
+
+function updateLockUI(){
+  const btn=document.getElementById('lock-btn');
+  const lbl=document.getElementById('lock-label');
+  const icon=document.getElementById('lock-icon');
+  const note=document.getElementById('add-lock-note');
+  if(sessionUnlocked){
+    btn.className='lock-btn unlocked';lbl.textContent='Unlocked';
+    icon.innerHTML='<rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 019.9-1"/>';
+    if(note)note.style.display='none';
+  } else {
+    btn.className='lock-btn locked';lbl.textContent='Locked';
+    icon.innerHTML='<rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>';
+    if(note)note.style.display='';
+  }
+}
+
+function requireAuth(cb,reason){
+  if(sessionUnlocked){cb();return;}
+  pendingAuthCallback=cb;
+  document.getElementById('unlock-reason').textContent=reason||'This action requires the admin password.';
+  document.getElementById('unlock-pw').value='';
+  document.getElementById('unlock-err').textContent='';
+  document.getElementById('unlockModal').classList.add('open');
+  setTimeout(()=>document.getElementById('unlock-pw').focus(),120);
+}
+
+function submitUnlock(){
+  const pw=document.getElementById('unlock-pw').value;
+  if(pw===state.password){
+    sessionUnlocked=true;updateLockUI();closeModal('unlockModal');
+    if(pendingAuthCallback){pendingAuthCallback();pendingAuthCallback=null;}
+    renderAll();
+  } else {
+    document.getElementById('unlock-err').textContent='Incorrect password. Try again.';
+    document.getElementById('unlock-pw').value='';
+    document.getElementById('unlock-pw').focus();
+  }
+}
+
+function changePassword(){
+  const cur=document.getElementById('pw-cur').value;
+  const nw=document.getElementById('pw-new').value;
+  const con=document.getElementById('pw-con').value;
+  const err=document.getElementById('pw-err');
+  err.style.color='var(--red)';
+  if(cur!==state.password){err.textContent='Current password is incorrect.';return;}
+  if(!nw){err.textContent='New password cannot be blank.';return;}
+  if(nw!==con){err.textContent='New passwords do not match.';return;}
+  state.password=nw;save();
+  err.style.color='var(--green)';err.textContent='Password updated successfully.';
+  document.getElementById('pw-cur').value='';
+  document.getElementById('pw-new').value='';
+  document.getElementById('pw-con').value='';
+  setTimeout(()=>{err.textContent='';err.style.color='';},3000);
+}
+
+// ── NAVIGATION ──
 function showView(v){
-  ['queue','employees','log'].forEach(n=>{
-    document.getElementById('view-'+n).style.display = n===v ? '' : 'none';
-    document.getElementById('nav-'+n).className = 'nav-item'+(n===v?' active':'');
+  ['queue','employees','log','settings'].forEach(n=>{
+    const el=document.getElementById('view-'+n);
+    if(el)el.style.display=n===v?'':'none';
+    const nav=document.getElementById('nav-'+n);
+    if(nav)nav.className='nav-item'+(n===v?' active':'');
   });
   renderAll();
 }
 
-function renderAll(){ renderStats(); renderQueue(); renderEmpList(); renderLog(); }
+// ── RENDER ──
+function renderAll(){renderStats();renderQueue();renderEmpList();renderLog();updateLockUI();}
 
 function renderStats(){
-  const yr = new Date().getFullYear();
-  const yc = state.log.filter(l=>{ try{ return new Date(l.ts).getFullYear()===yr; }catch(e){return false;} }).length;
-  document.getElementById('st-emp').textContent = state.employees.length;
-  document.getElementById('st-total').textContent = state.log.length;
-  document.getElementById('st-year').textContent = yc;
-  document.getElementById('st-next').textContent = state.employees[0]?.name || '—';
+  const yr=new Date().getFullYear();
+  const yc=state.log.filter(l=>{try{return new Date(l.ts).getFullYear()===yr;}catch(e){return false;}}).length;
+  document.getElementById('st-emp').textContent=state.employees.length;
+  document.getElementById('st-total').textContent=state.log.length;
+  document.getElementById('st-year').textContent=yc;
+  document.getElementById('st-next').textContent=state.employees[0]?.name||'—';
+}
+
+function setQueueSort(s){
+  queueSort=s;
+  ['rotation','hire-new','hire-old','alpha'].forEach(k=>{
+    const b=document.getElementById('sort-'+k);
+    if(b)b.className='sort-btn'+(k===s?' active':'');
+  });
+  renderQueue();
+}
+
+function getSortedQueue(){
+  const list=[...state.employees];
+  if(queueSort==='rotation')return list;
+  if(queueSort==='hire-new')return list.sort((a,b)=>{
+    if(!a.hireDate&&!b.hireDate)return 0;if(!a.hireDate)return 1;if(!b.hireDate)return -1;
+    return new Date(b.hireDate)-new Date(a.hireDate);
+  });
+  if(queueSort==='hire-old')return list.sort((a,b)=>{
+    if(!a.hireDate&&!b.hireDate)return 0;if(!a.hireDate)return 1;if(!b.hireDate)return -1;
+    return new Date(a.hireDate)-new Date(b.hireDate);
+  });
+  if(queueSort==='alpha')return list.sort((a,b)=>a.name.localeCompare(b.name));
+  return list;
 }
 
 function renderQueue(){
-  const el = document.getElementById('queue-body'); if(!el) return;
-  if(!state.employees.length){ el.innerHTML='<div class="empty-state">No employees. Add some in the Employees tab.</div>'; return; }
-  el.innerHTML = state.employees.map((e,i)=>{
-    const cls = i===0?'r1':i===1?'r2':i===2?'r3':'';
-    const last = e.lastMandate
-      ? new Date(e.lastMandate).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})
-      : 'Never';
+  const el=document.getElementById('queue-body');if(!el)return;
+  const list=getSortedQueue();
+  if(!list.length){el.innerHTML='<div class="empty-state">No employees. Add some in the Employees tab.</div>';return;}
+  el.innerHTML=list.map((e,i)=>{
+    const cls=i===0?'r1':i===1?'r2':i===2?'r3':'';
+    const last=e.lastMandate?new Date(e.lastMandate).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'Never';
+    const dsnStr=e.dsn?'DSN '+e.dsn:'';
+    const hireStr=e.hireDate?'Hired: '+new Date(e.hireDate+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'';
+    const sub=[dsnStr,hireStr].filter(Boolean).join('  ·  ');
     return `<div class="qrow ${cls}">
       <div class="q-rank">${i+1}</div>
       <div class="q-cell">
-        <div class="q-name">${esc(e.name)}${i===0?'<span class="badge">Next</span>':''}</div>
-        ${e.dsn?`<div class="q-dsn">DSN ${esc(e.dsn)}</div>`:''}
+        <div class="q-name">${esc(e.name)}${i===0&&queueSort==='rotation'?'<span class="badge">Next</span>':''}</div>
+        ${sub?`<div class="q-sub">${esc(sub)}</div>`:''}
       </div>
       <div class="q-cell" style="font-family:'DM Mono',monospace;font-size:13px;color:var(--text2)">${e.count||0}&times;</div>
       <div class="q-cell" style="font-size:12px;color:var(--text2)">${last}</div>
@@ -351,134 +522,203 @@ function renderQueue(){
 }
 
 function renderEmpList(){
-  const el = document.getElementById('emp-list'); if(!el) return;
-  if(!state.employees.length){ el.innerHTML='<div class="empty-state">No employees yet.</div>'; return; }
-  el.innerHTML = state.employees.map((e,i)=>`
-    <div class="emp-row">
+  const el=document.getElementById('emp-list');if(!el)return;
+  const note=document.getElementById('add-lock-note');
+  if(note)note.style.display=sessionUnlocked?'none':'';
+  if(!state.employees.length){el.innerHTML='<div class="empty-state">No employees yet.</div>';return;}
+  el.innerHTML=state.employees.map((e,i)=>{
+    const dsnStr=e.dsn?'DSN '+e.dsn:'';
+    const hireStr=e.hireDate?'Hired: '+new Date(e.hireDate+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'';
+    const meta=[dsnStr,hireStr].filter(Boolean).join('  ·  ');
+    const acts=sessionUnlocked
+      ?`<button class="btn sm" onclick="moveUp('${e.id}')" ${i===0?'disabled':''}>&#8593;</button>
+        <button class="btn sm" onclick="moveDown('${e.id}')" ${i===state.employees.length-1?'disabled':''}>&#8595;</button>
+        <button class="btn danger sm" onclick="removeEmp('${e.id}')">Remove</button>`
+      :`<span class="locked-note">🔒 Unlock to edit</span>`;
+    return`<div class="emp-row">
       <div class="emp-num">${i+1}</div>
       <div class="emp-info">
         <div class="emp-name">${esc(e.name)}</div>
-        ${e.dsn?`<div class="emp-dsn">DSN ${esc(e.dsn)}</div>`:''}
+        ${meta?`<div class="emp-meta">${esc(meta)}</div>`:''}
       </div>
-      <div class="emp-actions">
-        <button class="btn sm" onclick="moveUp('${e.id}')" ${i===0?'disabled':''}>&#8593;</button>
-        <button class="btn sm" onclick="moveDown('${e.id}')" ${i===state.employees.length-1?'disabled':''}>&#8595;</button>
-        <button class="btn danger sm" onclick="removeEmp('${e.id}')">Remove</button>
-      </div>
-    </div>`).join('');
-}
-
-function renderLog(){
-  const el = document.getElementById('log-body'); if(!el) return;
-  if(!state.log.length){ el.innerHTML='<div class="empty-state">No mandations recorded yet.</div>'; return; }
-  const sorted = [...state.log].sort((a,b)=>new Date(b.ts)-new Date(a.ts));
-  el.innerHTML = sorted.map(l=>{
-    const notified = new Date(l.ts);
-    const notifiedStr = isNaN(notified) ? l.ts :
-      notified.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+' '+
-      notified.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
-    const shiftDateStr = l.shiftDate
-      ? new Date(l.shiftDate+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})
-      : null;
-    return `<div class="log-entry">
-      <div>
-        <div class="log-name">${esc(l.name)}</div>
-        <div class="log-meta">
-          ${l.shift?`<span>Shift: <strong>${esc(l.shift)}</strong></span>&nbsp;&nbsp;·&nbsp;&nbsp;`:''}
-          ${shiftDateStr?`<span>Shift date: <strong>${shiftDateStr}</strong></span>&nbsp;&nbsp;·&nbsp;&nbsp;`:''}
-          ${l.notes?esc(l.notes):'<span style="opacity:.4">No notes</span>'}
-        </div>
-        ${l.recordedBy?`<div class="log-by">Recorded by ${esc(l.recordedBy)} &nbsp;·&nbsp; Notified: ${notifiedStr}</div>`:`<div class="log-by">Notified: ${notifiedStr}</div>`}
-      </div>
-      <div class="log-ts">${shiftDateStr || notifiedStr}</div>
+      <div class="emp-actions">${acts}</div>
     </div>`;
   }).join('');
 }
 
+function setLogSort(s){
+  logSort=s;
+  ['new','old'].forEach(k=>{
+    const b=document.getElementById('log-sort-'+k);
+    if(b)b.className='sort-btn'+(k===s?' active':'');
+  });
+  renderLog();
+}
+
+function renderLog(){
+  const el=document.getElementById('log-body');if(!el)return;
+  if(!state.log.length){el.innerHTML='<div class="empty-state">No mandations recorded yet.</div>';return;}
+  let list=[...state.log];
+  list=logSort==='new'?list.sort((a,b)=>new Date(b.ts)-new Date(a.ts)):list.sort((a,b)=>new Date(a.ts)-new Date(b.ts));
+  el.innerHTML=list.map(l=>{
+    const d=new Date(l.ts);
+    const notifiedStr=isNaN(d)?l.ts:d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+' '+d.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+    const sdStr=l.shiftDate?new Date(l.shiftDate+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):null;
+    const shiftLabel=l.shiftOther||l.shift||'';
+    const delBtn=sessionUnlocked
+      ?`<button class="btn danger sm" onclick="deleteLogEntry('${l.id}')">Delete</button>`
+      :`<button class="btn sm" onclick="requireAuth(()=>deleteLogEntry('${l.id}'),'Admin password required to delete log entries.')">🔒 Delete</button>`;
+    return`<div class="log-entry">
+      <div>
+        <div class="log-name">${esc(l.name)}</div>
+        <div class="log-meta">
+          ${shiftLabel?`Shift: <strong>${esc(shiftLabel)}</strong>&nbsp;&nbsp;·&nbsp;&nbsp;`:''}
+          ${sdStr?`Shift date: <strong>${sdStr}</strong>&nbsp;&nbsp;·&nbsp;&nbsp;`:''}
+          ${l.notes?esc(l.notes):'<span style="opacity:.4">No notes</span>'}
+        </div>
+        <div class="log-by">${l.recordedBy?'Recorded by '+esc(l.recordedBy)+'  ·  ':''}Notified: ${notifiedStr}</div>
+      </div>
+      <div class="log-right">
+        <div class="log-ts">${sdStr||notifiedStr}</div>
+        ${delBtn}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── EMPLOYEE ACTIONS ──
 function addEmployee(){
-  const name = document.getElementById('new-name').value.trim();
-  if(!name) return;
-  const dsn = document.getElementById('new-dsn').value.trim();
-  document.getElementById('new-name').value = '';
-  document.getElementById('new-dsn').value = '';
-  state.employees.push({id:uid(), name, dsn, count:0, lastMandate:null});
-  save(); renderEmpList(); renderStats();
+  if(!sessionUnlocked){requireAuth(addEmployee,'Admin password required to add employees.');return;}
+  const name=document.getElementById('new-name').value.trim();
+  if(!name){document.getElementById('new-name').focus();return;}
+  const dsn=document.getElementById('new-dsn').value.trim();
+  const hire=document.getElementById('new-hire').value;
+  document.getElementById('new-name').value='';
+  document.getElementById('new-dsn').value='';
+  document.getElementById('new-hire').value='';
+  state.employees.push({id:uid(),name,dsn,hireDate:hire,count:0,lastMandate:null});
+  save();renderEmpList();renderStats();
 }
 
 function removeEmp(id){
-  if(!confirm('Remove this employee?\n\nTheir mandation history will be kept in the log.')) return;
-  state.employees = state.employees.filter(e=>e.id!==id);
-  save(); renderEmpList(); renderStats();
+  if(!sessionUnlocked){requireAuth(()=>removeEmp(id),'Admin password required to remove employees.');return;}
+  if(!confirm('Remove this employee?\n\nTheir mandation history will be kept in the log.'))return;
+  state.employees=state.employees.filter(e=>e.id!==id);
+  save();renderEmpList();renderStats();
 }
 
 function moveUp(id){
-  const i = state.employees.findIndex(e=>e.id===id);
-  if(i>0){[state.employees[i-1],state.employees[i]]=[state.employees[i],state.employees[i-1]];}
-  save(); renderEmpList();
+  if(!sessionUnlocked){requireAuth(()=>moveUp(id));return;}
+  const i=state.employees.findIndex(e=>e.id===id);
+  if(i>0)[state.employees[i-1],state.employees[i]]=[state.employees[i],state.employees[i-1]];
+  save();renderEmpList();
 }
 
 function moveDown(id){
-  const i = state.employees.findIndex(e=>e.id===id);
-  if(i<state.employees.length-1){[state.employees[i+1],state.employees[i]]=[state.employees[i],state.employees[i+1]];}
-  save(); renderEmpList();
+  if(!sessionUnlocked){requireAuth(()=>moveDown(id));return;}
+  const i=state.employees.findIndex(e=>e.id===id);
+  if(i<state.employees.length-1)[state.employees[i+1],state.employees[i]]=[state.employees[i],state.employees[i+1]];
+  save();renderEmpList();
+}
+
+// ── MANDATE ──
+function toggleOtherShift(){
+  document.getElementById('other-shift-wrap').style.display=
+    document.getElementById('m-shift').value==='Other'?'':'none';
 }
 
 function openMandate(id){
-  pendingId = id;
-  const e = state.employees.find(x=>x.id===id);
-  document.getElementById('m-emp').value = e.name;
-  document.getElementById('m-user').value = localStorage.getItem('oems_user')||'';
-  const now = new Date();
-  now.setMinutes(now.getMinutes()-now.getTimezoneOffset());
-  document.getElementById('m-dt').value = now.toISOString().slice(0,16);
-  document.getElementById('m-shift').value = '';
-  document.getElementById('m-shiftdate').value = '';
-  document.getElementById('m-notes').value = '';
+  pendingMandateId=id;
+  const e=state.employees.find(x=>x.id===id);
+  document.getElementById('m-emp').value=e.name;
+  document.getElementById('m-user').value=localStorage.getItem('oems_user')||'';
+  const now=new Date();now.setMinutes(now.getMinutes()-now.getTimezoneOffset());
+  document.getElementById('m-dt').value=now.toISOString().slice(0,16);
+  document.getElementById('m-shift').value='';
+  document.getElementById('m-shiftdate').value='';
+  document.getElementById('m-shift-other').value='';
+  document.getElementById('m-notes').value='';
+  document.getElementById('other-shift-wrap').style.display='none';
   document.getElementById('mandateModal').classList.add('open');
 }
 
 function confirmMandate(){
-  if(!pendingId) return;
-  const idx = state.employees.findIndex(e=>e.id===pendingId);
-  if(idx<0) return;
-  const e = state.employees[idx];
-  const ts        = document.getElementById('m-dt').value || new Date().toISOString();
-  const shift     = document.getElementById('m-shift').value.trim();
-  const shiftDate = document.getElementById('m-shiftdate').value;  // YYYY-MM-DD
-  const notes     = document.getElementById('m-notes').value.trim();
-  const who       = document.getElementById('m-user').value.trim();
-  if(who) localStorage.setItem('oems_user', who);
-  e.count = (e.count||0)+1;
-  e.lastMandate = ts;
-  state.log.push({empId:e.id, name:e.name, ts, shift, shiftDate, notes, recordedBy:who});
+  if(!pendingMandateId)return;
+  const idx=state.employees.findIndex(e=>e.id===pendingMandateId);
+  if(idx<0)return;
+  const e=state.employees[idx];
+  const ts=document.getElementById('m-dt').value||new Date().toISOString();
+  const shiftSel=document.getElementById('m-shift').value;
+  const shift=shiftSel==='Other'?'':shiftSel;
+  const shiftOther=shiftSel==='Other'?document.getElementById('m-shift-other').value.trim():'';
+  const shiftDate=document.getElementById('m-shiftdate').value;
+  const notes=document.getElementById('m-notes').value.trim();
+  const who=document.getElementById('m-user').value.trim();
+  if(who)localStorage.setItem('oems_user',who);
+  e.count=(e.count||0)+1;
+  e.lastMandate=ts;
+  state.log.push({id:uid(),empId:e.id,name:e.name,ts,shift,shiftOther,shiftDate,notes,recordedBy:who});
   state.employees.splice(idx,1);
   state.employees.push(e);
-  save(); closeModal('mandateModal'); renderAll();
+  save();closeModal('mandateModal');renderAll();
 }
 
-function doReset(){
+// ── LOG DELETE ──
+function deleteLogEntry(logId){
+  if(!sessionUnlocked){requireAuth(()=>deleteLogEntry(logId),'Admin password required to delete log entries.');return;}
+  pendingDeleteLogId=logId;
+  document.getElementById('deleteLogModal').classList.add('open');
+}
+
+function confirmDeleteLog(){
+  if(!pendingDeleteLogId)return;
+  const idx=state.log.findIndex(l=>l.id===pendingDeleteLogId);
+  if(idx>=0){
+    const entry=state.log[idx];
+    const emp=state.employees.find(e=>e.id===entry.empId);
+    if(emp&&emp.count>0)emp.count--;
+    state.log.splice(idx,1);
+  }
+  pendingDeleteLogId=null;
+  save();closeModal('deleteLogModal');renderAll();
+}
+
+// ── RESET / CLEAR ──
+function showResetModal(){document.getElementById('resetModal').classList.add('open');}
+function confirmReset(){
   state.employees.sort((a,b)=>a.name.localeCompare(b.name));
-  save(); closeModal('resetModal'); renderQueue(); renderStats();
+  save();closeModal('resetModal');renderQueue();renderStats();
+}
+function clearAll(){
+  if(!confirm('This will permanently delete ALL employees and ALL mandation history.\n\nAre you absolutely sure?'))return;
+  state.employees=[];state.log=[];
+  save();renderAll();
 }
 
+// ── EXPORT ──
 function exportCSV(){
-  const rows = [['Employee','DSN','Recorded by','Notified Date/Time','Shift Type','Mandated Shift Date','Notes']];
+  const rows=[['Employee','DSN','Hire Date','Recorded By','Notified Date/Time','Shift Type','Mandated Shift Date','Notes']];
   [...state.log].sort((a,b)=>new Date(b.ts)-new Date(a.ts)).forEach(l=>{
-    const e = state.employees.find(x=>x.id===l.empId)||{};
-    rows.push([l.name, e.dsn||'', l.recordedBy||'', l.ts, l.shift||'', l.shiftDate||'', l.notes||'']);
+    const e=state.employees.find(x=>x.id===l.empId)||{};
+    rows.push([l.name,e.dsn||'',e.hireDate||'',l.recordedBy||'',l.ts,l.shiftOther||l.shift||'',l.shiftDate||'',l.notes||'']);
   });
-  const csv = rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\r\n');
-  const a = document.createElement('a');
-  a.href = 'data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
-  a.download = 'OEMS_Mandations_'+new Date().toISOString().slice(0,10)+'.csv';
+  const csv=rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\r\n');
+  const a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download='OEMS_Mandations_'+new Date().toISOString().slice(0,10)+'.csv';
   a.click();
 }
 
-function closeModal(id){ document.getElementById(id).classList.remove('open'); if(id==='mandateModal') pendingId=null; }
-function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-
+// ── UTILS ──
+function closeModal(id){
+  document.getElementById(id).classList.remove('open');
+  if(id==='mandateModal')pendingMandateId=null;
+  if(id==='unlockModal')pendingAuthCallback=null;
+  if(id==='deleteLogModal')pendingDeleteLogId=null;
+}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 document.querySelectorAll('.modal-overlay').forEach(el=>{
-  el.addEventListener('click', ev=>{ if(ev.target===el) el.classList.remove('open'); });
+  el.addEventListener('click',ev=>{if(ev.target===el)el.classList.remove('open');});
 });
 
 load();
