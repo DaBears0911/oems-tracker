@@ -106,7 +106,8 @@
   .empty-state{text-align:center;padding:36px 20px;color:var(--text3);font-size:14px}
   input[type="datetime-local"]::-webkit-calendar-picker-indicator,
   input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(1) opacity(.4)}
-  select option{background:var(--bg3);color:var(--text)}
+  .log-entry.reset-entry{background:var(--amber-bg);border-left:3px solid var(--amber)}
+  .reset-badge{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border);text-transform:uppercase;letter-spacing:.05em;margin-left:8px;vertical-align:middle}
   @media(max-width:750px){
     .sidebar{display:none}
     .queue-header,.qrow{grid-template-columns:36px 1fr 70px}
@@ -164,7 +165,9 @@
           <button class="btn" onclick="exportCSV()">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Export CSV
           </button>
-          <button class="btn danger sm" onclick="requireAuth(showResetModal,'The admin password is required to reset the rotation order.')">Reset to original</button>
+          <button class="btn danger" onclick="requireAuth(showResetModal,'The admin password is required to reset the rotation order.')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>Reset rotation
+          </button>
         </div>
       </div>
       <div class="content">
@@ -310,12 +313,20 @@
 
 <!-- RESET MODAL -->
 <div class="modal-overlay" id="resetModal">
-  <div class="modal-box sm">
-    <h3>Reset rotation order?</h3>
-    <p style="color:var(--text2);font-size:14px;line-height:1.6;margin-bottom:20px">Returns queue to alphabetical order. All mandation history and counts are preserved.</p>
+  <div class="modal-box">
+    <h3>🔄 Reset rotation order</h3>
+    <div class="modal-sub">Returns the queue to alphabetical order. Mandation counts are preserved. This action will be recorded in the history log.</div>
+    <div class="modal-section">Reset details</div>
+    <div class="fg-row">
+      <div class="fg"><label>Reset by (Name or DSN)</label><input id="r-user" placeholder="e.g. Chief Smith or 1760" /></div>
+      <div class="fg"><label>Date &amp; time</label><input type="datetime-local" id="r-dt" /></div>
+    </div>
+    <div class="fg"><label>Reason / notes <span style="color:var(--text3);font-weight:400">(optional)</span></label><textarea id="r-notes" placeholder="e.g. Start of new session, annual reset, etc." style="min-height:60px"></textarea></div>
     <div class="modal-actions">
       <button class="btn" onclick="closeModal('resetModal')">Cancel</button>
-      <button class="btn danger" onclick="confirmReset()">Reset order</button>
+      <button class="btn danger" onclick="confirmReset()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>Confirm reset
+      </button>
     </div>
   </div>
 </div>
@@ -563,11 +574,28 @@ function renderLog(){
   el.innerHTML=list.map(l=>{
     const d=new Date(l.ts);
     const notifiedStr=isNaN(d)?l.ts:d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+' '+d.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
-    const sdStr=l.shiftDate?new Date(l.shiftDate+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):null;
-    const shiftLabel=l.shiftOther||l.shift||'';
     const delBtn=sessionUnlocked
       ?`<button class="btn danger sm" onclick="deleteLogEntry('${l.id}')">Delete</button>`
       :`<button class="btn sm" onclick="requireAuth(()=>deleteLogEntry('${l.id}'),'Admin password required to delete log entries.')">🔒 Delete</button>`;
+
+    // Reset entry — distinct styling
+    if(l.type==='reset'){
+      return`<div class="log-entry reset-entry">
+        <div>
+          <div class="log-name">Rotation Reset <span class="reset-badge">Reset</span></div>
+          <div class="log-meta">${l.notes?esc(l.notes):'Rotation order reset to alphabetical.'}</div>
+          <div class="log-by">${l.recordedBy?'Reset by '+esc(l.recordedBy)+'  ·  ':''}${notifiedStr}</div>
+        </div>
+        <div class="log-right">
+          <div class="log-ts">${notifiedStr}</div>
+          ${delBtn}
+        </div>
+      </div>`;
+    }
+
+    // Normal mandation entry
+    const sdStr=l.shiftDate?new Date(l.shiftDate+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):null;
+    const shiftLabel=l.shiftOther||l.shift||'';
     return`<div class="log-entry">
       <div>
         <div class="log-name">${esc(l.name)}</div>
@@ -684,10 +712,32 @@ function confirmDeleteLog(){
 }
 
 // ── RESET / CLEAR ──
-function showResetModal(){document.getElementById('resetModal').classList.add('open');}
+function showResetModal(){
+  const now=new Date();now.setMinutes(now.getMinutes()-now.getTimezoneOffset());
+  document.getElementById('r-dt').value=now.toISOString().slice(0,16);
+  document.getElementById('r-user').value=localStorage.getItem('oems_user')||'';
+  document.getElementById('r-notes').value='';
+  document.getElementById('resetModal').classList.add('open');
+}
 function confirmReset(){
+  const who=document.getElementById('r-user').value.trim();
+  const ts=document.getElementById('r-dt').value||new Date().toISOString();
+  const notes=document.getElementById('r-notes').value.trim();
+  if(who)localStorage.setItem('oems_user',who);
+  // Sort employees alphabetically
   state.employees.sort((a,b)=>a.name.localeCompare(b.name));
-  save();closeModal('resetModal');renderQueue();renderStats();
+  // Log the reset event
+  state.log.push({
+    id:uid(),
+    type:'reset',
+    name:'— Rotation Reset —',
+    empId:'',
+    ts,
+    shift:'',shiftOther:'',shiftDate:'',
+    notes:notes||'Rotation order reset to alphabetical.',
+    recordedBy:who
+  });
+  save();closeModal('resetModal');renderAll();
 }
 function clearAll(){
   if(!confirm('This will permanently delete ALL employees and ALL mandation history.\n\nAre you absolutely sure?'))return;
@@ -697,10 +747,14 @@ function clearAll(){
 
 // ── EXPORT ──
 function exportCSV(){
-  const rows=[['Employee','DSN','Hire Date','Recorded By','Notified Date/Time','Shift Type','Mandated Shift Date','Notes']];
+  const rows=[['Type','Employee','DSN','Hire Date','Recorded By','Date/Time','Shift Type','Mandated Shift Date','Notes']];
   [...state.log].sort((a,b)=>new Date(b.ts)-new Date(a.ts)).forEach(l=>{
     const e=state.employees.find(x=>x.id===l.empId)||{};
-    rows.push([l.name,e.dsn||'',e.hireDate||'',l.recordedBy||'',l.ts,l.shiftOther||l.shift||'',l.shiftDate||'',l.notes||'']);
+    if(l.type==='reset'){
+      rows.push(['RESET','Rotation Reset','','','',l.recordedBy||'',l.ts,'','',l.notes||'']);
+    } else {
+      rows.push(['Mandation',l.name,e.dsn||'',e.hireDate||'',l.recordedBy||'',l.ts,l.shiftOther||l.shift||'',l.shiftDate||'',l.notes||'']);
+    }
   });
   const csv=rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\r\n');
   const a=document.createElement('a');
