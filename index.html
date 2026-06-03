@@ -422,26 +422,26 @@ function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2
 
 async function load(){
   setSyncStatus('loading');
-  // Always try JSONBin first
   try{
     var resp=await fetch(BIN_URL+'/latest',{
-      headers:{'X-Master-Key':BIN_KEY,'X-Bin-Meta':false}
+      headers:{'X-Master-Key':BIN_KEY,'X-Bin-Meta':'false'}
     });
     if(resp.ok){
       var data=await resp.json();
-      if(data&&data.employees){
-        state=data;
-        if(!state.employees)state.employees=[];
+      // JSONBin wraps response in {record: {...}} - handle both formats
+      var record = data.record || data;
+      if(record && Array.isArray(record.employees) && record.employees.length > 0){
+        // Has real data - load it
+        state=record;
         if(!state.log)state.log=[];
         if(!state.password)state.password=DEFAULT_PW;
         state.log.forEach(function(l){if(!l.id)l.id=uid();});
-        // Cache locally as backup
         try{localStorage.setItem(STORE,JSON.stringify(state));}catch(e){}
         setSyncStatus('ok');
         renderAll();
         return;
       }
-      // Bin exists but is empty — seed with roster
+      // Bin is empty or has no employees — seed with default roster
       state={
         employees:DEFAULT_ROSTER.map(function(r){return{id:uid(),name:r[0],dsn:r[1],hireDate:r[2],count:0,lastMandate:null};}),
         log:[],password:DEFAULT_PW
@@ -474,14 +474,15 @@ async function load(){
 }
 
 async function save(){
-  // Always save to localStorage as backup
   try{localStorage.setItem(STORE,JSON.stringify(state));}catch(e){}
-  // Save to JSONBin
   try{
     setSyncStatus('saving');
     var resp=await fetch(BIN_URL,{
       method:'PUT',
-      headers:{'Content-Type':'application/json','X-Master-Key':BIN_KEY},
+      headers:{
+        'Content-Type':'application/json',
+        'X-Master-Key':BIN_KEY
+      },
       body:JSON.stringify(state)
     });
     if(resp.ok){
@@ -489,6 +490,7 @@ async function save(){
       var el=document.getElementById('last-saved');
       if(el)el.textContent=new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
     }else{
+      console.warn('Save failed:',resp.status,await resp.text());
       setSyncStatus('offline');
     }
   }catch(e){
