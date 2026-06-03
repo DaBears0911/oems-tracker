@@ -165,9 +165,7 @@
           <button class="btn" onclick="exportCSV()">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Export CSV
           </button>
-          <button class="btn danger" onclick="requireAuth(showResetModal,'The admin password is required to reset the rotation order.')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>Reset rotation
-          </button>
+
         </div>
       </div>
       <div class="content">
@@ -239,6 +237,7 @@
     <div id="view-settings" style="display:none">
       <div class="topbar"><div><div class="page-title">Settings</div><div class="page-sub">Password and app options</div></div></div>
       <div class="content" style="max-width:500px">
+
         <div class="settings-card">
           <h3>🔒 Change password</h3>
           <div class="fg"><label>Current password</label><input type="password" id="pw-cur" placeholder="Current password" /></div>
@@ -247,11 +246,24 @@
           <div class="err-msg" id="pw-err"></div>
           <button class="btn primary" onclick="changePassword()">Update password</button>
         </div>
+
+        <div class="settings-card">
+          <h3>🔄 Reset rotation order</h3>
+          <p style="font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.6">
+            Returns the queue to alphabetical order. Use this at the start of a new session or as needed mid-year.
+            Mandation counts are preserved and the reset is recorded in the history log with your name and reason.
+          </p>
+          <button class="btn danger" onclick="requireAuth(showResetModal,'The admin password is required to reset the rotation order.')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>Reset rotation order
+          </button>
+        </div>
+
         <div class="settings-card">
           <h3>🗑 Clear all data</h3>
           <p style="font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.6">Permanently deletes all employees and mandation history. Cannot be undone.</p>
           <button class="btn danger" onclick="requireAuth(clearAll,'Admin password required to clear all data.')">Clear all data</button>
         </div>
+
       </div>
     </div>
 
@@ -327,6 +339,22 @@
       <button class="btn danger" onclick="confirmReset()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>Confirm reset
       </button>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT EMPLOYEE MODAL -->
+<div class="modal-overlay" id="editEmpModal">
+  <div class="modal-box sm">
+    <h3>Edit employee</h3>
+    <div class="modal-sub">Update name, DSN, or hire date.</div>
+    <input type="hidden" id="edit-emp-id" />
+    <div class="fg"><label>Full name</label><input id="edit-name" placeholder="Full name" /></div>
+    <div class="fg"><label>DSN</label><input id="edit-dsn" placeholder="e.g. 1760" /></div>
+    <div class="fg"><label>Hire date</label><input type="date" id="edit-hire" /></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('editEmpModal')">Cancel</button>
+      <button class="btn primary" onclick="saveEditEmp()">Save changes</button>
     </div>
   </div>
 </div>
@@ -542,7 +570,8 @@ function renderEmpList(){
     const hireStr=e.hireDate?'Hired: '+new Date(e.hireDate+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'';
     const meta=[dsnStr,hireStr].filter(Boolean).join('  ·  ');
     const acts=sessionUnlocked
-      ?`<button class="btn sm" onclick="moveUp('${e.id}')" ${i===0?'disabled':''}>&#8593;</button>
+      ?`<button class="btn sm" onclick="editEmp('${e.id}')">Edit</button>
+        <button class="btn sm" onclick="moveUp('${e.id}')" ${i===0?'disabled':''}>&#8593;</button>
         <button class="btn sm" onclick="moveDown('${e.id}')" ${i===state.employees.length-1?'disabled':''}>&#8595;</button>
         <button class="btn danger sm" onclick="removeEmp('${e.id}')">Remove</button>`
       :`<span class="locked-note">🔒 Unlock to edit</span>`;
@@ -628,7 +657,29 @@ function addEmployee(){
   save();renderEmpList();renderStats();
 }
 
-function removeEmp(id){
+function editEmp(id){
+  if(!sessionUnlocked){requireAuth(()=>editEmp(id),'Admin password required to edit employees.');return;}
+  const e=state.employees.find(x=>x.id===id);
+  if(!e)return;
+  document.getElementById('edit-emp-id').value=id;
+  document.getElementById('edit-name').value=e.name;
+  document.getElementById('edit-dsn').value=e.dsn||'';
+  document.getElementById('edit-hire').value=e.hireDate||'';
+  document.getElementById('editEmpModal').classList.add('open');
+  setTimeout(()=>document.getElementById('edit-name').focus(),100);
+}
+
+function saveEditEmp(){
+  const id=document.getElementById('edit-emp-id').value;
+  const name=document.getElementById('edit-name').value.trim();
+  if(!name){document.getElementById('edit-name').focus();return;}
+  const e=state.employees.find(x=>x.id===id);
+  if(!e)return;
+  e.name=name;
+  e.dsn=document.getElementById('edit-dsn').value.trim();
+  e.hireDate=document.getElementById('edit-hire').value;
+  save();closeModal('editEmpModal');renderAll();
+}
   if(!sessionUnlocked){requireAuth(()=>removeEmp(id),'Admin password required to remove employees.');return;}
   if(!confirm('Remove this employee?\n\nTheir mandation history will be kept in the log.'))return;
   state.employees=state.employees.filter(e=>e.id!==id);
