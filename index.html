@@ -151,8 +151,9 @@ select option{background:var(--bg3);color:var(--text)}
     </button>
   </nav>
   <div class="sidebar-footer">
-    <div><span class="dot"></span>Saves locally</div>
+    <div><span class="dot" id="sync-dot"></span><span id="sync-lbl">Connecting...</span></div>
     <div style="color:var(--text3);margin-top:2px">Last saved: <span id="last-saved">—</span></div>
+    <div style="color:var(--text3);margin-top:2px;font-size:10px">Auto-refreshes every 30s</div>
   </div>
 </aside>
 
@@ -288,6 +289,7 @@ select option{background:var(--bg3);color:var(--text)}
           <option value="">— Select —</option>
           <option value="7am-7pm Day">7am-7pm Day</option>
           <option value="7pm-7am Night">7pm-7am Night</option>
+          <option value="24 Hours">24 Hours</option>
           <option value="Other">Other</option>
         </select>
       </div>
@@ -372,18 +374,38 @@ select option{background:var(--bg3);color:var(--text)}
 </div>
 
 <script>
-const STORE='oems_v5';
+const STORE='oems_v6';
 const DEFAULT_PW='oems2026';
+const BIN_ID='6a205992f5f4af5e29b37622';
+const BIN_KEY='$2a$10$ps5j2xtASo19BvOmibGeNeiNKpJXN2xEHQMOGZDewtJF.pEihr6zq';
+const BIN_URL='https://api.jsonbin.io/v3/b/'+BIN_ID;
 const DEFAULT_ROSTER=[
-  ['Michelle Wrigley','1760',''],['Nick Fensom','1795',''],['Ryan Young','1786',''],
-  ['Jason Butler','1743',''],['Pat Lenz','1793',''],['Terry Sill','1765',''],
-  ['Marty Nungesser','1720',''],['Tom McCarver','1758',''],['Doug Sutphin','17115',''],
-  ['Ryan Hodge','17111',''],['Jay Garrett','1709',''],['Kayla Hoese','17116',''],
-  ['Patty Hefner','17114',''],['Nick Grotowski','',''],['Tony Mannino','17118',''],
-  ['Rick Palmer','1780',''],['Pat Battoe','1737',''],['Donovan Knapp','',''],
-  ['Alyssa Dainelson','',''],['Chase McDaniel','',''],['Kevin Brown','',''],
-  ['Grace Nikolaisen','',''],['Nancy Yererlehner','',''],['Jake Johnston','',''],
-  ['Ricky Palmer','',''],['Greg Muskopf','1788','']
+  ['Michelle Wrigley','1760',''],
+  ['Nick Fensom','1795',''],
+  ['Ryan Young','1786',''],
+  ['Jason Butler','1743',''],
+  ['Pat Lenz','1793',''],
+  ['Terry Sill','1765',''],
+  ['Marty Nungesser','1720',''],
+  ['Tom McCarver','1758',''],
+  ['Doug Sutphin','17115',''],
+  ['Ryan Hodge','17111',''],
+  ['Jay Garrett','1709',''],
+  ['Kayla Hoese','17116',''],
+  ['Patty Hefner','17114',''],
+  ['Nick Grotowski','',''],
+  ['Tony Mannino','17118',''],
+  ['Rick Palmer','1780',''],
+  ['Pat Battoe','1737',''],
+  ['Donovan Knapp','',''],
+  ['Alyssa Dainelson','',''],
+  ['Chase McDaniel','',''],
+  ['Kevin Brown','',''],
+  ['Grace Nikolaisen','',''],
+  ['Nancy Yererlehner','',''],
+  ['Jake Johnston','',''],
+  ['Ricky Palmer','',''],
+  ['Greg Muskopf','1788','']
 ];
 
 let state={employees:[],log:[],password:DEFAULT_PW};
@@ -394,11 +416,45 @@ let pendingDeleteLogId=null;
 let queueSort='rotation';
 let logSort='new';
 
+let isSyncing=false;
+
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2);}
 
-function load(){
+async function load(){
+  setSyncStatus('loading');
+  // Always try JSONBin first
   try{
-    const raw=localStorage.getItem(STORE);
+    var resp=await fetch(BIN_URL+'/latest',{
+      headers:{'X-Master-Key':BIN_KEY,'X-Bin-Meta':false}
+    });
+    if(resp.ok){
+      var data=await resp.json();
+      if(data&&data.employees){
+        state=data;
+        if(!state.employees)state.employees=[];
+        if(!state.log)state.log=[];
+        if(!state.password)state.password=DEFAULT_PW;
+        state.log.forEach(function(l){if(!l.id)l.id=uid();});
+        // Cache locally as backup
+        try{localStorage.setItem(STORE,JSON.stringify(state));}catch(e){}
+        setSyncStatus('ok');
+        renderAll();
+        return;
+      }
+      // Bin exists but is empty — seed with roster
+      state={
+        employees:DEFAULT_ROSTER.map(function(r){return{id:uid(),name:r[0],dsn:r[1],hireDate:r[2],count:0,lastMandate:null};}),
+        log:[],password:DEFAULT_PW
+      };
+      await save();
+      setSyncStatus('ok');
+      renderAll();
+      return;
+    }
+  }catch(e){console.warn('JSONBin load failed:',e);}
+  // Fallback to localStorage
+  try{
+    var raw=localStorage.getItem(STORE);
     if(raw){
       state=JSON.parse(raw);
       if(!state.employees)state.employees=[];
@@ -406,18 +462,55 @@ function load(){
       if(!state.password)state.password=DEFAULT_PW;
       state.log.forEach(function(l){if(!l.id)l.id=uid();});
     }else{
-      state={employees:DEFAULT_ROSTER.map(function(r){return{id:uid(),name:r[0],dsn:r[1],hireDate:r[2],count:0,lastMandate:null};}),log:[],password:DEFAULT_PW};
-      save();
+      state={
+        employees:DEFAULT_ROSTER.map(function(r){return{id:uid(),name:r[0],dsn:r[1],hireDate:r[2],count:0,lastMandate:null};}),
+        log:[],password:DEFAULT_PW
+      };
+      try{localStorage.setItem(STORE,JSON.stringify(state));}catch(e){}
     }
   }catch(e){state={employees:[],log:[],password:DEFAULT_PW};}
+  setSyncStatus('offline');
+  renderAll();
 }
 
-function save(){
+async function save(){
+  // Always save to localStorage as backup
+  try{localStorage.setItem(STORE,JSON.stringify(state));}catch(e){}
+  // Save to JSONBin
   try{
-    localStorage.setItem(STORE,JSON.stringify(state));
-    var el=document.getElementById('last-saved');
-    if(el)el.textContent=new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
-  }catch(e){}
+    setSyncStatus('saving');
+    var resp=await fetch(BIN_URL,{
+      method:'PUT',
+      headers:{'Content-Type':'application/json','X-Master-Key':BIN_KEY},
+      body:JSON.stringify(state)
+    });
+    if(resp.ok){
+      setSyncStatus('ok');
+      var el=document.getElementById('last-saved');
+      if(el)el.textContent=new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+    }else{
+      setSyncStatus('offline');
+    }
+  }catch(e){
+    setSyncStatus('offline');
+    console.warn('JSONBin save failed:',e);
+  }
+}
+
+function setSyncStatus(s){
+  var dot=document.getElementById('sync-dot');
+  var lbl=document.getElementById('sync-lbl');
+  if(!dot)return;
+  if(s==='loading'||s==='saving'){
+    dot.style.background='var(--amber)';
+    lbl.textContent=s==='loading'?'Loading...':'Saving...';
+  }else if(s==='ok'){
+    dot.style.background='var(--green)';
+    lbl.textContent='Synced';
+  }else{
+    dot.style.background='var(--red)';
+    lbl.textContent='Offline — local only';
+  }
 }
 
 function toggleLock(){
@@ -608,7 +701,7 @@ function addEmployee(){
   document.getElementById('new-dsn').value='';
   document.getElementById('new-hire').value='';
   state.employees.push({id:uid(),name:name,dsn:dsn,hireDate:hire,count:0,lastMandate:null});
-  save();renderEmpList();renderStats();
+  save().then(function(){renderEmpList();renderStats();});
 }
 
 function editEmp(id){
@@ -632,28 +725,28 @@ function saveEditEmp(){
   e.name=name;
   e.dsn=document.getElementById('edit-dsn').value.trim();
   e.hireDate=document.getElementById('edit-hire').value;
-  save();closeModal('editEmpModal');renderAll();
+  save().then(function(){closeModal('editEmpModal');renderAll();});
 }
 
 function removeEmp(id){
   if(!sessionUnlocked){requireAuth(function(){removeEmp(id);},'Admin password required to remove employees.');return;}
   if(!confirm('Remove this employee?\n\nTheir mandation history will be kept in the log.'))return;
   state.employees=state.employees.filter(function(e){return e.id!==id;});
-  save();renderEmpList();renderStats();
+  save().then(function(){renderEmpList();renderStats();});
 }
 
 function moveUp(id){
   if(!sessionUnlocked){requireAuth(function(){moveUp(id);});return;}
   var i=state.employees.map(function(e){return e.id;}).indexOf(id);
   if(i>0){var t=state.employees[i-1];state.employees[i-1]=state.employees[i];state.employees[i]=t;}
-  save();renderEmpList();
+  save().then(function(){renderEmpList();});
 }
 
 function moveDown(id){
   if(!sessionUnlocked){requireAuth(function(){moveDown(id);});return;}
   var i=state.employees.map(function(e){return e.id;}).indexOf(id);
   if(i<state.employees.length-1){var t=state.employees[i+1];state.employees[i+1]=state.employees[i];state.employees[i]=t;}
-  save();renderEmpList();
+  save().then(function(){renderEmpList();});
 }
 
 function toggleOtherShift(){
@@ -694,7 +787,7 @@ function confirmMandate(){
   state.log.push({id:uid(),empId:e.id,name:e.name,ts:ts,shift:shift,shiftOther:shiftOther,shiftDate:shiftDate,notes:notes,recordedBy:who});
   state.employees.splice(idx,1);
   state.employees.push(e);
-  save();closeModal('mandateModal');renderAll();
+  save().then(function(){closeModal('mandateModal');renderAll();});
 }
 
 function showResetModal(){
@@ -712,7 +805,7 @@ function confirmReset(){
   if(who)localStorage.setItem('oems_user',who);
   state.employees.sort(function(a,b){return a.name.localeCompare(b.name);});
   state.log.push({id:uid(),type:'reset',name:'Rotation Reset',empId:'',ts:ts,shift:'',shiftOther:'',shiftDate:'',notes:notes||'Rotation order reset to alphabetical.',recordedBy:who});
-  save();closeModal('resetModal');renderAll();
+  save().then(function(){closeModal('resetModal');renderAll();});
 }
 
 function deleteLogEntry(logId){
@@ -734,13 +827,13 @@ function confirmDeleteLog(){
     state.log.splice(idx,1);
   }
   pendingDeleteLogId=null;
-  save();closeModal('deleteLogModal');renderAll();
+  save().then(function(){closeModal('deleteLogModal');renderAll();});
 }
 
 function clearAll(){
   if(!confirm('This will permanently delete ALL employees and ALL mandation history.\n\nAre you absolutely sure?'))return;
   state.employees=[];state.log=[];
-  save();renderAll();
+  save().then(function(){renderAll();});
 }
 
 function exportCSV(){
@@ -789,6 +882,11 @@ document.querySelectorAll('.modal-overlay').forEach(function(el){
 });
 
 load();
+setInterval(function(){
+  if(!document.getElementById('mandateModal').classList.contains('open')){
+    load();
+  }
+},30000);
 showView('queue');
 </script>
 </body>
