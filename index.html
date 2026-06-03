@@ -193,6 +193,11 @@ select option{background:var(--bg3);color:var(--text)}
   <div id="view-employees" style="display:none">
     <div class="topbar">
       <div><div class="page-title">Employees</div><div class="page-sub">Manage staff roster</div></div>
+      <div class="topbar-actions">
+        <button class="btn" onclick="exportEmployeeCSV()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Export employee list
+        </button>
+      </div>
     </div>
     <div class="content">
       <div class="sec-title">Add employee <span id="add-lock-note" style="font-size:11px;color:var(--red);margin-left:6px;font-weight:400;text-transform:none;letter-spacing:0">🔒 Unlock to add or edit</span></div>
@@ -752,6 +757,21 @@ function exportCSV(){
   var a=document.createElement('a');
   a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
   a.download='OEMS_Mandations_'+new Date().toISOString().slice(0,10)+'.csv';
+  a.click();
+}
+
+function exportEmployeeCSV(){
+  var rows=[['Queue Position','Name','DSN','Hire Date','Total Mandations','Last Mandated Date']];
+  // Always export in current rotation order
+  state.employees.forEach(function(e,i){
+    var lastDate=e.lastMandate?new Date(e.lastMandate).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'Never';
+    var hireDate=e.hireDate?new Date(e.hireDate+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'';
+    rows.push([i+1, e.name, e.dsn||'', hireDate, e.count||0, lastDate]);
+  });
+  var csv=rows.map(function(r){return r.map(function(v){return '"'+String(v).replace(/"/g,'""')+'"';}).join(',');}).join('\r\n');
+  var a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download='OEMS_Employees_'+new Date().toISOString().slice(0,10)+'.csv';
   a.click();
 }
 
