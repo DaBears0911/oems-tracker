@@ -530,7 +530,7 @@ async function save(){
     if(resp.ok){
       setSyncStatus('ok');
       var el=document.getElementById('last-saved');
-      if(el)el.textContent=new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+      if(el)el.textContent=new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:false});
     }else{setSyncStatus('offline');}
   }catch(e){setSyncStatus('offline');console.warn('Save failed:',e);}
 }
@@ -716,7 +716,7 @@ function renderLog(){
   list=logSort==='new'?list.sort(function(a,b){return new Date(b.ts)-new Date(a.ts);}):list.sort(function(a,b){return new Date(a.ts)-new Date(b.ts);});
   el.innerHTML=list.map(function(l){
     var d=new Date(l.ts);
-    var ts=isNaN(d)?l.ts:d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+' '+d.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+    var ts=isNaN(d)?l.ts:d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+' '+d.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:false});
     var delBtn=sessionUnlocked?
       '<button class="btn danger sm" onclick="deleteLogEntry(\''+l.id+'\')">Delete</button>':
       '<button class="btn sm" onclick="requireAuth(function(){deleteLogEntry(\''+l.id+'\')},\'Password required to delete log entries.\')">🔒 Delete</button>';
@@ -764,7 +764,7 @@ function openMandate(id){
   pendingMandateId=id;
   var e=state.employees.filter(function(x){return x.id===id;})[0];
   document.getElementById('m-emp').value=e.name;
-  document.getElementById('m-user').value=localStorage.getItem('oems_user')||'';
+  document.getElementById('m-user').value='';
   var now=new Date();now.setMinutes(now.getMinutes()-now.getTimezoneOffset());
   document.getElementById('m-dt').value=now.toISOString().slice(0,16);
   document.getElementById('m-shift').value='';
@@ -788,7 +788,7 @@ function confirmMandate(){
   var shiftDate=document.getElementById('m-shiftdate').value;
   var notes=document.getElementById('m-notes').value.trim();
   var who=document.getElementById('m-user').value.trim();
-  if(who)localStorage.setItem('oems_user',who);
+  
   e.count=(e.count||0)+1;
   e.lastMandate=ts;
   // Store the position they were at BEFORE mandating (for undo)
@@ -807,7 +807,7 @@ function openSkip(id){
   pendingSkipId=id;
   var e=state.employees.filter(function(x){return x.id===id;})[0];
   document.getElementById('sk-emp').value=e.name;
-  document.getElementById('sk-user').value=localStorage.getItem('oems_user')||'';
+  document.getElementById('sk-user').value='';
   var now=new Date();now.setMinutes(now.getMinutes()-now.getTimezoneOffset());
   document.getElementById('sk-dt').value=now.toISOString().slice(0,16);
   document.getElementById('sk-notes').value='';
@@ -823,7 +823,7 @@ function confirmSkip(){
   if(!e)return;
   var ts=document.getElementById('sk-dt').value||new Date().toISOString();
   var who=document.getElementById('sk-user').value.trim();
-  if(who)localStorage.setItem('oems_user',who);
+  
   // Employee stays in their current position — skip does NOT move them
   state.log.push({id:uid(),type:'skip',empId:e.id,name:e.name,ts:ts,notes:notes,recordedBy:who});
   save().then(function(){closeModal('skipModal');pendingSkipId=null;renderAll();});
@@ -840,7 +840,7 @@ function openUndo(id){
   if(!logEntries.length){alert('No mandation found to undo for this employee.');return;}
   pendingUndoLogId=logEntries.sort(function(a,b){return new Date(b.ts)-new Date(a.ts);})[0].id;
   document.getElementById('undo-emp').value=e.name;
-  document.getElementById('undo-user').value=localStorage.getItem('oems_user')||'';
+  document.getElementById('undo-user').value='';
   var now=new Date();now.setMinutes(now.getMinutes()-now.getTimezoneOffset());
   document.getElementById('undo-dt').value=now.toISOString().slice(0,16);
   document.getElementById('undo-notes').value='';
@@ -853,7 +853,7 @@ function confirmUndo(){
   var notes=document.getElementById('undo-notes').value.trim();
   var who=document.getElementById('undo-user').value.trim();
   var ts=document.getElementById('undo-dt').value||new Date().toISOString();
-  if(who)localStorage.setItem('oems_user',who);
+  
   // Find the log entry
   var logIdx=-1;
   state.log.forEach(function(l,i){if(l.id===pendingUndoLogId)logIdx=i;});
@@ -893,7 +893,7 @@ function confirmUndo(){
 function showResetModal(){
   var now=new Date();now.setMinutes(now.getMinutes()-now.getTimezoneOffset());
   document.getElementById('r-dt').value=now.toISOString().slice(0,16);
-  document.getElementById('r-user').value=localStorage.getItem('oems_user')||'';
+  document.getElementById('r-user').value='';
   document.getElementById('r-notes').value='';
   document.getElementById('resetModal').classList.add('open');
 }
@@ -902,7 +902,7 @@ function confirmReset(){
   var who=document.getElementById('r-user').value.trim();
   var ts=document.getElementById('r-dt').value||new Date().toISOString();
   var notes=document.getElementById('r-notes').value.trim();
-  if(who)localStorage.setItem('oems_user',who);
+  
   // Sort newest hire first, most senior last
   state.employees.sort(function(a,b){
     if(!a.hireDate&&!b.hireDate)return 0;
