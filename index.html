@@ -6,7 +6,7 @@
 <title>OEMS Mandation Rotation Tracker</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap');
-:root{--bg:#0f1117;--bg2:#181c25;--bg3:#1f2433;--border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);--text:#e8eaf0;--text2:#8b92a8;--text3:#555e73;--accent:#4f8ef7;--accent-bg:rgba(79,142,247,0.12);--accent-border:rgba(79,142,247,0.35);--red:#f75959;--red-bg:rgba(247,89,89,0.12);--red-border:rgba(247,89,89,0.3);--amber:#f7a94f;--amber-bg:rgba(247,169,79,0.12);--amber-border:rgba(247,169,79,0.3);--green:#4fc98a;--green-bg:rgba(79,201,138,0.10);--green-border:rgba(79,201,138,0.28);--radius:10px;--radius-sm:6px}
+:root{--bg:#0f1117;--bg2:#181c25;--bg3:#1f2433;--border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);--text:#e8eaf0;--text2:#8b92a8;--text3:#555e73;--accent:#4f8ef7;--accent-bg:rgba(79,142,247,0.12);--accent-border:rgba(79,142,247,0.35);--red:#f75959;--red-bg:rgba(247,89,89,0.12);--red-border:rgba(247,89,89,0.3);--amber:#f7a94f;--amber-bg:rgba(247,169,79,0.12);--amber-border:rgba(247,169,79,0.3);--green:#4fc98a;--green-bg:rgba(79,201,138,0.10);--green-border:rgba(79,201,138,0.28);--purple:#a78bfa;--purple-bg:rgba(167,139,250,0.12);--purple-border:rgba(167,139,250,0.35);--radius:10px;--radius-sm:6px}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.5}
 .shell{display:flex;min-height:100vh}
@@ -25,7 +25,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .lock-btn:hover{background:var(--bg3)}
 .lock-btn svg{width:16px;height:16px;flex-shrink:0}
 .sidebar-footer{padding:16px 20px;border-top:1px solid var(--border);font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;line-height:1.8}
-.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-right:5px;vertical-align:middle}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--text3);margin-right:5px;vertical-align:middle}
 .main{flex:1;overflow-y:auto}
 .topbar{padding:20px 32px 0;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .page-title{font-size:22px;font-weight:600}
@@ -44,6 +44,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .btn.primary{background:var(--accent-bg);color:var(--accent);border-color:var(--accent-border)}
 .btn.primary:hover{background:rgba(79,142,247,0.2)}
 .btn.danger{background:var(--red-bg);color:var(--red);border-color:var(--red-border)}
+.btn.warning{background:var(--amber-bg);color:var(--amber);border-color:var(--amber-border)}
+.btn.purple{background:var(--purple-bg);color:var(--purple);border-color:var(--purple-border)}
 .btn.sm{padding:5px 10px;font-size:12px}
 .btn svg{width:14px;height:14px}
 .sec-title{font-size:12px;font-weight:500;color:var(--text2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px}
@@ -53,8 +55,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .sort-btn.active{background:var(--accent-bg);color:var(--accent);border-color:var(--accent-border)}
 .sort-btn:hover{color:var(--text)}
 .card-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:20px}
-.queue-header{display:grid;grid-template-columns:44px 1fr 80px 130px 160px;padding:10px 16px;border-bottom:1px solid var(--border);font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em}
-.qrow{display:grid;grid-template-columns:44px 1fr 80px 130px 160px;border-bottom:1px solid var(--border);align-items:center;transition:background .12s}
+.queue-header{display:grid;grid-template-columns:44px 1fr 80px 130px 200px;padding:10px 16px;border-bottom:1px solid var(--border);font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em}
+.qrow{display:grid;grid-template-columns:44px 1fr 80px 130px 200px;border-bottom:1px solid var(--border);align-items:center;transition:background .12s}
 .qrow:last-child{border-bottom:none}
 .qrow:hover{background:var(--bg3)}
 .qrow.r1{border-left:3px solid var(--red)}.qrow.r2{border-left:3px solid var(--amber)}.qrow.r3{border-left:3px solid var(--green)}
@@ -64,29 +66,28 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .q-name{font-size:14px;font-weight:500}
 .q-sub{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;margin-top:2px}
 .badge{display:inline-block;font-size:10px;font-weight:600;letter-spacing:0.05em;padding:2px 7px;border-radius:20px;margin-left:8px;vertical-align:middle;text-transform:uppercase;background:var(--red-bg);color:var(--red);border:1px solid var(--red-border)}
-.q-action{padding:12px 16px 12px 8px}
-.add-form{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:20px}
-.form-grid{display:grid;grid-template-columns:1fr 130px 160px auto;gap:10px;align-items:end}
-.fg-mini label{display:block;font-size:12px;color:var(--text2);margin-bottom:5px}
-.fg-mini input{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;padding:8px 11px;outline:none;transition:border-color .15s}
-.fg-mini input:focus{border-color:var(--accent)}
+.q-action{padding:12px 16px 12px 8px;display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
 .emp-row{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--border)}
 .emp-row:last-child{border-bottom:none}
 .emp-num{font-family:'DM Mono',monospace;font-size:12px;color:var(--text3);width:24px;flex-shrink:0}
 .emp-info{flex:1;min-width:0}
 .emp-name{font-size:13px;font-weight:500}
 .emp-meta{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;margin-top:2px}
-.emp-actions{display:flex;gap:6px;flex-shrink:0}
+.emp-actions{display:flex;gap:6px;flex-shrink:0;flex-wrap:wrap}
 .locked-note{font-size:11px;color:var(--text3);padding:4px 8px;border:1px solid var(--border);border-radius:var(--radius-sm)}
 .log-entry{display:grid;grid-template-columns:1fr auto;gap:12px;padding:14px 20px;border-bottom:1px solid var(--border);align-items:start}
 .log-entry:last-child{border-bottom:none}
 .log-entry.reset-entry{background:var(--amber-bg);border-left:3px solid var(--amber)}
+.log-entry.skip-entry{background:var(--purple-bg);border-left:3px solid var(--purple)}
+.log-entry.undo-entry{background:var(--red-bg);border-left:3px solid var(--red)}
 .log-name{font-size:14px;font-weight:500}
 .log-meta{font-size:12px;color:var(--text2);margin-top:3px;line-height:1.7}
 .log-by{font-size:11px;color:var(--text3);margin-top:2px;font-family:'DM Mono',monospace}
 .log-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
 .log-ts{font-size:12px;color:var(--text3);font-family:'DM Mono',monospace;white-space:nowrap}
 .reset-badge{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border);text-transform:uppercase;letter-spacing:.05em;margin-left:8px;vertical-align:middle}
+.skip-badge{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;background:var(--purple-bg);color:var(--purple);border:1px solid var(--purple-border);text-transform:uppercase;letter-spacing:.05em;margin-left:8px;vertical-align:middle}
+.undo-badge{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;background:var(--red-bg);color:var(--red);border:1px solid var(--red-border);text-transform:uppercase;letter-spacing:.05em;margin-left:8px;vertical-align:middle}
 .settings-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px}
 .settings-card h3{font-size:14px;font-weight:500;margin-bottom:12px}
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:100;align-items:center;justify-content:center}
@@ -106,6 +107,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:8px}
 .err-msg{font-size:12px;color:var(--red);margin-top:6px;min-height:18px}
 .empty-state{text-align:center;padding:36px 20px;color:var(--text3);font-size:14px}
+.add-form{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:20px}
+.form-grid{display:grid;grid-template-columns:1fr 130px 160px auto;gap:10px;align-items:end}
+.fg-mini label{display:block;font-size:12px;color:var(--text2);margin-bottom:5px}
+.fg-mini input{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;padding:8px 11px;outline:none;transition:border-color .15s}
+.fg-mini input:focus{border-color:var(--accent)}
 input[type="datetime-local"]::-webkit-calendar-picker-indicator,
 input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(1) opacity(.4)}
 select option{background:var(--bg3);color:var(--text)}
@@ -121,7 +127,6 @@ select option{background:var(--bg3);color:var(--text)}
 </head>
 <body>
 <div class="shell">
-
 <aside class="sidebar">
   <div class="logo">
     <div class="logo-title">OEMS</div>
@@ -152,8 +157,8 @@ select option{background:var(--bg3);color:var(--text)}
   </nav>
   <div class="sidebar-footer">
     <div><span class="dot" id="sync-dot"></span><span id="sync-lbl">Connecting...</span></div>
-    <div style="color:var(--text3);margin-top:2px">Last saved: <span id="last-saved">—</span></div>
-    <div style="color:var(--text3);margin-top:2px;font-size:10px">Auto-refreshes every 30s</div>
+    <div style="color:var(--text3);margin-top:2px">Saved: <span id="last-saved">—</span></div>
+    <div style="color:var(--text3);font-size:10px;margin-top:2px">Auto-refresh every 30s</div>
   </div>
 </aside>
 
@@ -177,7 +182,7 @@ select option{background:var(--bg3);color:var(--text)}
         <div class="stat-card"><div class="stat-label">Next up</div><div class="stat-val sm" id="st-next">—</div></div>
       </div>
       <div class="sort-bar">
-        <span class="sort-label">Sort:</span>
+        <span class="sort-label">View:</span>
         <button class="sort-btn active" id="sort-rotation" onclick="setQueueSort('rotation')">Rotation order</button>
         <button class="sort-btn" id="sort-hire-new" onclick="setQueueSort('hire-new')">Hire date (newest)</button>
         <button class="sort-btn" id="sort-hire-old" onclick="setQueueSort('hire-old')">Hire date (oldest)</button>
@@ -196,7 +201,7 @@ select option{background:var(--bg3);color:var(--text)}
       <div><div class="page-title">Employees</div><div class="page-sub">Manage staff roster</div></div>
       <div class="topbar-actions">
         <button class="btn" onclick="exportEmployeeCSV()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Export employee list
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Export list
         </button>
       </div>
     </div>
@@ -222,7 +227,7 @@ select option{background:var(--bg3);color:var(--text)}
   <!-- LOG -->
   <div id="view-log" style="display:none">
     <div class="topbar">
-      <div><div class="page-title">History log</div><div class="page-sub">All mandations and resets — history kept even if employee is removed</div></div>
+      <div><div class="page-title">History log</div><div class="page-sub">All mandations, skips, undos and resets</div></div>
       <div class="topbar-actions">
         <div class="sort-bar" style="margin:0">
           <span class="sort-label">Sort:</span>
@@ -242,7 +247,7 @@ select option{background:var(--bg3);color:var(--text)}
   <!-- SETTINGS -->
   <div id="view-settings" style="display:none">
     <div class="topbar"><div><div class="page-title">Settings</div><div class="page-sub">Password and app options</div></div></div>
-    <div class="content" style="max-width:500px">
+    <div class="content" style="max-width:520px">
       <div class="settings-card">
         <h3>🔒 Change password</h3>
         <div class="fg"><label>Current password</label><input type="password" id="pw-cur" placeholder="Current password" /></div>
@@ -253,14 +258,14 @@ select option{background:var(--bg3);color:var(--text)}
       </div>
       <div class="settings-card">
         <h3>🔄 Reset rotation order</h3>
-        <p style="font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.6">Returns the queue to alphabetical order. Use at the start of a new session or as needed mid-year. Mandation counts are preserved and the reset is recorded in the history log with your name and reason.</p>
-        <button class="btn danger" onclick="requireAuth(showResetModal,'Admin password required to reset the rotation order.')">
+        <p style="font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.6">Resets the queue to <strong>newest hire first, most senior last</strong> — the standard order for January resets or whenever needed. Mandation counts are preserved and this action is recorded in the history log.</p>
+        <button class="btn danger" onclick="requireAuth(showResetModal,'Admin password required to reset rotation order.')">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>Reset rotation order
         </button>
       </div>
       <div class="settings-card">
         <h3>🗑 Clear all data</h3>
-        <p style="font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.6">Permanently deletes all employees and mandation history. Cannot be undone.</p>
+        <p style="font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.6">Permanently deletes all employees and history. Cannot be undone.</p>
         <button class="btn danger" onclick="requireAuth(clearAll,'Admin password required to clear all data.')">Clear all data</button>
       </div>
     </div>
@@ -297,13 +302,53 @@ select option{background:var(--bg3);color:var(--text)}
     </div>
     <div class="fg" id="other-shift-wrap" style="display:none">
       <label>Other — describe shift hours</label>
-      <input id="m-shift-other" placeholder="e.g. 6am-2pm, 10pm-6am" />
+      <input id="m-shift-other" placeholder="e.g. 6am-2pm" />
     </div>
     <div class="fg"><label>Notes / reason</label><textarea id="m-notes" placeholder="Who called off, circumstances, etc."></textarea></div>
     <div class="modal-actions">
       <button class="btn" onclick="closeModal('mandateModal')">Cancel</button>
       <button class="btn primary" onclick="confirmMandate()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width:14px;height:14px"><polyline points="20 6 9 17 4 12"/></svg>Confirm mandate
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- SKIP MODAL -->
+<div class="modal-overlay" id="skipModal">
+  <div class="modal-box sm">
+    <h3>Skip employee</h3>
+    <div class="modal-sub" id="skip-modal-sub">Record why this employee is being skipped. This is logged with a timestamp for reference.</div>
+    <div class="fg"><label>Employee</label><input id="sk-emp" readonly style="opacity:.6" /></div>
+    <div class="fg-row">
+      <div class="fg"><label>Recorded by (Name or DSN)</label><input id="sk-user" placeholder="e.g. Sgt. Smith or 1760" /></div>
+      <div class="fg"><label>Date &amp; time</label><input type="datetime-local" id="sk-dt" /></div>
+    </div>
+    <div class="fg"><label>Reason for skip (required)</label><textarea id="sk-notes" placeholder="e.g. Out of town, already on duty, medical restriction..." style="min-height:80px"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('skipModal')">Cancel</button>
+      <button class="btn warning" onclick="confirmSkip()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>Record skip
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- UNDO MANDATE MODAL -->
+<div class="modal-overlay" id="undoModal">
+  <div class="modal-box sm">
+    <h3>Undo mandation</h3>
+    <div class="modal-sub">This will remove the mandation, restore the employee count, and return them to their previous position in the queue.</div>
+    <div class="fg"><label>Employee</label><input id="undo-emp" readonly style="opacity:.6" /></div>
+    <div class="fg-row">
+      <div class="fg"><label>Authorized by (Name or DSN)</label><input id="undo-user" placeholder="e.g. Chief Smith or 1760" /></div>
+      <div class="fg"><label>Date &amp; time</label><input type="datetime-local" id="undo-dt" /></div>
+    </div>
+    <div class="fg"><label>Reason</label><textarea id="undo-notes" placeholder="e.g. Employee came in sick, went home within 1 hour..." style="min-height:80px"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('undoModal')">Cancel</button>
+      <button class="btn danger" onclick="confirmUndo()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>Confirm undo
       </button>
     </div>
   </div>
@@ -327,13 +372,12 @@ select option{background:var(--bg3);color:var(--text)}
 <div class="modal-overlay" id="resetModal">
   <div class="modal-box">
     <h3>Reset rotation order</h3>
-    <div class="modal-sub">Returns the queue to alphabetical order. Mandation counts are preserved. This reset will be recorded in the history log.</div>
-    <div class="modal-section">Reset details</div>
+    <div class="modal-sub">Resets queue to newest hire first, most senior last. Counts preserved. Logged to history.</div>
     <div class="fg-row">
       <div class="fg"><label>Reset by (Name or DSN)</label><input id="r-user" placeholder="e.g. Chief Smith or 1760" /></div>
       <div class="fg"><label>Date &amp; time</label><input type="datetime-local" id="r-dt" /></div>
     </div>
-    <div class="fg"><label>Reason / notes (optional)</label><textarea id="r-notes" placeholder="e.g. Start of new session, annual reset, etc." style="min-height:60px"></textarea></div>
+    <div class="fg"><label>Reason / notes (optional)</label><textarea id="r-notes" placeholder="e.g. Annual January reset, new session..." style="min-height:60px"></textarea></div>
     <div class="modal-actions">
       <button class="btn" onclick="closeModal('resetModal')">Cancel</button>
       <button class="btn danger" onclick="confirmReset()">
@@ -361,7 +405,7 @@ select option{background:var(--bg3);color:var(--text)}
   </div>
 </div>
 
-<!-- DELETE LOG CONFIRM -->
+<!-- DELETE LOG MODAL -->
 <div class="modal-overlay" id="deleteLogModal">
   <div class="modal-box sm">
     <h3>Delete this entry?</h3>
@@ -374,52 +418,54 @@ select option{background:var(--bg3);color:var(--text)}
 </div>
 
 <script>
-const STORE='oems_v6';
+// ═══════════════════════════════════════
+//  CONFIG
+// ═══════════════════════════════════════
+const STORE='oems_v7';
 const DEFAULT_PW='oems2026';
 const BIN_ID='6a205992f5f4af5e29b37622';
 const BIN_KEY='$2a$10$ps5j2xtASo19BvOmibGeNeiNKpJXN2xEHQMOGZDewtJF.pEihr6zq';
 const BIN_URL='https://api.jsonbin.io/v3/b/'+BIN_ID;
+
+// Hardcoded roster — used only if bin is completely empty on first ever load
+// Employees with hire dates from your current live data (as shown in the app)
 const DEFAULT_ROSTER=[
-  ['Michelle Wrigley','1760',''],
-  ['Nick Fensom','1795',''],
-  ['Ryan Young','1786',''],
-  ['Jason Butler','1743',''],
-  ['Pat Lenz','1793',''],
-  ['Terry Sill','1765',''],
-  ['Marty Nungesser','1720',''],
-  ['Tom McCarver','1758',''],
-  ['Doug Sutphin','17115',''],
-  ['Ryan Hodge','17111',''],
-  ['Jay Garrett','1709',''],
-  ['Kayla Hoese','17116',''],
-  ['Patty Hefner','17114',''],
-  ['Nick Grotowski','',''],
-  ['Tony Mannino','17118',''],
-  ['Rick Palmer','1780',''],
-  ['Pat Battoe','1737',''],
-  ['Donovan Knapp','',''],
-  ['Alyssa Dainelson','',''],
-  ['Chase McDaniel','',''],
-  ['Kevin Brown','',''],
-  ['Grace Nikolaisen','',''],
-  ['Nancy Yererlehner','',''],
-  ['Jake Johnston','',''],
-  ['Ricky Palmer','',''],
-  ['Greg Muskopf','1788','']
+  {name:'Chris Wilkerson',dsn:'17147',hireDate:'2026-05-18'},
+  {name:'Jake Johnston',dsn:'17139',hireDate:'2025-08-30'},
+  {name:'Rick Palmer',dsn:'1780',hireDate:'2025-08-25'},
+  {name:'Luke McMinn',dsn:'17137',hireDate:'2025-06-16'},
+  {name:'Kevin Brown',dsn:'17133',hireDate:'2025-04-07'},
+  {name:'Chase McDaniel',dsn:'17135',hireDate:'2024-09-25'},
+  {name:'Donovan Knapp',dsn:'17125',hireDate:'2023-05-23'},
+  {name:'Alyssa Dainelson',dsn:'17122',hireDate:'2023-04-26'},
+  {name:'Nick Grotowski',dsn:'17123',hireDate:'2022-09-15'},
+  {name:'Kayla Hoese',dsn:'17116',hireDate:'2021-03-02'},
+  {name:'Doug Sutphin',dsn:'17115',hireDate:'2021-01-02'},
+  {name:'Ryan Hodge',dsn:'17111',hireDate:'2020-12-22'},
+  {name:'Terry Sill',dsn:'1765',hireDate:'2011-07-16'},
+  {name:'Jason Butler',dsn:'1743',hireDate:'2011-06-29'},
+  {name:'Marty Nungesser',dsn:'1720',hireDate:'2002-07-30'},
+  {name:'Jay Garrett',dsn:'1709',hireDate:'2000-06-12'}
 ];
 
+// ═══════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════
 let state={employees:[],log:[],password:DEFAULT_PW};
 let sessionUnlocked=false;
 let pendingAuthCallback=null;
 let pendingMandateId=null;
+let pendingSkipId=null;
+let pendingUndoLogId=null;
 let pendingDeleteLogId=null;
 let queueSort='rotation';
 let logSort='new';
 
-let isSyncing=false;
-
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2);}
 
+// ═══════════════════════════════════════
+//  JSONBIN SYNC
+// ═══════════════════════════════════════
 async function load(){
   setSyncStatus('loading');
   try{
@@ -428,10 +474,8 @@ async function load(){
     });
     if(resp.ok){
       var data=await resp.json();
-      // JSONBin wraps response in {record: {...}} - handle both formats
-      var record = data.record || data;
-      if(record && Array.isArray(record.employees) && record.employees.length > 0){
-        // Has real data - load it
+      var record=data.record||data;
+      if(record&&Array.isArray(record.employees)&&record.employees.length>0){
         state=record;
         if(!state.log)state.log=[];
         if(!state.password)state.password=DEFAULT_PW;
@@ -441,18 +485,21 @@ async function load(){
         renderAll();
         return;
       }
-      // Bin is empty or has no employees — seed with default roster
+      // Empty bin — seed with roster sorted newest hire first
+      var sorted=DEFAULT_ROSTER.slice().sort(function(a,b){return new Date(b.hireDate)-new Date(a.hireDate);});
       state={
-        employees:DEFAULT_ROSTER.map(function(r){return{id:uid(),name:r[0],dsn:r[1],hireDate:r[2],count:0,lastMandate:null};}),
+        employees:sorted.map(function(r){return{id:uid(),name:r.name,dsn:r.dsn,hireDate:r.hireDate,count:0,lastMandate:null,queuePos:0};}),
         log:[],password:DEFAULT_PW
       };
+      // Set queue positions
+      state.employees.forEach(function(e,i){e.queuePos=i;});
       await save();
       setSyncStatus('ok');
       renderAll();
       return;
     }
   }catch(e){console.warn('JSONBin load failed:',e);}
-  // Fallback to localStorage
+  // Fallback localStorage
   try{
     var raw=localStorage.getItem(STORE);
     if(raw){
@@ -462,10 +509,8 @@ async function load(){
       if(!state.password)state.password=DEFAULT_PW;
       state.log.forEach(function(l){if(!l.id)l.id=uid();});
     }else{
-      state={
-        employees:DEFAULT_ROSTER.map(function(r){return{id:uid(),name:r[0],dsn:r[1],hireDate:r[2],count:0,lastMandate:null};}),
-        log:[],password:DEFAULT_PW
-      };
+      var sorted2=DEFAULT_ROSTER.slice().sort(function(a,b){return new Date(b.hireDate)-new Date(a.hireDate);});
+      state={employees:sorted2.map(function(r){return{id:uid(),name:r.name,dsn:r.dsn,hireDate:r.hireDate,count:0,lastMandate:null};}),log:[],password:DEFAULT_PW};
       try{localStorage.setItem(STORE,JSON.stringify(state));}catch(e){}
     }
   }catch(e){state={employees:[],log:[],password:DEFAULT_PW};}
@@ -479,42 +524,29 @@ async function save(){
     setSyncStatus('saving');
     var resp=await fetch(BIN_URL,{
       method:'PUT',
-      headers:{
-        'Content-Type':'application/json',
-        'X-Master-Key':BIN_KEY
-      },
+      headers:{'Content-Type':'application/json','X-Master-Key':BIN_KEY},
       body:JSON.stringify(state)
     });
     if(resp.ok){
       setSyncStatus('ok');
       var el=document.getElementById('last-saved');
       if(el)el.textContent=new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
-    }else{
-      console.warn('Save failed:',resp.status,await resp.text());
-      setSyncStatus('offline');
-    }
-  }catch(e){
-    setSyncStatus('offline');
-    console.warn('JSONBin save failed:',e);
-  }
+    }else{setSyncStatus('offline');}
+  }catch(e){setSyncStatus('offline');console.warn('Save failed:',e);}
 }
 
 function setSyncStatus(s){
   var dot=document.getElementById('sync-dot');
   var lbl=document.getElementById('sync-lbl');
   if(!dot)return;
-  if(s==='loading'||s==='saving'){
-    dot.style.background='var(--amber)';
-    lbl.textContent=s==='loading'?'Loading...':'Saving...';
-  }else if(s==='ok'){
-    dot.style.background='var(--green)';
-    lbl.textContent='Synced';
-  }else{
-    dot.style.background='var(--red)';
-    lbl.textContent='Offline — local only';
-  }
+  if(s==='loading'||s==='saving'){dot.style.background='var(--amber)';lbl.textContent=s==='loading'?'Loading...':'Saving...';}
+  else if(s==='ok'){dot.style.background='var(--green)';lbl.textContent='Synced';}
+  else{dot.style.background='var(--red)';lbl.textContent='Offline — local only';}
 }
 
+// ═══════════════════════════════════════
+//  AUTH
+// ═══════════════════════════════════════
 function toggleLock(){
   if(sessionUnlocked){sessionUnlocked=false;updateLockUI();renderAll();}
   else requireAuth(function(){},'Enter the admin password to unlock.');
@@ -568,14 +600,19 @@ function changePassword(){
   if(cur!==state.password){err.textContent='Current password is incorrect.';return;}
   if(!nw){err.textContent='New password cannot be blank.';return;}
   if(nw!==con){err.textContent='New passwords do not match.';return;}
-  state.password=nw;save();
-  err.style.color='var(--green)';err.textContent='Password updated successfully.';
-  document.getElementById('pw-cur').value='';
-  document.getElementById('pw-new').value='';
-  document.getElementById('pw-con').value='';
-  setTimeout(function(){err.textContent='';err.style.color='';},3000);
+  state.password=nw;
+  save().then(function(){
+    err.style.color='var(--green)';err.textContent='Password updated successfully.';
+    document.getElementById('pw-cur').value='';
+    document.getElementById('pw-new').value='';
+    document.getElementById('pw-con').value='';
+    setTimeout(function(){err.textContent='';err.style.color='';},3000);
+  });
 }
 
+// ═══════════════════════════════════════
+//  NAVIGATION
+// ═══════════════════════════════════════
 function showView(v){
   ['queue','employees','log','settings'].forEach(function(n){
     var el=document.getElementById('view-'+n);
@@ -586,14 +623,19 @@ function showView(v){
   renderAll();
 }
 
+// ═══════════════════════════════════════
+//  RENDER
+// ═══════════════════════════════════════
 function renderAll(){renderStats();renderQueue();renderEmpList();renderLog();updateLockUI();}
 
 function renderStats(){
   var yr=new Date().getFullYear();
-  var yc=state.log.filter(function(l){try{return new Date(l.ts).getFullYear()===yr&&l.type!=='reset';}catch(e){return false;}}).length;
+  var yc=state.log.filter(function(l){try{return new Date(l.ts).getFullYear()===yr&&l.type==='mandation';}catch(e){return false;}}).length;
+  var totalMandations=state.log.filter(function(l){return l.type==='mandation';}).length;
   document.getElementById('st-emp').textContent=state.employees.length;
-  document.getElementById('st-total').textContent=state.log.filter(function(l){return l.type!=='reset';}).length;
+  document.getElementById('st-total').textContent=totalMandations;
   document.getElementById('st-year').textContent=yc;
+  // Next up is always index 0 of rotation order
   document.getElementById('st-next').textContent=state.employees.length?state.employees[0].name:'—';
 }
 
@@ -606,7 +648,7 @@ function setQueueSort(s){
   renderQueue();
 }
 
-function getSortedQueue(){
+function getViewSortedQueue(){
   var list=state.employees.slice();
   if(queueSort==='rotation')return list;
   if(queueSort==='hire-new')return list.sort(function(a,b){if(!a.hireDate&&!b.hireDate)return 0;if(!a.hireDate)return 1;if(!b.hireDate)return -1;return new Date(b.hireDate)-new Date(a.hireDate);});
@@ -617,18 +659,22 @@ function getSortedQueue(){
 
 function renderQueue(){
   var el=document.getElementById('queue-body');if(!el)return;
-  var list=getSortedQueue();
+  var list=getViewSortedQueue();
   if(!list.length){el.innerHTML='<div class="empty-state">No employees. Add some in the Employees tab.</div>';return;}
   el.innerHTML=list.map(function(e,i){
-    var cls=i===0?'r1':i===1?'r2':i===2?'r3':'';
+    var cls=i===0&&queueSort==='rotation'?'r1':i===1&&queueSort==='rotation'?'r2':i===2&&queueSort==='rotation'?'r3':'';
     var last=e.lastMandate?new Date(e.lastMandate).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'Never';
     var sub=[e.dsn?'DSN '+e.dsn:'',e.hireDate?'Hired: '+new Date(e.hireDate+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):''].filter(Boolean).join('  ·  ');
+    var nextBadge=i===0&&queueSort==='rotation'?'<span class="badge">Next</span>':'';
     return '<div class="qrow '+cls+'">'+
       '<div class="q-rank">'+(i+1)+'</div>'+
-      '<div class="q-cell"><div class="q-name">'+esc(e.name)+(i===0&&queueSort==='rotation'?'<span class="badge">Next</span>':'')+'</div>'+(sub?'<div class="q-sub">'+esc(sub)+'</div>':'')+'</div>'+
+      '<div class="q-cell"><div class="q-name">'+esc(e.name)+nextBadge+'</div>'+(sub?'<div class="q-sub">'+esc(sub)+'</div>':'')+'</div>'+
       '<div class="q-cell" style="font-family:\'DM Mono\',monospace;font-size:13px;color:var(--text2)">'+(e.count||0)+'&times;</div>'+
       '<div class="q-cell" style="font-size:12px;color:var(--text2)">'+last+'</div>'+
-      '<div class="q-action"><button class="btn danger sm" onclick="openMandate(\''+e.id+'\')">Mandate</button></div>'+
+      '<div class="q-action">'+
+        '<button class="btn danger sm" onclick="openMandate(\''+e.id+'\')">Mandate</button>'+
+        '<button class="btn warning sm" onclick="requireAuth(function(){openSkip(\''+e.id+'\')},\'Password required to skip an employee.\')">Skip</button>'+
+        (e.count>0?'<button class="btn purple sm" onclick="requireAuth(function(){openUndo(\''+e.id+'\')},\'Password required to undo a mandation.\')">Undo</button>':'')+'</div>'+
     '</div>';
   }).join('');
 }
@@ -665,92 +711,51 @@ function setLogSort(s){
 
 function renderLog(){
   var el=document.getElementById('log-body');if(!el)return;
-  if(!state.log.length){el.innerHTML='<div class="empty-state">No mandations recorded yet.</div>';return;}
+  if(!state.log.length){el.innerHTML='<div class="empty-state">No history yet.</div>';return;}
   var list=state.log.slice();
   list=logSort==='new'?list.sort(function(a,b){return new Date(b.ts)-new Date(a.ts);}):list.sort(function(a,b){return new Date(a.ts)-new Date(b.ts);});
   el.innerHTML=list.map(function(l){
     var d=new Date(l.ts);
-    var notifiedStr=isNaN(d)?l.ts:d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+' '+d.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+    var ts=isNaN(d)?l.ts:d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+' '+d.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
     var delBtn=sessionUnlocked?
       '<button class="btn danger sm" onclick="deleteLogEntry(\''+l.id+'\')">Delete</button>':
-      '<button class="btn sm" onclick="requireAuth(function(){deleteLogEntry(\''+l.id+'\')},\'Admin password required to delete log entries.\')">🔒 Delete</button>';
+      '<button class="btn sm" onclick="requireAuth(function(){deleteLogEntry(\''+l.id+'\')},\'Password required to delete log entries.\')">🔒 Delete</button>';
+
     if(l.type==='reset'){
       return '<div class="log-entry reset-entry">'+
         '<div><div class="log-name">Rotation Reset <span class="reset-badge">Reset</span></div>'+
-        '<div class="log-meta">'+(l.notes?esc(l.notes):'Rotation order reset to alphabetical.')+'</div>'+
-        '<div class="log-by">'+(l.recordedBy?'Reset by '+esc(l.recordedBy)+'  ·  ':'')+notifiedStr+'</div></div>'+
-        '<div class="log-right"><div class="log-ts">'+notifiedStr+'</div>'+delBtn+'</div>'+
-      '</div>';
+        '<div class="log-meta">'+(l.notes?esc(l.notes):'Reset to newest hire first.')+'</div>'+
+        '<div class="log-by">'+(l.recordedBy?'By '+esc(l.recordedBy)+'  ·  ':'')+ts+'</div></div>'+
+        '<div class="log-right"><div class="log-ts">'+ts+'</div>'+delBtn+'</div></div>';
     }
+    if(l.type==='skip'){
+      return '<div class="log-entry skip-entry">'+
+        '<div><div class="log-name">'+esc(l.name)+' <span class="skip-badge">Skipped</span></div>'+
+        '<div class="log-meta">'+esc(l.notes||'No reason recorded')+'</div>'+
+        '<div class="log-by">'+(l.recordedBy?'Recorded by '+esc(l.recordedBy)+'  ·  ':'')+ts+'</div></div>'+
+        '<div class="log-right"><div class="log-ts">'+ts+'</div>'+delBtn+'</div></div>';
+    }
+    if(l.type==='undo'){
+      return '<div class="log-entry undo-entry">'+
+        '<div><div class="log-name">'+esc(l.name)+' <span class="undo-badge">Undo</span></div>'+
+        '<div class="log-meta">Mandation undone. '+esc(l.notes||'')+'</div>'+
+        '<div class="log-by">'+(l.recordedBy?'Authorized by '+esc(l.recordedBy)+'  ·  ':'')+ts+'</div></div>'+
+        '<div class="log-right"><div class="log-ts">'+ts+'</div>'+delBtn+'</div></div>';
+    }
+    // Normal mandation
     var sdStr=l.shiftDate?new Date(l.shiftDate+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):null;
     var shiftLabel=l.shiftOther||l.shift||'';
     return '<div class="log-entry">'+
       '<div><div class="log-name">'+esc(l.name)+'</div>'+
       '<div class="log-meta">'+(shiftLabel?'Shift: <strong>'+esc(shiftLabel)+'</strong>&nbsp;&nbsp;·&nbsp;&nbsp;':'')+(sdStr?'Shift date: <strong>'+sdStr+'</strong>&nbsp;&nbsp;·&nbsp;&nbsp;':'')+(l.notes?esc(l.notes):'<span style="opacity:.4">No notes</span>')+'</div>'+
-      '<div class="log-by">'+(l.recordedBy?'Recorded by '+esc(l.recordedBy)+'  ·  ':'')+'Notified: '+notifiedStr+'</div></div>'+
-      '<div class="log-right"><div class="log-ts">'+(sdStr||notifiedStr)+'</div>'+delBtn+'</div>'+
-    '</div>';
+      '<div class="log-by">'+(l.recordedBy?'Recorded by '+esc(l.recordedBy)+'  ·  ':'')+'Notified: '+ts+'</div></div>'+
+      '<div class="log-right"><div class="log-ts">'+(sdStr||ts)+'</div>'+delBtn+'</div></div>';
   }).join('');
 }
 
-function addEmployee(){
-  if(!sessionUnlocked){requireAuth(addEmployee,'Admin password required to add employees.');return;}
-  var name=document.getElementById('new-name').value.trim();
-  if(!name){document.getElementById('new-name').focus();return;}
-  var dsn=document.getElementById('new-dsn').value.trim();
-  var hire=document.getElementById('new-hire').value;
-  document.getElementById('new-name').value='';
-  document.getElementById('new-dsn').value='';
-  document.getElementById('new-hire').value='';
-  state.employees.push({id:uid(),name:name,dsn:dsn,hireDate:hire,count:0,lastMandate:null});
-  save().then(function(){renderEmpList();renderStats();});
-}
-
-function editEmp(id){
-  if(!sessionUnlocked){requireAuth(function(){editEmp(id);},'Admin password required to edit employees.');return;}
-  var e=state.employees.filter(function(x){return x.id===id;})[0];
-  if(!e)return;
-  document.getElementById('edit-emp-id').value=id;
-  document.getElementById('edit-name').value=e.name;
-  document.getElementById('edit-dsn').value=e.dsn||'';
-  document.getElementById('edit-hire').value=e.hireDate||'';
-  document.getElementById('editEmpModal').classList.add('open');
-  setTimeout(function(){document.getElementById('edit-name').focus();},100);
-}
-
-function saveEditEmp(){
-  var id=document.getElementById('edit-emp-id').value;
-  var name=document.getElementById('edit-name').value.trim();
-  if(!name){document.getElementById('edit-name').focus();return;}
-  var e=state.employees.filter(function(x){return x.id===id;})[0];
-  if(!e)return;
-  e.name=name;
-  e.dsn=document.getElementById('edit-dsn').value.trim();
-  e.hireDate=document.getElementById('edit-hire').value;
-  save().then(function(){closeModal('editEmpModal');renderAll();});
-}
-
-function removeEmp(id){
-  if(!sessionUnlocked){requireAuth(function(){removeEmp(id);},'Admin password required to remove employees.');return;}
-  if(!confirm('Remove this employee?\n\nTheir mandation history will be kept in the log.'))return;
-  state.employees=state.employees.filter(function(e){return e.id!==id;});
-  save().then(function(){renderEmpList();renderStats();});
-}
-
-function moveUp(id){
-  if(!sessionUnlocked){requireAuth(function(){moveUp(id);});return;}
-  var i=state.employees.map(function(e){return e.id;}).indexOf(id);
-  if(i>0){var t=state.employees[i-1];state.employees[i-1]=state.employees[i];state.employees[i]=t;}
-  save().then(function(){renderEmpList();});
-}
-
-function moveDown(id){
-  if(!sessionUnlocked){requireAuth(function(){moveDown(id);});return;}
-  var i=state.employees.map(function(e){return e.id;}).indexOf(id);
-  if(i<state.employees.length-1){var t=state.employees[i+1];state.employees[i+1]=state.employees[i];state.employees[i]=t;}
-  save().then(function(){renderEmpList();});
-}
-
+// ═══════════════════════════════════════
+//  MANDATE
+// ═══════════════════════════════════════
 function toggleOtherShift(){
   document.getElementById('other-shift-wrap').style.display=document.getElementById('m-shift').value==='Other'?'':'none';
 }
@@ -786,12 +791,105 @@ function confirmMandate(){
   if(who)localStorage.setItem('oems_user',who);
   e.count=(e.count||0)+1;
   e.lastMandate=ts;
-  state.log.push({id:uid(),empId:e.id,name:e.name,ts:ts,shift:shift,shiftOther:shiftOther,shiftDate:shiftDate,notes:notes,recordedBy:who});
+  // Store the position they were at BEFORE mandating (for undo)
+  e.preUndoPos=idx;
+  state.log.push({id:uid(),type:'mandation',empId:e.id,name:e.name,ts:ts,shift:shift,shiftOther:shiftOther,shiftDate:shiftDate,notes:notes,recordedBy:who});
+  // Move to bottom of rotation
   state.employees.splice(idx,1);
   state.employees.push(e);
   save().then(function(){closeModal('mandateModal');renderAll();});
 }
 
+// ═══════════════════════════════════════
+//  SKIP
+// ═══════════════════════════════════════
+function openSkip(id){
+  pendingSkipId=id;
+  var e=state.employees.filter(function(x){return x.id===id;})[0];
+  document.getElementById('sk-emp').value=e.name;
+  document.getElementById('sk-user').value=localStorage.getItem('oems_user')||'';
+  var now=new Date();now.setMinutes(now.getMinutes()-now.getTimezoneOffset());
+  document.getElementById('sk-dt').value=now.toISOString().slice(0,16);
+  document.getElementById('sk-notes').value='';
+  document.getElementById('skipModal').classList.add('open');
+  setTimeout(function(){document.getElementById('sk-notes').focus();},100);
+}
+
+function confirmSkip(){
+  if(!pendingSkipId)return;
+  var notes=document.getElementById('sk-notes').value.trim();
+  if(!notes){document.getElementById('sk-notes').focus();return;}
+  var e=state.employees.filter(function(x){return x.id===pendingSkipId;})[0];
+  if(!e)return;
+  var ts=document.getElementById('sk-dt').value||new Date().toISOString();
+  var who=document.getElementById('sk-user').value.trim();
+  if(who)localStorage.setItem('oems_user',who);
+  // Employee stays in their current position — skip does NOT move them
+  state.log.push({id:uid(),type:'skip',empId:e.id,name:e.name,ts:ts,notes:notes,recordedBy:who});
+  save().then(function(){closeModal('skipModal');pendingSkipId=null;renderAll();});
+}
+
+// ═══════════════════════════════════════
+//  UNDO MANDATE
+// ═══════════════════════════════════════
+function openUndo(id){
+  var e=state.employees.filter(function(x){return x.id===id;})[0];
+  if(!e||!e.count)return;
+  // Find most recent mandation log entry for this employee
+  var logEntries=state.log.filter(function(l){return l.type==='mandation'&&l.empId===id;});
+  if(!logEntries.length){alert('No mandation found to undo for this employee.');return;}
+  pendingUndoLogId=logEntries.sort(function(a,b){return new Date(b.ts)-new Date(a.ts);})[0].id;
+  document.getElementById('undo-emp').value=e.name;
+  document.getElementById('undo-user').value=localStorage.getItem('oems_user')||'';
+  var now=new Date();now.setMinutes(now.getMinutes()-now.getTimezoneOffset());
+  document.getElementById('undo-dt').value=now.toISOString().slice(0,16);
+  document.getElementById('undo-notes').value='';
+  document.getElementById('undoModal').classList.add('open');
+  setTimeout(function(){document.getElementById('undo-notes').focus();},100);
+}
+
+function confirmUndo(){
+  if(!pendingUndoLogId)return;
+  var notes=document.getElementById('undo-notes').value.trim();
+  var who=document.getElementById('undo-user').value.trim();
+  var ts=document.getElementById('undo-dt').value||new Date().toISOString();
+  if(who)localStorage.setItem('oems_user',who);
+  // Find the log entry
+  var logIdx=-1;
+  state.log.forEach(function(l,i){if(l.id===pendingUndoLogId)logIdx=i;});
+  if(logIdx<0)return;
+  var entry=state.log[logIdx];
+  // Find the employee (they're currently at the bottom since they were mandated)
+  var empIdx=-1;
+  state.employees.forEach(function(e,i){if(e.id===entry.empId)empIdx=i;});
+  if(empIdx<0)return;
+  var e=state.employees[empIdx];
+  // Restore count
+  if(e.count>0)e.count--;
+  // Restore lastMandate to previous value if available
+  var prevEntries=state.log.filter(function(l){return l.type==='mandation'&&l.empId===e.id&&l.id!==entry.id;});
+  if(prevEntries.length>0){
+    var prev=prevEntries.sort(function(a,b){return new Date(b.ts)-new Date(a.ts);})[0];
+    e.lastMandate=prev.ts;
+  }else{
+    e.lastMandate=null;
+  }
+  // Return employee to their pre-mandate position (or best guess)
+  var returnPos=typeof e.preUndoPos==='number'?e.preUndoPos:0;
+  // Clamp to valid range
+  if(returnPos>state.employees.length-1)returnPos=state.employees.length-1;
+  state.employees.splice(empIdx,1);
+  state.employees.splice(returnPos,0,e);
+  // Remove original mandation log entry
+  state.log.splice(logIdx,1);
+  // Add undo record to log
+  state.log.push({id:uid(),type:'undo',empId:e.id,name:e.name,ts:ts,notes:notes,recordedBy:who});
+  save().then(function(){closeModal('undoModal');pendingUndoLogId=null;renderAll();});
+}
+
+// ═══════════════════════════════════════
+//  RESET
+// ═══════════════════════════════════════
 function showResetModal(){
   var now=new Date();now.setMinutes(now.getMinutes()-now.getTimezoneOffset());
   document.getElementById('r-dt').value=now.toISOString().slice(0,16);
@@ -805,13 +903,84 @@ function confirmReset(){
   var ts=document.getElementById('r-dt').value||new Date().toISOString();
   var notes=document.getElementById('r-notes').value.trim();
   if(who)localStorage.setItem('oems_user',who);
-  state.employees.sort(function(a,b){return a.name.localeCompare(b.name);});
-  state.log.push({id:uid(),type:'reset',name:'Rotation Reset',empId:'',ts:ts,shift:'',shiftOther:'',shiftDate:'',notes:notes||'Rotation order reset to alphabetical.',recordedBy:who});
+  // Sort newest hire first, most senior last
+  state.employees.sort(function(a,b){
+    if(!a.hireDate&&!b.hireDate)return 0;
+    if(!a.hireDate)return 1;
+    if(!b.hireDate)return -1;
+    return new Date(b.hireDate)-new Date(a.hireDate);
+  });
+  state.log.push({id:uid(),type:'reset',name:'Rotation Reset',empId:'',ts:ts,notes:notes||'Rotation reset to newest hire first.',recordedBy:who});
   save().then(function(){closeModal('resetModal');renderAll();});
 }
 
+// ═══════════════════════════════════════
+//  EMPLOYEE ACTIONS
+// ═══════════════════════════════════════
+function addEmployee(){
+  if(!sessionUnlocked){requireAuth(addEmployee,'Admin password required to add employees.');return;}
+  var name=document.getElementById('new-name').value.trim();
+  if(!name){document.getElementById('new-name').focus();return;}
+  var dsn=document.getElementById('new-dsn').value.trim();
+  var hire=document.getElementById('new-hire').value;
+  document.getElementById('new-name').value='';
+  document.getElementById('new-dsn').value='';
+  document.getElementById('new-hire').value='';
+  // New employees go to the TOP (newest hire = first to be mandated)
+  state.employees.unshift({id:uid(),name:name,dsn:dsn,hireDate:hire,count:0,lastMandate:null});
+  save().then(function(){renderEmpList();renderStats();renderQueue();});
+}
+
+function editEmp(id){
+  if(!sessionUnlocked){requireAuth(function(){editEmp(id);},'Admin password required to edit employees.');return;}
+  var e=state.employees.filter(function(x){return x.id===id;})[0];
+  if(!e)return;
+  document.getElementById('edit-emp-id').value=id;
+  document.getElementById('edit-name').value=e.name;
+  document.getElementById('edit-dsn').value=e.dsn||'';
+  document.getElementById('edit-hire').value=e.hireDate||'';
+  document.getElementById('editEmpModal').classList.add('open');
+  setTimeout(function(){document.getElementById('edit-name').focus();},100);
+}
+
+function saveEditEmp(){
+  var id=document.getElementById('edit-emp-id').value;
+  var name=document.getElementById('edit-name').value.trim();
+  if(!name){document.getElementById('edit-name').focus();return;}
+  var e=state.employees.filter(function(x){return x.id===id;})[0];
+  if(!e)return;
+  e.name=name;
+  e.dsn=document.getElementById('edit-dsn').value.trim();
+  e.hireDate=document.getElementById('edit-hire').value;
+  save().then(function(){closeModal('editEmpModal');renderAll();});
+}
+
+function removeEmp(id){
+  if(!sessionUnlocked){requireAuth(function(){removeEmp(id);},'Admin password required to remove employees.');return;}
+  if(!confirm('Remove this employee?\n\nTheir history will be kept in the log.'))return;
+  state.employees=state.employees.filter(function(e){return e.id!==id;});
+  save().then(function(){renderEmpList();renderStats();renderQueue();});
+}
+
+function moveUp(id){
+  if(!sessionUnlocked){requireAuth(function(){moveUp(id);});return;}
+  var i=state.employees.map(function(e){return e.id;}).indexOf(id);
+  if(i>0){var t=state.employees[i-1];state.employees[i-1]=state.employees[i];state.employees[i]=t;}
+  save().then(function(){renderEmpList();renderQueue();});
+}
+
+function moveDown(id){
+  if(!sessionUnlocked){requireAuth(function(){moveDown(id);});return;}
+  var i=state.employees.map(function(e){return e.id;}).indexOf(id);
+  if(i<state.employees.length-1){var t=state.employees[i+1];state.employees[i+1]=state.employees[i];state.employees[i]=t;}
+  save().then(function(){renderEmpList();renderQueue();});
+}
+
+// ═══════════════════════════════════════
+//  LOG DELETE
+// ═══════════════════════════════════════
 function deleteLogEntry(logId){
-  if(!sessionUnlocked){requireAuth(function(){deleteLogEntry(logId);},'Admin password required to delete log entries.');return;}
+  if(!sessionUnlocked){requireAuth(function(){deleteLogEntry(logId);},'Password required to delete log entries.');return;}
   pendingDeleteLogId=logId;
   document.getElementById('deleteLogModal').classList.add('open');
 }
@@ -822,7 +991,7 @@ function confirmDeleteLog(){
   state.log.forEach(function(l,i){if(l.id===pendingDeleteLogId)idx=i;});
   if(idx>=0){
     var entry=state.log[idx];
-    if(entry.type!=='reset'){
+    if(entry.type==='mandation'){
       var emp=state.employees.filter(function(e){return e.id===entry.empId;})[0];
       if(emp&&emp.count>0)emp.count--;
     }
@@ -832,36 +1001,37 @@ function confirmDeleteLog(){
   save().then(function(){closeModal('deleteLogModal');renderAll();});
 }
 
+// ═══════════════════════════════════════
+//  CLEAR ALL
+// ═══════════════════════════════════════
 function clearAll(){
-  if(!confirm('This will permanently delete ALL employees and ALL mandation history.\n\nAre you absolutely sure?'))return;
+  if(!confirm('This will permanently delete ALL employees and ALL history.\n\nAre you absolutely sure?'))return;
   state.employees=[];state.log=[];
   save().then(function(){renderAll();});
 }
 
+// ═══════════════════════════════════════
+//  EXPORT
+// ═══════════════════════════════════════
 function exportCSV(){
   var rows=[['Type','Employee','DSN','Hire Date','Recorded By','Date/Time','Shift Type','Mandated Shift Date','Notes']];
   state.log.slice().sort(function(a,b){return new Date(b.ts)-new Date(a.ts);}).forEach(function(l){
     var e=state.employees.filter(function(x){return x.id===l.empId;})[0]||{};
-    if(l.type==='reset'){
-      rows.push(['RESET','Rotation Reset','','',l.recordedBy||'',l.ts,'','',l.notes||'']);
-    }else{
-      rows.push(['Mandation',l.name,e.dsn||'',e.hireDate||'',l.recordedBy||'',l.ts,l.shiftOther||l.shift||'',l.shiftDate||'',l.notes||'']);
-    }
+    rows.push([l.type||'mandation',l.name,e.dsn||'',e.hireDate||'',l.recordedBy||'',l.ts,l.shiftOther||l.shift||'',l.shiftDate||'',l.notes||'']);
   });
   var csv=rows.map(function(r){return r.map(function(v){return '"'+String(v).replace(/"/g,'""')+'"';}).join(',');}).join('\r\n');
   var a=document.createElement('a');
   a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
-  a.download='OEMS_Mandations_'+new Date().toISOString().slice(0,10)+'.csv';
+  a.download='OEMS_History_'+new Date().toISOString().slice(0,10)+'.csv';
   a.click();
 }
 
 function exportEmployeeCSV(){
   var rows=[['Queue Position','Name','DSN','Hire Date','Total Mandations','Last Mandated Date']];
-  // Always export in current rotation order
   state.employees.forEach(function(e,i){
-    var lastDate=e.lastMandate?new Date(e.lastMandate).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'Never';
-    var hireDate=e.hireDate?new Date(e.hireDate+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'';
-    rows.push([i+1, e.name, e.dsn||'', hireDate, e.count||0, lastDate]);
+    var last=e.lastMandate?new Date(e.lastMandate).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'Never';
+    var hire=e.hireDate?new Date(e.hireDate+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'';
+    rows.push([i+1,e.name,e.dsn||'',hire,e.count||0,last]);
   });
   var csv=rows.map(function(r){return r.map(function(v){return '"'+String(v).replace(/"/g,'""')+'"';}).join(',');}).join('\r\n');
   var a=document.createElement('a');
@@ -870,24 +1040,28 @@ function exportEmployeeCSV(){
   a.click();
 }
 
+// ═══════════════════════════════════════
+//  UTILS
+// ═══════════════════════════════════════
 function closeModal(id){
   var el=document.getElementById(id);if(el)el.classList.remove('open');
   if(id==='mandateModal')pendingMandateId=null;
   if(id==='unlockModal')pendingAuthCallback=null;
+  if(id==='skipModal')pendingSkipId=null;
+  if(id==='undoModal')pendingUndoLogId=null;
   if(id==='deleteLogModal')pendingDeleteLogId=null;
 }
-
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-
 document.querySelectorAll('.modal-overlay').forEach(function(el){
   el.addEventListener('click',function(ev){if(ev.target===el)el.classList.remove('open');});
 });
 
+// ═══════════════════════════════════════
+//  BOOT
+// ═══════════════════════════════════════
 load();
 setInterval(function(){
-  if(!document.getElementById('mandateModal').classList.contains('open')){
-    load();
-  }
+  if(!document.querySelector('.modal-overlay.open')){load();}
 },30000);
 showView('queue');
 </script>
