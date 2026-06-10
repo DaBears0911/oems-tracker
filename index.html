@@ -211,6 +211,9 @@ select option{background:var(--bg3);color:var(--text)}
         <button class="sort-btn" id="sort-hire-new" onclick="setQueueSort('hire-new')">Hire date (newest)</button>
         <button class="sort-btn" id="sort-hire-old" onclick="setQueueSort('hire-old')">Hire date (oldest)</button>
         <button class="sort-btn" id="sort-alpha" onclick="setQueueSort('alpha')">Alphabetical</button>
+        <button class="btn warning sm" id="apply-order-btn" style="display:none" onclick="requireAuth(applyCurrentSortAsRotation,'Admin password required to apply this as the rotation order.')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px"><polyline points="20 6 9 17 4 12"/></svg>Apply as rotation order
+        </button>
       </div>
       <div class="card-wrap">
         <div class="queue-header"><div>#</div><div>Employee</div><div>Total</div><div>Last mandated</div><div></div></div>
@@ -630,6 +633,8 @@ function setQueueSort(s){
   ['rotation','hire-new','hire-old','alpha'].forEach(function(k){
     var b=document.getElementById('sort-'+k);if(b)b.className='sort-btn'+(k===s?' active':'');
   });
+  var applyBtn=document.getElementById('apply-order-btn');
+  if(applyBtn)applyBtn.style.display=s==='rotation'?'none':'';
   renderQueue();
 }
 
@@ -901,7 +906,18 @@ function confirmUndo(){
 // ═══════════════════════════
 //  RESET
 // ═══════════════════════════
-function showResetModal(){
+function applyCurrentSortAsRotation(){
+  var sorted=getViewSortedQueue();
+  // Rebuild employees array in the sorted order
+  var idOrder=sorted.map(function(e){return e.id;});
+  state.employees.sort(function(a,b){return idOrder.indexOf(a.id)-idOrder.indexOf(b.id);});
+  saveData().then(function(){
+    setQueueSort('rotation');
+    renderAll();
+  });
+}
+
+
   var now=new Date();now.setMinutes(now.getMinutes()-now.getTimezoneOffset());
   document.getElementById('r-dt').value=now.toISOString().slice(0,16);
   document.getElementById('r-user').value='';
