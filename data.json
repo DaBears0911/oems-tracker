@@ -33,15 +33,6 @@
       "lastMandate": null
     },
     {
-      "id": "e04",
-      "name": "Luke McMinn",
-      "dsn": "17137",
-      "hireDate": "2025-06-16",
-      "count": 1,
-      "lastMandate": "2026-03-06T08:35",
-      "preUndoPos": 3
-    },
-    {
       "id": "e05",
       "name": "Kevin Brown",
       "dsn": "17133",
@@ -145,6 +136,15 @@
       "count": 1,
       "lastMandate": "2026-01-04T08:33",
       "preUndoPos": 2
+    },
+    {
+      "id": "e04",
+      "name": "Luke McMinn",
+      "dsn": "17137",
+      "hireDate": "2025-06-16",
+      "count": 1,
+      "lastMandate": "2026-03-06T08:35",
+      "preUndoPos": 3
     }
   ],
   "log": [
