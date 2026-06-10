@@ -9,14 +9,6 @@
       "lastMandate": null
     },
     {
-      "id": "e13",
-      "name": "Terry Sill",
-      "dsn": "1765",
-      "hireDate": "2011-07-16",
-      "count": 0,
-      "lastMandate": null
-    },
-    {
       "id": "e14",
       "name": "Jason Butler",
       "dsn": "1743",
@@ -155,6 +147,15 @@
       "hireDate": "2020-12-22",
       "count": 1,
       "lastMandate": "2026-02-13T20:00",
+      "preUndoPos": 1
+    },
+    {
+      "id": "e13",
+      "name": "Terry Sill",
+      "dsn": "1765",
+      "hireDate": "2011-07-16",
+      "count": 1,
+      "lastMandate": "2026-04-18T06:10",
       "preUndoPos": 1
     }
   ],
@@ -324,6 +325,19 @@
       "shift": "07-19 Day",
       "shiftOther": "",
       "shiftDate": "2026-02-14",
+      "notes": "",
+      "recordedBy": "1793",
+      "prePos": 1
+    },
+    {
+      "id": "mq852mdfeapfwuowzv6",
+      "type": "mandation",
+      "empId": "e13",
+      "name": "Terry Sill",
+      "ts": "2026-04-18T06:10",
+      "shift": "07-19 Day",
+      "shiftOther": "",
+      "shiftDate": "2026-04-18",
       "notes": "",
       "recordedBy": "1793",
       "prePos": 1
