@@ -25,12 +25,30 @@
       "lastMandate": null
     },
     {
+      "id": "e03",
+      "name": "Rick Palmer",
+      "dsn": "1780",
+      "hireDate": "2025-08-25",
+      "count": 1,
+      "lastMandate": "2026-01-04T08:33",
+      "preUndoPos": 2
+    },
+    {
       "id": "mq80o50qp4uu3fhsln",
       "name": "Grace Nikolaisen",
       "dsn": "17138",
       "hireDate": "2025-08-11",
       "count": 0,
       "lastMandate": null
+    },
+    {
+      "id": "e04",
+      "name": "Luke McMinn",
+      "dsn": "17137",
+      "hireDate": "2025-06-16",
+      "count": 1,
+      "lastMandate": "2026-03-06T08:35",
+      "preUndoPos": 3
     },
     {
       "id": "e05",
@@ -127,24 +145,6 @@
       "hireDate": "2000-06-12",
       "count": 0,
       "lastMandate": null
-    },
-    {
-      "id": "e03",
-      "name": "Rick Palmer",
-      "dsn": "1780",
-      "hireDate": "2025-08-25",
-      "count": 1,
-      "lastMandate": "2026-01-04T08:33",
-      "preUndoPos": 2
-    },
-    {
-      "id": "e04",
-      "name": "Luke McMinn",
-      "dsn": "17137",
-      "hireDate": "2025-06-16",
-      "count": 1,
-      "lastMandate": "2026-03-06T08:35",
-      "preUndoPos": 3
     }
   ],
   "log": [
