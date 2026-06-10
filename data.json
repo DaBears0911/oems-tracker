@@ -1,14 +1,6 @@
 {
   "employees": [
     {
-      "id": "e01",
-      "name": "Chris Wilkerson",
-      "dsn": "17147",
-      "hireDate": "2026-05-18",
-      "count": 0,
-      "lastMandate": null
-    },
-    {
       "id": "e02",
       "name": "Jake Johnston",
       "dsn": "17139",
@@ -21,6 +13,14 @@
       "name": "Rick Palmer",
       "dsn": "1780",
       "hireDate": "2025-08-25",
+      "count": 0,
+      "lastMandate": null
+    },
+    {
+      "id": "e01",
+      "name": "Chris Wilkerson",
+      "dsn": "17147",
+      "hireDate": "2026-05-18",
       "count": 0,
       "lastMandate": null
     },
