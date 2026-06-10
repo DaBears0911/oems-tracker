@@ -36,15 +36,6 @@
       "preUndoPos": 1
     },
     {
-      "id": "e13",
-      "name": "Terry Sill",
-      "dsn": "1765",
-      "hireDate": "2011-07-16",
-      "count": 1,
-      "lastMandate": "2026-04-18T06:10",
-      "preUndoPos": 1
-    },
-    {
       "id": "e14",
       "name": "Jason Butler",
       "dsn": "1743",
@@ -160,6 +151,15 @@
       "count": 2,
       "lastMandate": "2026-05-14T20:35",
       "preUndoPos": 3
+    },
+    {
+      "id": "e13",
+      "name": "Terry Sill",
+      "dsn": "1765",
+      "hireDate": "2011-07-16",
+      "count": 2,
+      "lastMandate": "2026-06-07T11:00",
+      "preUndoPos": 4
     }
   ],
   "log": [
@@ -513,6 +513,19 @@
       "notes": "",
       "recordedBy": "1793",
       "prePos": 3
+    },
+    {
+      "id": "mq86ry4gjeya09gc6zb",
+      "type": "mandation",
+      "empId": "e13",
+      "name": "Terry Sill",
+      "ts": "2026-06-07T11:00",
+      "shift": "",
+      "shiftOther": "1100-1600",
+      "shiftDate": "",
+      "notes": "",
+      "recordedBy": "1795",
+      "prePos": 4
     }
   ],
   "password": "oems2026"
