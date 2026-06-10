@@ -9,14 +9,6 @@
       "lastMandate": null
     },
     {
-      "id": "e05",
-      "name": "Kevin Brown",
-      "dsn": "17133",
-      "hireDate": "2025-04-07",
-      "count": 0,
-      "lastMandate": null
-    },
-    {
       "id": "e06",
       "name": "Chase McDaniel",
       "dsn": "17135",
@@ -148,6 +140,15 @@
       "count": 1,
       "lastMandate": "2026-01-08T18:35",
       "preUndoPos": 1
+    },
+    {
+      "id": "e05",
+      "name": "Kevin Brown",
+      "dsn": "17133",
+      "hireDate": "2025-04-07",
+      "count": 1,
+      "lastMandate": "2026-01-24T19:00",
+      "preUndoPos": 1
     }
   ],
   "log": [
@@ -214,6 +215,19 @@
       "shiftDate": "2026-01-09",
       "notes": "",
       "recordedBy": "1793",
+      "prePos": 1
+    },
+    {
+      "id": "mq84mpl01nfxzgb78uf",
+      "type": "mandation",
+      "empId": "e05",
+      "name": "Kevin Brown",
+      "ts": "2026-01-24T19:00",
+      "shift": "24 Hours",
+      "shiftOther": "",
+      "shiftDate": "2026-01-25",
+      "notes": "",
+      "recordedBy": "1786",
       "prePos": 1
     }
   ],
