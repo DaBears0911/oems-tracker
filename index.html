@@ -67,7 +67,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .q-sub{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;margin-top:2px}
 .badge{display:inline-block;font-size:10px;font-weight:600;letter-spacing:0.05em;padding:2px 7px;border-radius:20px;margin-left:8px;vertical-align:middle;text-transform:uppercase;background:var(--red-bg);color:var(--red);border:1px solid var(--red-border)}
 .q-action{padding:12px 16px 12px 8px;display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
-.emp-row{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--border)}
+.emp-row{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--border);transition:background .15s}
+.emp-row.drag-over{background:var(--accent-bg);border-top:2px solid var(--accent)}
+.emp-row.dragging{opacity:.4}
+.drag-handle{cursor:grab;color:var(--text3);padding:0 4px;flex-shrink:0;font-size:16px;line-height:1}
+.drag-handle:active{cursor:grabbing}
 .emp-row:last-child{border-bottom:none}
 .emp-num{font-family:'DM Mono',monospace;font-size:12px;color:var(--text3);width:24px;flex-shrink:0}
 .emp-info{flex:1;min-width:0}
@@ -669,16 +673,53 @@ function renderEmpList(){
   if(!state.employees.length){el.innerHTML='<div class="empty-state">No employees yet.</div>';return;}
   el.innerHTML=state.employees.map(function(e,i){
     var sub=[e.dsn?'DSN '+e.dsn:'',e.hireDate?'Hired: '+fmtDate(new Date(e.hireDate+'T12:00:00')):''].filter(Boolean).join('  ·  ');
+    var dragHandle=sessionUnlocked?'<div class="drag-handle" title="Drag to reorder">⠿</div>':'';
     var acts=sessionUnlocked?
       '<button class="btn sm" onclick="editEmp(\''+e.id+'\')">Edit</button>'+
       '<button class="btn sm" onclick="moveUp(\''+e.id+'\')"'+(i===0?' disabled':'')+'>&#8593;</button>'+
       '<button class="btn sm" onclick="moveDown(\''+e.id+'\')"'+(i===state.employees.length-1?' disabled':'')+'>&#8595;</button>'+
       '<button class="btn danger sm" onclick="removeEmp(\''+e.id+'\')">Remove</button>':
       '<span class="locked-note">🔒 Unlock to edit</span>';
-    return '<div class="emp-row"><div class="emp-num">'+(i+1)+'</div>'+
+    var draggable=sessionUnlocked?'draggable="true"':'';
+    return '<div class="emp-row" '+draggable+' data-id="'+e.id+'" data-idx="'+i+'">'+
+      dragHandle+
+      '<div class="emp-num">'+(i+1)+'</div>'+
       '<div class="emp-info"><div class="emp-name">'+esc(e.name)+'</div>'+(sub?'<div class="emp-meta">'+esc(sub)+'</div>':'')+'</div>'+
       '<div class="emp-actions">'+acts+'</div></div>';
   }).join('');
+
+  // Attach drag events only when unlocked
+  if(sessionUnlocked){
+    var rows=el.querySelectorAll('.emp-row');
+    var dragSrcIdx=null;
+    rows.forEach(function(row){
+      row.addEventListener('dragstart',function(ev){
+        dragSrcIdx=parseInt(row.getAttribute('data-idx'));
+        row.classList.add('dragging');
+        ev.dataTransfer.effectAllowed='move';
+      });
+      row.addEventListener('dragend',function(){
+        rows.forEach(function(r){r.classList.remove('drag-over','dragging');});
+      });
+      row.addEventListener('dragover',function(ev){
+        ev.preventDefault();
+        ev.dataTransfer.dropEffect='move';
+        rows.forEach(function(r){r.classList.remove('drag-over');});
+        row.classList.add('drag-over');
+      });
+      row.addEventListener('dragleave',function(){
+        row.classList.remove('drag-over');
+      });
+      row.addEventListener('drop',function(ev){
+        ev.preventDefault();
+        var dropIdx=parseInt(row.getAttribute('data-idx'));
+        if(dragSrcIdx===null||dragSrcIdx===dropIdx)return;
+        var moved=state.employees.splice(dragSrcIdx,1)[0];
+        state.employees.splice(dropIdx,0,moved);
+        saveData().then(function(){renderEmpList();renderQueue();});
+      });
+    });
+  }
 }
 
 function setLogSort(s){
@@ -892,7 +933,23 @@ function addEmployee(){
   var dsn=document.getElementById('new-dsn').value.trim();
   var hire=document.getElementById('new-hire').value;
   document.getElementById('new-name').value='';document.getElementById('new-dsn').value='';document.getElementById('new-hire').value='';
-  state.employees.unshift({id:uid(),name:name,dsn:dsn,hireDate:hire,count:0,lastMandate:null});
+  var newEmp={id:uid(),name:name,dsn:dsn,hireDate:hire,count:0,lastMandate:null};
+  if(hire){
+    // Slot into correct position by hire date (newest first)
+    var inserted=false;
+    for(var i=0;i<state.employees.length;i++){
+      var ed=state.employees[i].hireDate;
+      if(!ed||new Date(hire)>new Date(ed)){
+        state.employees.splice(i,0,newEmp);
+        inserted=true;
+        break;
+      }
+    }
+    if(!inserted)state.employees.push(newEmp);
+  }else{
+    // No hire date — goes to bottom
+    state.employees.push(newEmp);
+  }
   saveData().then(function(){renderEmpList();renderStats();renderQueue();});
 }
 function editEmp(id){
@@ -958,6 +1015,7 @@ function confirmDeleteLog(){
 // ═══════════════════════════
 function clearAll(){
   if(!confirm('Permanently delete ALL employees and ALL history?\n\nThis cannot be undone.'))return;
+  if(!confirm('⚠ SECOND CONFIRMATION REQUIRED ⚠\n\nYou are about to delete everything.\nThis CANNOT be undone.\n\nAre you absolutely sure?'))return;
   state.employees=[];state.log=[];
   saveData().then(function(){renderAll();});
 }
