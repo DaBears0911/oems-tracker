@@ -925,6 +925,7 @@ function applyCurrentSortAsRotation(){
 }
 
 
+function showResetModal(){
   var now=new Date();now.setMinutes(now.getMinutes()-now.getTimezoneOffset());
   document.getElementById('r-dt').value=now.toISOString().slice(0,16);
   document.getElementById('r-user').value='';
