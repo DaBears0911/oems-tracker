@@ -25,18 +25,18 @@
       "lastMandate": null
     },
     {
-      "id": "e04",
-      "name": "Luke McMinn",
-      "dsn": "17137",
-      "hireDate": "2025-06-16",
-      "count": 0,
-      "lastMandate": null
-    },
-    {
       "id": "mq80o50qp4uu3fhsln",
       "name": "Grace Nikolaisen",
       "dsn": "17138",
       "hireDate": "2025-08-11",
+      "count": 0,
+      "lastMandate": null
+    },
+    {
+      "id": "e04",
+      "name": "Luke McMinn",
+      "dsn": "17137",
+      "hireDate": "2025-06-16",
       "count": 0,
       "lastMandate": null
     },
