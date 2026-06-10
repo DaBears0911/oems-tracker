@@ -18,15 +18,6 @@
       "preUndoPos": 1
     },
     {
-      "id": "e06",
-      "name": "Chase McDaniel",
-      "dsn": "17135",
-      "hireDate": "2024-09-25",
-      "count": 1,
-      "lastMandate": "2026-01-24T19:00",
-      "preUndoPos": 1
-    },
-    {
       "id": "e07",
       "name": "Donovan Knapp",
       "dsn": "17125",
@@ -159,6 +150,15 @@
       "hireDate": "2025-04-07",
       "count": 2,
       "lastMandate": "2026-02-18T16:39",
+      "preUndoPos": 2
+    },
+    {
+      "id": "e06",
+      "name": "Chase McDaniel",
+      "dsn": "17135",
+      "hireDate": "2024-09-25",
+      "count": 2,
+      "lastMandate": "2026-02-24T17:00",
       "preUndoPos": 2
     }
   ],
@@ -447,6 +447,19 @@
       "shiftDate": "2026-02-19",
       "notes": "",
       "recordedBy": "1711",
+      "prePos": 2
+    },
+    {
+      "id": "mq85uozki0y1j7jill",
+      "type": "mandation",
+      "empId": "e06",
+      "name": "Chase McDaniel",
+      "ts": "2026-02-24T17:00",
+      "shift": "07-19 Day",
+      "shiftOther": "",
+      "shiftDate": "2026-02-28",
+      "notes": "",
+      "recordedBy": "1793",
       "prePos": 2
     }
   ],
