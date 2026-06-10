@@ -1,6 +1,14 @@
 {
   "employees": [
     {
+      "id": "mq80o50qp4uu3fhsln",
+      "name": "Grace Nikolaisen",
+      "dsn": "17138",
+      "hireDate": "2025-08-11",
+      "count": 0,
+      "lastMandate": null
+    },
+    {
       "id": "e01",
       "name": "Chris Wilkerson",
       "dsn": "17147",
