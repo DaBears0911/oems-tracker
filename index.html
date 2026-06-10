@@ -474,14 +474,17 @@ function fmtTS(d){return isNaN(d)?'':(fmtDate(d)+' '+fmtTime(d));}
 // ═══════════════════════════
 async function loadData(){
   setSyncStatus('loading');
+  var token=localStorage.getItem('oems_gh_token')||'';
+  if(!token){setSyncStatus('offline');renderAll();return;}
   try{
-    var resp=await fetch(GH_API,{headers:{'Authorization':'token '+GH_TOKEN,'User-Agent':'OEMS-Tracker'}});
+    var resp=await fetch(GH_API,{headers:{'Authorization':'token '+token,'User-Agent':'OEMS-Tracker'}});
     if(resp.ok){
       var json=await resp.json();
       fileSha=json.sha;
-      var decoded=atob(json.content.replace(/\n/g,''));
+      // Decode base64 safely handling unicode
+      var decoded=decodeURIComponent(escape(atob(json.content.replace(/\n/g,''))));
       var data=JSON.parse(decoded);
-      if(data&&Array.isArray(data.employees)){
+      if(data&&Array.isArray(data.employees)&&data.employees.length>0){
         state=data;
         if(!state.log)state.log=[];
         if(!state.password)state.password=DEFAULT_PW;
@@ -491,6 +494,8 @@ async function loadData(){
         renderAll();
         return;
       }
+    }else{
+      console.warn('GitHub fetch failed:',resp.status);
     }
   }catch(e){console.warn('GitHub load failed:',e);}
   // Fallback to localStorage
@@ -509,6 +514,8 @@ async function loadData(){
 
 async function saveData(){
   try{localStorage.setItem(STORE,JSON.stringify(state));}catch(e){}
+  var token=localStorage.getItem('oems_gh_token')||'';
+  if(!token){setSyncStatus('offline');return;}
   setSyncStatus('saving');
   try{
     var content=btoa(unescape(encodeURIComponent(JSON.stringify(state,null,2))));
@@ -516,7 +523,7 @@ async function saveData(){
     if(fileSha)body.sha=fileSha;
     var resp=await fetch(GH_API,{
       method:'PUT',
-      headers:{'Authorization':'token '+GH_TOKEN,'Content-Type':'application/json','User-Agent':'OEMS-Tracker'},
+      headers:{'Authorization':'token '+token,'Content-Type':'application/json','User-Agent':'OEMS-Tracker'},
       body:JSON.stringify(body)
     });
     if(resp.ok){
