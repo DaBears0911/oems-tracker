@@ -1,0 +1,134 @@
+{
+  "employees": [
+    {
+      "id": "e01",
+      "name": "Chris Wilkerson",
+      "dsn": "17147",
+      "hireDate": "2026-05-18",
+      "count": 0,
+      "lastMandate": null
+    },
+    {
+      "id": "e02",
+      "name": "Jake Johnston",
+      "dsn": "17139",
+      "hireDate": "2025-08-30",
+      "count": 0,
+      "lastMandate": null
+    },
+    {
+      "id": "e03",
+      "name": "Rick Palmer",
+      "dsn": "1780",
+      "hireDate": "2025-08-25",
+      "count": 0,
+      "lastMandate": null
+    },
+    {
+      "id": "e04",
+      "name": "Luke McMinn",
+      "dsn": "17137",
+      "hireDate": "2025-06-16",
+      "count": 0,
+      "lastMandate": null
+    },
+    {
+      "id": "e05",
+      "name": "Kevin Brown",
+      "dsn": "17133",
+      "hireDate": "2025-04-07",
+      "count": 0,
+      "lastMandate": null
+    },
+    {
+      "id": "e06",
+      "name": "Chase McDaniel",
+      "dsn": "17135",
+      "hireDate": "2024-09-25",
+      "count": 0,
+      "lastMandate": null
+    },
+    {
+      "id": "e07",
+      "name": "Donovan Knapp",
+      "dsn": "17125",
+      "hireDate": "2023-05-23",
+      "count": 0,
+      "lastMandate": null
+    },
+    {
+      "id": "e08",
+      "name": "Alyssa Dainelson",
+      "dsn": "17122",
+      "hireDate": "2023-04-26",
+      "count": 0,
+      "lastMandate": null
+    },
+    {
+      "id": "e09",
+      "name": "Nick Grotowski",
+      "dsn": "17123",
+      "hireDate": "2022-09-15",
+      "count": 0,
+      "lastMandate": null
+    },
+    {
+      "id": "e10",
+      "name": "Kayla Hoese",
+      "dsn": "17116",
+      "hireDate": "2021-03-02",
+      "count": 0,
+      "lastMandate": null
+    },
+    {
+      "id": "e11",
+      "name": "Doug Sutphin",
+      "dsn": "17115",
+      "hireDate": "2021-01-02",
+      "count": 0,
+      "lastMandate": null
+    },
+    {
+      "id": "e12",
+      "name": "Ryan Hodge",
+      "dsn": "17111",
+      "hireDate": "2020-12-22",
+      "count": 0,
+      "lastMandate": null
+    },
+    {
+      "id": "e13",
+      "name": "Terry Sill",
+      "dsn": "1765",
+      "hireDate": "2011-07-16",
+      "count": 0,
+      "lastMandate": null
+    },
+    {
+      "id": "e14",
+      "name": "Jason Butler",
+      "dsn": "1743",
+      "hireDate": "2011-06-29",
+      "count": 0,
+      "lastMandate": null
+    },
+    {
+      "id": "e15",
+      "name": "Marty Nungesser",
+      "dsn": "1720",
+      "hireDate": "2002-07-30",
+      "count": 0,
+      "lastMandate": null
+    },
+    {
+      "id": "e16",
+      "name": "Jay Garrett",
+      "dsn": "1709",
+      "hireDate": "2000-06-12",
+      "count": 0,
+      "lastMandate": null
+    }
+  ],
+  "log": [],
+  "password": "oems2026"
+}
