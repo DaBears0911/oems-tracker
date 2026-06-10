@@ -9,14 +9,6 @@
       "lastMandate": null
     },
     {
-      "id": "e15",
-      "name": "Marty Nungesser",
-      "dsn": "1720",
-      "hireDate": "2002-07-30",
-      "count": 0,
-      "lastMandate": null
-    },
-    {
       "id": "e16",
       "name": "Jay Garrett",
       "dsn": "1709",
@@ -157,6 +149,15 @@
       "hireDate": "2011-06-29",
       "count": 1,
       "lastMandate": "2026-06-03T07:10",
+      "preUndoPos": 1
+    },
+    {
+      "id": "e15",
+      "name": "Marty Nungesser",
+      "dsn": "1720",
+      "hireDate": "2002-07-30",
+      "count": 1,
+      "lastMandate": "2026-02-12T06:40",
       "preUndoPos": 1
     }
   ],
@@ -354,6 +355,19 @@
       "shiftDate": "2026-06-10",
       "notes": "",
       "recordedBy": "1793",
+      "prePos": 1
+    },
+    {
+      "id": "mq855ezem9quyozbft",
+      "type": "mandation",
+      "empId": "e15",
+      "name": "Marty Nungesser",
+      "ts": "2026-02-12T06:40",
+      "shift": "24 Hours",
+      "shiftOther": "",
+      "shiftDate": "2026-02-12",
+      "notes": "",
+      "recordedBy": "1786",
       "prePos": 1
     }
   ],
