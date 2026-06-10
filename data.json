@@ -17,14 +17,6 @@
       "lastMandate": null
     },
     {
-      "id": "e03",
-      "name": "Rick Palmer",
-      "dsn": "1780",
-      "hireDate": "2025-08-25",
-      "count": 0,
-      "lastMandate": null
-    },
-    {
       "id": "mq80o50qp4uu3fhsln",
       "name": "Grace Nikolaisen",
       "dsn": "17138",
@@ -135,8 +127,31 @@
       "hireDate": "2000-06-12",
       "count": 0,
       "lastMandate": null
+    },
+    {
+      "id": "e03",
+      "name": "Rick Palmer",
+      "dsn": "1780",
+      "hireDate": "2025-08-25",
+      "count": 1,
+      "lastMandate": "2026-01-04T08:33",
+      "preUndoPos": 2
     }
   ],
-  "log": [],
+  "log": [
+    {
+      "id": "mq841r3serjph90qudb",
+      "type": "mandation",
+      "empId": "e03",
+      "name": "Rick Palmer",
+      "ts": "2026-01-04T08:33",
+      "shift": "",
+      "shiftOther": "0800-2000",
+      "shiftDate": "2026-01-05",
+      "notes": "",
+      "recordedBy": "1795",
+      "prePos": 2
+    }
+  ],
   "password": "oems2026"
 }
