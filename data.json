@@ -9,14 +9,6 @@
       "lastMandate": null
     },
     {
-      "id": "e11",
-      "name": "Doug Sutphin",
-      "dsn": "17115",
-      "hireDate": "2021-01-02",
-      "count": 0,
-      "lastMandate": null
-    },
-    {
       "id": "e12",
       "name": "Ryan Hodge",
       "dsn": "17111",
@@ -153,6 +145,15 @@
       "hireDate": "2021-03-02",
       "count": 1,
       "lastMandate": "2026-04-24T06:30",
+      "preUndoPos": 1
+    },
+    {
+      "id": "e11",
+      "name": "Doug Sutphin",
+      "dsn": "17115",
+      "hireDate": "2021-01-02",
+      "count": 1,
+      "lastMandate": "2026-02-09T21:00",
       "preUndoPos": 1
     }
   ],
@@ -298,6 +299,19 @@
       "shiftDate": "2026-04-06",
       "notes": "",
       "recordedBy": "1786",
+      "prePos": 1
+    },
+    {
+      "id": "mq84z860mndsmpc50fh",
+      "type": "mandation",
+      "empId": "e11",
+      "name": "Doug Sutphin",
+      "ts": "2026-02-09T21:00",
+      "shift": "07-19 Day",
+      "shiftOther": "",
+      "shiftDate": "2026-02-10",
+      "notes": "",
+      "recordedBy": "",
       "prePos": 1
     }
   ],
