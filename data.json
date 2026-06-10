@@ -9,14 +9,6 @@
       "lastMandate": null
     },
     {
-      "id": "mq84befk1djwl2hqc3a",
-      "name": "Brad Isringhausen",
-      "dsn": "17140",
-      "hireDate": "2025-10-15",
-      "count": 0,
-      "lastMandate": null
-    },
-    {
       "id": "e02",
       "name": "Jake Johnston",
       "dsn": "17139",
@@ -145,6 +137,15 @@
       "count": 1,
       "lastMandate": "2026-03-06T08:35",
       "preUndoPos": 3
+    },
+    {
+      "id": "mq84befk1djwl2hqc3a",
+      "name": "Brad Isringhausen",
+      "dsn": "17140",
+      "hireDate": "2025-10-15",
+      "count": 1,
+      "lastMandate": "2026-01-07T08:44",
+      "preUndoPos": 1
     }
   ],
   "log": [
@@ -173,6 +174,19 @@
       "notes": "",
       "recordedBy": "1795",
       "prePos": 3
+    },
+    {
+      "id": "mq84fl2hd69hqvljak",
+      "type": "mandation",
+      "empId": "mq84befk1djwl2hqc3a",
+      "name": "Brad Isringhausen",
+      "ts": "2026-01-07T08:44",
+      "shift": "",
+      "shiftOther": "1900-2000",
+      "shiftDate": "2026-01-07",
+      "notes": "",
+      "recordedBy": "1786",
+      "prePos": 1
     }
   ],
   "password": "oems2026"
