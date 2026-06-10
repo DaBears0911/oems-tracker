@@ -9,14 +9,6 @@
       "lastMandate": null
     },
     {
-      "id": "e12",
-      "name": "Ryan Hodge",
-      "dsn": "17111",
-      "hireDate": "2020-12-22",
-      "count": 0,
-      "lastMandate": null
-    },
-    {
       "id": "e13",
       "name": "Terry Sill",
       "dsn": "1765",
@@ -154,6 +146,15 @@
       "hireDate": "2021-01-02",
       "count": 1,
       "lastMandate": "2026-02-09T21:00",
+      "preUndoPos": 1
+    },
+    {
+      "id": "e12",
+      "name": "Ryan Hodge",
+      "dsn": "17111",
+      "hireDate": "2020-12-22",
+      "count": 1,
+      "lastMandate": "2026-02-13T20:00",
       "preUndoPos": 1
     }
   ],
@@ -312,6 +313,19 @@
       "shiftDate": "2026-02-10",
       "notes": "",
       "recordedBy": "",
+      "prePos": 1
+    },
+    {
+      "id": "mq851a646dhwv8561hj",
+      "type": "mandation",
+      "empId": "e12",
+      "name": "Ryan Hodge",
+      "ts": "2026-02-13T20:00",
+      "shift": "07-19 Day",
+      "shiftOther": "",
+      "shiftDate": "2026-02-14",
+      "notes": "",
+      "recordedBy": "1793",
       "prePos": 1
     }
   ],
