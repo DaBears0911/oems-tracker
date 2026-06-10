@@ -9,14 +9,6 @@
       "lastMandate": null
     },
     {
-      "id": "mq80o50qp4uu3fhsln",
-      "name": "Grace Nikolaisen",
-      "dsn": "17138",
-      "hireDate": "2025-08-11",
-      "count": 0,
-      "lastMandate": null
-    },
-    {
       "id": "e05",
       "name": "Kevin Brown",
       "dsn": "17133",
@@ -147,6 +139,15 @@
       "count": 1,
       "lastMandate": "2026-01-08T18:35",
       "preUndoPos": 1
+    },
+    {
+      "id": "mq80o50qp4uu3fhsln",
+      "name": "Grace Nikolaisen",
+      "dsn": "17138",
+      "hireDate": "2025-08-11",
+      "count": 1,
+      "lastMandate": "2026-01-08T18:35",
+      "preUndoPos": 1
     }
   ],
   "log": [
@@ -197,6 +198,19 @@
       "ts": "2026-01-08T18:35",
       "shift": "",
       "shiftOther": "2000-0800",
+      "shiftDate": "2026-01-09",
+      "notes": "",
+      "recordedBy": "1793",
+      "prePos": 1
+    },
+    {
+      "id": "mq84jj04627sqecduud",
+      "type": "mandation",
+      "empId": "mq80o50qp4uu3fhsln",
+      "name": "Grace Nikolaisen",
+      "ts": "2026-01-08T18:35",
+      "shift": "",
+      "shiftOther": "0800-2000",
       "shiftDate": "2026-01-09",
       "notes": "",
       "recordedBy": "1793",
