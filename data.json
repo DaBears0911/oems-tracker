@@ -9,15 +9,6 @@
       "lastMandate": null
     },
     {
-      "id": "e04",
-      "name": "Luke McMinn",
-      "dsn": "17137",
-      "hireDate": "2025-06-16",
-      "count": 1,
-      "lastMandate": "2026-03-06T08:35",
-      "preUndoPos": 3
-    },
-    {
       "id": "mq84befk1djwl2hqc3a",
       "name": "Brad Isringhausen",
       "dsn": "17140",
@@ -159,6 +150,15 @@
       "hireDate": "2025-08-25",
       "count": 2,
       "lastMandate": "2026-02-18T09:06",
+      "preUndoPos": 1
+    },
+    {
+      "id": "e04",
+      "name": "Luke McMinn",
+      "dsn": "17137",
+      "hireDate": "2025-06-16",
+      "count": 2,
+      "lastMandate": "2026-06-25T08:00",
       "preUndoPos": 1
     }
   ],
@@ -395,6 +395,19 @@
       "shiftDate": "2026-02-19",
       "notes": "",
       "recordedBy": "1711",
+      "prePos": 1
+    },
+    {
+      "id": "mq859kj4sl4eapy4aaj",
+      "type": "mandation",
+      "empId": "e04",
+      "name": "Luke McMinn",
+      "ts": "2026-06-25T08:00",
+      "shift": "",
+      "shiftOther": "1600-0700",
+      "shiftDate": "2026-06-07",
+      "notes": "",
+      "recordedBy": "1795",
       "prePos": 1
     }
   ],
