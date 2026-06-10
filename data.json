@@ -9,14 +9,6 @@
       "lastMandate": null
     },
     {
-      "id": "e08",
-      "name": "Alyssa Dainelson",
-      "dsn": "17122",
-      "hireDate": "2023-04-26",
-      "count": 0,
-      "lastMandate": null
-    },
-    {
       "id": "e09",
       "name": "Nick Grotowski",
       "dsn": "17123",
@@ -151,6 +143,15 @@
       "count": 1,
       "lastMandate": "2026-01-31T19:53",
       "preUndoPos": 1
+    },
+    {
+      "id": "e08",
+      "name": "Alyssa Dainelson",
+      "dsn": "17122",
+      "hireDate": "2023-04-26",
+      "count": 1,
+      "lastMandate": "2026-01-31T19:53",
+      "preUndoPos": 1
     }
   ],
   "log": [
@@ -252,6 +253,19 @@
       "name": "Donovan Knapp",
       "ts": "2026-01-31T19:53",
       "shift": "19-07 Night",
+      "shiftOther": "",
+      "shiftDate": "2026-02-01",
+      "notes": "",
+      "recordedBy": "1795",
+      "prePos": 1
+    },
+    {
+      "id": "mq84re8z0fdb1383r3tv",
+      "type": "mandation",
+      "empId": "e08",
+      "name": "Alyssa Dainelson",
+      "ts": "2026-01-31T19:53",
+      "shift": "07-19 Day",
       "shiftOther": "",
       "shiftDate": "2026-02-01",
       "notes": "",
