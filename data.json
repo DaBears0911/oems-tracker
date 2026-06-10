@@ -9,14 +9,6 @@
       "lastMandate": null
     },
     {
-      "id": "e02",
-      "name": "Jake Johnston",
-      "dsn": "17139",
-      "hireDate": "2025-08-30",
-      "count": 0,
-      "lastMandate": null
-    },
-    {
       "id": "mq80o50qp4uu3fhsln",
       "name": "Grace Nikolaisen",
       "dsn": "17138",
@@ -146,6 +138,15 @@
       "count": 1,
       "lastMandate": "2026-01-07T08:44",
       "preUndoPos": 1
+    },
+    {
+      "id": "e02",
+      "name": "Jake Johnston",
+      "dsn": "17139",
+      "hireDate": "2025-08-30",
+      "count": 1,
+      "lastMandate": "2026-01-08T18:35",
+      "preUndoPos": 1
     }
   ],
   "log": [
@@ -186,6 +187,19 @@
       "shiftDate": "2026-01-07",
       "notes": "",
       "recordedBy": "1786",
+      "prePos": 1
+    },
+    {
+      "id": "mq84hkbfm3nik9tuox",
+      "type": "mandation",
+      "empId": "e02",
+      "name": "Jake Johnston",
+      "ts": "2026-01-08T18:35",
+      "shift": "",
+      "shiftOther": "2000-0800",
+      "shiftDate": "2026-01-09",
+      "notes": "",
+      "recordedBy": "1793",
       "prePos": 1
     }
   ],
