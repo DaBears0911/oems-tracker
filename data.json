@@ -547,6 +547,15 @@
       "notes": "",
       "recordedBy": "1793",
       "prePos": 1
+    },
+    {
+      "id": "mq9qhkqvtddwpouacf",
+      "type": "skip",
+      "empId": "e01",
+      "name": "Chris Wilkerson",
+      "ts": "2026-06-11T11:50",
+      "notes": "06/14/2026 Skipped because already working",
+      "recordedBy": "1701"
     }
   ],
   "password": "oems2026"
