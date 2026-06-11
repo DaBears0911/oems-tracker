@@ -442,6 +442,20 @@ select option{background:var(--bg3);color:var(--text)}
   </div>
 </div>
 
+<!-- DESTROY PASSWORD MODAL -->
+<div class="modal-overlay" id="destroyModal">
+  <div class="modal-box sm">
+    <h3>☠ Master destroy password</h3>
+    <div class="modal-sub" style="color:var(--red)">This is the final step. Enter the master destroy password to permanently wipe all data. This cannot be undone.</div>
+    <div class="fg"><label>Master destroy password</label><input type="password" id="destroy-pw-input" placeholder="Enter destroy password" onkeydown="if(event.key==='Enter')confirmDestroy()" /></div>
+    <div class="err-msg" id="destroy-pw-err"></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('destroyModal')">Cancel — keep my data</button>
+      <button class="btn danger" onclick="confirmDestroy()">Destroy all data</button>
+    </div>
+  </div>
+</div>
+
 <script>
 // ═══════════════════════════
 //  CONFIG
@@ -1056,12 +1070,21 @@ function confirmDeleteLog(){
 function clearAll(){
   if(!confirm('Permanently delete ALL employees and ALL history?\n\nThis cannot be undone.'))return;
   if(!confirm('⚠ SECOND CONFIRMATION REQUIRED ⚠\n\nYou are about to delete everything.\nThis CANNOT be undone.\n\nAre you absolutely sure?'))return;
-  var destroyPw=prompt('This action requires the master destroy password.\nEnter it now or click Cancel to abort:');
-  if(destroyPw===null)return;
-  if(destroyPw!==DESTROY_PW){
-    alert('Incorrect destroy password. Action cancelled.');
+  // Show destroy password modal
+  document.getElementById('destroy-pw-input').value='';
+  document.getElementById('destroy-pw-err').textContent='';
+  document.getElementById('destroyModal').classList.add('open');
+  setTimeout(function(){document.getElementById('destroy-pw-input').focus();},120);
+}
+function confirmDestroy(){
+  var pw=document.getElementById('destroy-pw-input').value;
+  if(pw!==DESTROY_PW){
+    document.getElementById('destroy-pw-err').textContent='Incorrect password. Action cancelled.';
+    document.getElementById('destroy-pw-input').value='';
+    document.getElementById('destroy-pw-input').focus();
     return;
   }
+  closeModal('destroyModal');
   state.employees=[];state.log=[];
   saveData().then(function(){renderAll();});
 }
