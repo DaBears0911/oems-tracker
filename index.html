@@ -216,7 +216,7 @@ select option{background:var(--bg3);color:var(--text)}
         </button>
       </div>
       <div class="card-wrap">
-        <div class="queue-header"><div>#</div><div>Employee</div><div>Total</div><div>Last mandated</div><div></div></div>
+        <div class="queue-header"><div>#</div><div>Employee</div><div>Session</div><div>Last mandated</div><div></div></div>
         <div id="queue-body"></div>
       </div>
     </div>
@@ -667,7 +667,7 @@ function renderQueue(){
     return '<div class="qrow '+cls+'">'+
       '<div class="q-rank">'+(i+1)+'</div>'+
       '<div class="q-cell"><div class="q-name">'+esc(e.name)+nextBadge+'</div>'+(sub?'<div class="q-sub">'+esc(sub)+'</div>':'')+'</div>'+
-      '<div class="q-cell" style="font-family:\'DM Mono\',monospace;font-size:13px;color:var(--text2)">'+(e.count||0)+'&times;</div>'+
+      '<div class="q-cell" style="font-family:\'DM Mono\',monospace;font-size:13px;color:var(--text2)" title="Lifetime: '+(e.count||0)+'">'+(e.sessionCount||0)+'&times;</div>'+
       '<div class="q-cell" style="font-size:12px;color:var(--text2)">'+last+'</div>'+
       '<div class="q-action">'+
         '<button class="btn danger sm" onclick="openMandate(\''+e.id+'\')">Mandate</button>'+
@@ -815,12 +815,24 @@ function confirmMandate(){
   var shiftDate=document.getElementById('m-shiftdate').value;
   var notes=document.getElementById('m-notes').value.trim();
   var who=document.getElementById('m-user').value.trim();
+  // Increment counts
   e.count=(e.count||0)+1;
+  e.sessionCount=(e.sessionCount||0)+1;
   e.lastMandate=ts;
   e.preUndoPos=idx;
   state.log.push({id:uid(),type:'mandation',empId:e.id,name:e.name,ts:ts,shift:shift,shiftOther:shiftOther,shiftDate:shiftDate,notes:notes,recordedBy:who,prePos:idx});
+  // Remove from current position
   state.employees.splice(idx,1);
-  state.employees.push(e);
+  // Find correct insertion point — go below all employees with <= same sessionCount
+  var newSessionCount=e.sessionCount;
+  var insertAt=state.employees.length; // default to bottom
+  for(var i=0;i<state.employees.length;i++){
+    if((state.employees[i].sessionCount||0) > newSessionCount){
+      insertAt=i;
+      break;
+    }
+  }
+  state.employees.splice(insertAt,0,e);
   saveData().then(function(){closeModal('mandateModal');renderAll();});
 }
 
@@ -897,6 +909,7 @@ function confirmUndo(){
   if(empIdx<0)return;
   var e=state.employees[empIdx];
   if(e.count>0)e.count--;
+  if(e.sessionCount>0)e.sessionCount--;
   // Restore lastMandate
   var prev=state.log.filter(function(l){return l.type==='mandation'&&l.empId===e.id&&l.id!==entry.id;}).sort(function(a,b){return new Date(b.ts)-new Date(a.ts);});
   e.lastMandate=prev.length>0?prev[0].ts:null;
@@ -936,6 +949,8 @@ function confirmReset(){
   var who=document.getElementById('r-user').value.trim();
   var ts=document.getElementById('r-dt').value||new Date().toISOString();
   var notes=document.getElementById('r-notes').value.trim();
+  // Zero out session counts for all employees
+  state.employees.forEach(function(e){e.sessionCount=0;});
   // Sort newest hire first, most senior last
   state.employees.sort(function(a,b){
     if(!a.hireDate&&!b.hireDate)return 0;
@@ -943,7 +958,7 @@ function confirmReset(){
     if(!b.hireDate)return -1;
     return new Date(b.hireDate)-new Date(a.hireDate);
   });
-  state.log.push({id:uid(),type:'reset',name:'Rotation Reset',empId:'',ts:ts,notes:notes||'Rotation reset to newest hire first.',recordedBy:who});
+  state.log.push({id:uid(),type:'reset',name:'Rotation Reset',empId:'',ts:ts,notes:notes||'Rotation reset to newest hire first. Session counts reset to zero.',recordedBy:who});
   saveData().then(function(){closeModal('resetModal');renderAll();});
 }
 
@@ -957,7 +972,7 @@ function addEmployee(){
   var dsn=document.getElementById('new-dsn').value.trim();
   var hire=document.getElementById('new-hire').value;
   document.getElementById('new-name').value='';document.getElementById('new-dsn').value='';document.getElementById('new-hire').value='';
-  var newEmp={id:uid(),name:name,dsn:dsn,hireDate:hire,count:0,lastMandate:null};
+  var newEmp={id:uid(),name:name,dsn:dsn,hireDate:hire,count:0,sessionCount:0,lastMandate:null};
   if(hire){
     // Slot into correct position by hire date (newest first)
     var inserted=false;
