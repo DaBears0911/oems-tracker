@@ -1,15 +1,6 @@
 {
   "employees": [
     {
-      "id": "e01",
-      "name": "Chris Wilkerson",
-      "dsn": "17147",
-      "hireDate": "2026-05-18",
-      "count": 0,
-      "lastMandate": null,
-      "sessionCount": 0
-    },
-    {
       "id": "e12",
       "name": "Ryan Hodge",
       "dsn": "17111",
@@ -38,6 +29,16 @@
       "lastMandate": "2026-06-03T06:55",
       "preUndoPos": 1,
       "sessionCount": 1
+    },
+    {
+      "id": "e01",
+      "name": "Chris Wilkerson",
+      "dsn": "17147",
+      "hireDate": "2026-05-18",
+      "count": 1,
+      "lastMandate": "2026-06-11T11:58",
+      "sessionCount": 1,
+      "preUndoPos": 0
     },
     {
       "id": "e03",
@@ -578,6 +579,19 @@
       "notes": "1795 mandated for 1793",
       "recordedBy": "1795",
       "prePos": 2
+    },
+    {
+      "id": "mq9qtc7yn0lgy8kjg3s",
+      "type": "mandation",
+      "empId": "e01",
+      "name": "Chris Wilkerson",
+      "ts": "2026-06-11T11:58",
+      "shift": "",
+      "shiftOther": "none",
+      "shiftDate": "2026-06-14",
+      "notes": "to bring into a fair and just list",
+      "recordedBy": "1795",
+      "prePos": 0
     }
   ],
   "password": "oems2026"
