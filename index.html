@@ -450,6 +450,7 @@ const GH_TOKEN=localStorage.getItem('oems_gh_token')||'';
 const GH_REPO='DaBears0911/oems-tracker';
 const GH_FILE='data.json';
 const GH_API='https://api.github.com/repos/'+GH_REPO+'/contents/'+GH_FILE;
+const DESTROY_PW='Dfd44!fd590';
 const DEFAULT_PW='oems2026';
 const STORE='oems_gh_v1';
 
@@ -1055,6 +1056,12 @@ function confirmDeleteLog(){
 function clearAll(){
   if(!confirm('Permanently delete ALL employees and ALL history?\n\nThis cannot be undone.'))return;
   if(!confirm('⚠ SECOND CONFIRMATION REQUIRED ⚠\n\nYou are about to delete everything.\nThis CANNOT be undone.\n\nAre you absolutely sure?'))return;
+  var destroyPw=prompt('This action requires the master destroy password.\nEnter it now or click Cancel to abort:');
+  if(destroyPw===null)return;
+  if(destroyPw!==DESTROY_PW){
+    alert('Incorrect destroy password. Action cancelled.');
+    return;
+  }
   state.employees=[];state.log=[];
   saveData().then(function(){renderAll();});
 }
