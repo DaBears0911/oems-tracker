@@ -446,12 +446,25 @@ select option{background:var(--bg3);color:var(--text)}
 <div class="modal-overlay" id="destroyModal">
   <div class="modal-box sm">
     <h3>☠ Master destroy password</h3>
-    <div class="modal-sub" style="color:var(--red)">This is the final step. Enter the master destroy password to permanently wipe all data. This cannot be undone.</div>
-    <div class="fg"><label>Master destroy password</label><input type="password" id="destroy-pw-input" placeholder="Enter destroy password" onkeydown="if(event.key==='Enter')confirmDestroy()" /></div>
+    <div class="modal-sub" style="color:var(--red);line-height:1.6">
+      <strong>FINAL WARNING.</strong> This will permanently delete all employees and all mandation history. It cannot be undone under any circumstances.
+    </div>
+    <div class="fg">
+      <label style="color:var(--red)">Type the word <strong>DESTROY</strong> to confirm</label>
+      <input type="text" id="destroy-confirm-word" placeholder="Type DESTROY here" oninput="checkDestroyWord()" autocomplete="off" />
+    </div>
+    <div class="fg">
+      <label>Master destroy password</label>
+      <input type="password" id="destroy-pw-input" placeholder="Enter destroy password" onkeydown="if(event.key==='Enter')confirmDestroy()" />
+    </div>
     <div class="err-msg" id="destroy-pw-err"></div>
     <div class="modal-actions">
-      <button class="btn" onclick="closeModal('destroyModal')">Cancel — keep my data</button>
-      <button class="btn danger" onclick="confirmDestroy()">Destroy all data</button>
+      <button class="btn" onclick="closeModal('destroyModal')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Cancel — keep my data
+      </button>
+      <button class="btn danger" id="destroy-confirm-btn" disabled onclick="confirmDestroy()" style="opacity:.3;cursor:not-allowed">
+        ☠ Destroy all data
+      </button>
     </div>
   </div>
 </div>
@@ -1067,19 +1080,42 @@ function confirmDeleteLog(){
 // ═══════════════════════════
 //  CLEAR / EXPORT
 // ═══════════════════════════
+function checkDestroyWord(){
+  var word=document.getElementById('destroy-confirm-word').value;
+  var btn=document.getElementById('destroy-confirm-btn');
+  if(word==='DESTROY'){
+    btn.disabled=false;
+    btn.style.opacity='1';
+    btn.style.cursor='pointer';
+  }else{
+    btn.disabled=true;
+    btn.style.opacity='.3';
+    btn.style.cursor='not-allowed';
+  }
+}
+
 function clearAll(){
   if(!confirm('Permanently delete ALL employees and ALL history?\n\nThis cannot be undone.'))return;
   if(!confirm('⚠ SECOND CONFIRMATION REQUIRED ⚠\n\nYou are about to delete everything.\nThis CANNOT be undone.\n\nAre you absolutely sure?'))return;
-  // Show destroy password modal
+  // Reset destroy modal fields
+  document.getElementById('destroy-confirm-word').value='';
   document.getElementById('destroy-pw-input').value='';
   document.getElementById('destroy-pw-err').textContent='';
+  var btn=document.getElementById('destroy-confirm-btn');
+  btn.disabled=true;btn.style.opacity='.3';btn.style.cursor='not-allowed';
   document.getElementById('destroyModal').classList.add('open');
-  setTimeout(function(){document.getElementById('destroy-pw-input').focus();},120);
+  setTimeout(function(){document.getElementById('destroy-confirm-word').focus();},120);
 }
+
 function confirmDestroy(){
+  var word=document.getElementById('destroy-confirm-word').value;
+  if(word!=='DESTROY'){
+    document.getElementById('destroy-pw-err').textContent='You must type DESTROY exactly to confirm.';
+    return;
+  }
   var pw=document.getElementById('destroy-pw-input').value;
   if(pw!==DESTROY_PW){
-    document.getElementById('destroy-pw-err').textContent='Incorrect password. Action cancelled.';
+    document.getElementById('destroy-pw-err').textContent='Incorrect destroy password. Action cancelled.';
     document.getElementById('destroy-pw-input').value='';
     document.getElementById('destroy-pw-input').focus();
     return;
