@@ -556,6 +556,15 @@
       "ts": "2026-06-11T11:50",
       "notes": "06/14/2026 Skipped because already working",
       "recordedBy": "1701"
+    },
+    {
+      "id": "mq9qi4t3lhx5ndh53xq",
+      "type": "skip",
+      "empId": "e12",
+      "name": "Ryan Hodge",
+      "ts": "2026-06-11T11:50",
+      "notes": "Skipped for Vacation",
+      "recordedBy": "1701"
     }
   ],
   "password": "oems2026"
