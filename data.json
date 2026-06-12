@@ -61,16 +61,6 @@
       "sessionCount": 2
     },
     {
-      "id": "e02",
-      "name": "Jake Johnston",
-      "dsn": "17139",
-      "hireDate": "2025-08-30",
-      "count": 2,
-      "lastMandate": "2026-02-13T07:00",
-      "preUndoPos": 2,
-      "sessionCount": 2
-    },
-    {
       "id": "e05",
       "name": "Kevin Brown",
       "dsn": "17133",
@@ -159,6 +149,16 @@
       "lastMandate": "2026-06-12T08:11",
       "preUndoPos": 1,
       "sessionCount": 2
+    },
+    {
+      "id": "e02",
+      "name": "Jake Johnston",
+      "dsn": "17139",
+      "hireDate": "2025-08-30",
+      "count": 3,
+      "lastMandate": "2026-06-12T14:57",
+      "preUndoPos": 6,
+      "sessionCount": 3
     }
   ],
   "log": [
@@ -582,6 +582,19 @@
       "notes": "1795 mandated for 1793",
       "recordedBy": "1795",
       "prePos": 1
+    },
+    {
+      "id": "mqbcn3np21iq6ku56jz",
+      "type": "mandation",
+      "empId": "e02",
+      "name": "Jake Johnston",
+      "ts": "2026-06-12T14:57",
+      "shift": "19-07 Night",
+      "shiftOther": "",
+      "shiftDate": "2026-06-13",
+      "notes": "Hodge OOT, multiple no answers",
+      "recordedBy": "1793",
+      "prePos": 6
     }
   ],
   "password": "oems2026"
