@@ -55,8 +55,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .sort-btn.active{background:var(--accent-bg);color:var(--accent);border-color:var(--accent-border)}
 .sort-btn:hover{color:var(--text)}
 .card-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:20px}
-.queue-header{display:grid;grid-template-columns:44px 1fr 80px 130px 210px;padding:10px 16px;border-bottom:1px solid var(--border);font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em}
-.qrow{display:grid;grid-template-columns:44px 1fr 80px 130px 210px;border-bottom:1px solid var(--border);align-items:center;transition:background .12s}
+.queue-header{display:grid;grid-template-columns:44px 1fr 150px 130px 210px;padding:10px 16px;border-bottom:1px solid var(--border);font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em}
+.qrow{display:grid;grid-template-columns:44px 1fr 150px 130px 210px;border-bottom:1px solid var(--border);align-items:center;transition:background .12s}
 .qrow:last-child{border-bottom:none}
 .qrow:hover{background:var(--bg3)}
 .qrow.r1{border-left:3px solid var(--red)}.qrow.r2{border-left:3px solid var(--amber)}.qrow.r3{border-left:3px solid var(--green)}
@@ -204,6 +204,8 @@ select option{background:var(--bg3);color:var(--text)}
         <div class="stat-card"><div class="stat-label">Total mandations</div><div class="stat-val" id="st-total">0</div></div>
         <div class="stat-card"><div class="stat-label">This year</div><div class="stat-val" id="st-year">0</div></div>
         <div class="stat-card"><div class="stat-label">Next up</div><div class="stat-val sm" id="st-next">—</div></div>
+        <div class="stat-card"><div class="stat-label">Hours (this year)</div><div class="stat-val" id="st-hours-year">0</div></div>
+        <div class="stat-card"><div class="stat-label">Hours (this session)</div><div class="stat-val" id="st-hours-session">0</div></div>
       </div>
       <div class="sort-bar">
         <span class="sort-label">View:</span>
@@ -211,12 +213,14 @@ select option{background:var(--bg3);color:var(--text)}
         <button class="sort-btn" id="sort-hire-new" onclick="setQueueSort('hire-new')">Hire date (newest)</button>
         <button class="sort-btn" id="sort-hire-old" onclick="setQueueSort('hire-old')">Hire date (oldest)</button>
         <button class="sort-btn" id="sort-alpha" onclick="setQueueSort('alpha')">Alphabetical</button>
+        <button class="sort-btn" id="sort-hours-most" onclick="setQueueSort('hours-most')">Most hours mandated</button>
+        <button class="sort-btn" id="sort-hours-least" onclick="setQueueSort('hours-least')">Least hours mandated</button>
         <button class="btn warning sm" id="apply-order-btn" style="display:none" onclick="requireAuth(applyCurrentSortAsRotation,'Admin password required to apply this as the rotation order.')">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px"><polyline points="20 6 9 17 4 12"/></svg>Apply as rotation order
         </button>
       </div>
       <div class="card-wrap">
-        <div class="queue-header"><div>#</div><div>Employee</div><div>Session</div><div>Last mandated</div><div></div></div>
+        <div class="queue-header"><div>#</div><div>Employee</div><div>Session (Count &middot; Hours)</div><div>Last mandated</div><div></div></div>
         <div id="queue-body"></div>
       </div>
     </div>
@@ -327,9 +331,19 @@ select option{background:var(--bg3);color:var(--text)}
       </div>
       <div class="fg"><label>Mandated shift date</label><input type="date" id="m-shiftdate" /></div>
     </div>
-    <div class="fg" id="other-shift-wrap" style="display:none">
-      <label>Other — describe shift hours</label>
-      <input id="m-shift-other" placeholder="e.g. 06-14, 22-06" />
+    <div class="fg" id="auto-hours-wrap" style="display:none">
+      <label>Total hours <span style="color:var(--text3);font-weight:400">(auto-calculated)</span></label>
+      <input id="m-hours-auto" readonly style="opacity:.7" />
+    </div>
+    <div class="fg-row" id="other-shift-wrap" style="display:none">
+      <div class="fg">
+        <label>Total hours</label>
+        <input type="number" step="0.5" min="0" id="m-hours-other" placeholder="e.g. 8" />
+      </div>
+      <div class="fg">
+        <label>Describe shift hours</label>
+        <input id="m-shift-other" placeholder="e.g. 06-14, 22-06" />
+      </div>
     </div>
     <div class="fg"><label>Notes / reason</label><textarea id="m-notes" placeholder="Who called off, circumstances, etc."></textarea></div>
     <div class="modal-actions">
@@ -657,15 +671,23 @@ function renderStats(){
   var yr=new Date().getFullYear();
   var yc=state.log.filter(function(l){try{return new Date(l.ts).getFullYear()===yr&&l.type==='mandation';}catch(e){return false;}}).length;
   var total=state.log.filter(function(l){return l.type==='mandation';}).length;
+  var yearHours=state.log.filter(function(l){try{return new Date(l.ts).getFullYear()===yr&&l.type==='mandation';}catch(e){return false;}}).reduce(function(sum,l){return sum+(l.hours||0);},0);
+  var sessionHours=state.employees.reduce(function(sum,e){return sum+(e.sessionHours||0);},0);
   document.getElementById('st-emp').textContent=state.employees.length;
   document.getElementById('st-total').textContent=total;
   document.getElementById('st-year').textContent=yc;
   document.getElementById('st-next').textContent=state.employees.length?state.employees[0].name:'—';
+  document.getElementById('st-hours-year').textContent=formatHours(yearHours);
+  document.getElementById('st-hours-session').textContent=formatHours(sessionHours);
+}
+function formatHours(h){
+  if(h===Math.floor(h))return h+' hrs';
+  return h.toFixed(1)+' hrs';
 }
 
 function setQueueSort(s){
   queueSort=s;
-  ['rotation','hire-new','hire-old','alpha'].forEach(function(k){
+  ['rotation','hire-new','hire-old','alpha','hours-most','hours-least'].forEach(function(k){
     var b=document.getElementById('sort-'+k);if(b)b.className='sort-btn'+(k===s?' active':'');
   });
   var applyBtn=document.getElementById('apply-order-btn');
@@ -679,6 +701,8 @@ function getViewSortedQueue(){
   if(queueSort==='hire-new')return list.sort(function(a,b){if(!a.hireDate&&!b.hireDate)return 0;if(!a.hireDate)return 1;if(!b.hireDate)return -1;return new Date(b.hireDate)-new Date(a.hireDate);});
   if(queueSort==='hire-old')return list.sort(function(a,b){if(!a.hireDate&&!b.hireDate)return 0;if(!a.hireDate)return 1;if(!b.hireDate)return -1;return new Date(a.hireDate)-new Date(b.hireDate);});
   if(queueSort==='alpha')return list.sort(function(a,b){return a.name.localeCompare(b.name);});
+  if(queueSort==='hours-most')return list.sort(function(a,b){return (b.sessionHours||0)-(a.sessionHours||0);});
+  if(queueSort==='hours-least')return list.sort(function(a,b){return (a.sessionHours||0)-(b.sessionHours||0);});
   return list;
 }
 
@@ -695,7 +719,7 @@ function renderQueue(){
     return '<div class="qrow '+cls+'">'+
       '<div class="q-rank">'+(i+1)+'</div>'+
       '<div class="q-cell"><div class="q-name">'+esc(e.name)+nextBadge+'</div>'+(sub?'<div class="q-sub">'+esc(sub)+'</div>':'')+'</div>'+
-      '<div class="q-cell" style="font-family:\'DM Mono\',monospace;font-size:13px;color:var(--text2)" title="Lifetime: '+(e.count||0)+'">'+(e.sessionCount||0)+'&times;</div>'+
+      '<div class="q-cell" style="font-family:\'DM Mono\',monospace;font-size:13px;color:var(--text2)" title="Lifetime: '+(e.count||0)+'x, '+formatHours(e.hoursLifetime||0)+'">'+(e.sessionCount||0)+'&times; &middot; '+formatHours(e.sessionHours||0)+'</div>'+
       '<div class="q-cell" style="font-size:12px;color:var(--text2)">'+last+'</div>'+
       '<div class="q-action">'+
         '<button class="btn danger sm" onclick="openMandate(\''+e.id+'\')">Mandate</button>'+
@@ -814,7 +838,21 @@ function renderLog(){
 //  MANDATE
 // ═══════════════════════════
 function toggleOtherShift(){
-  document.getElementById('other-shift-wrap').style.display=document.getElementById('m-shift').value==='Other'?'':'none';
+  var sel=document.getElementById('m-shift').value;
+  var autoWrap=document.getElementById('auto-hours-wrap');
+  var otherWrap=document.getElementById('other-shift-wrap');
+  if(sel==='Other'){
+    autoWrap.style.display='none';
+    otherWrap.style.display='';
+  }else if(sel==='07-19 Day'||sel==='19-07 Night'||sel==='24 Hours'){
+    otherWrap.style.display='none';
+    autoWrap.style.display='';
+    var hrs=sel==='24 Hours'?24:12;
+    document.getElementById('m-hours-auto').value=hrs+' hours';
+  }else{
+    autoWrap.style.display='none';
+    otherWrap.style.display='none';
+  }
 }
 function openMandate(id){
   pendingMandateId=id;
@@ -826,8 +864,11 @@ function openMandate(id){
   document.getElementById('m-shift').value='';
   document.getElementById('m-shiftdate').value='';
   document.getElementById('m-shift-other').value='';
+  document.getElementById('m-hours-other').value='';
+  document.getElementById('m-hours-auto').value='';
   document.getElementById('m-notes').value='';
   document.getElementById('other-shift-wrap').style.display='none';
+  document.getElementById('auto-hours-wrap').style.display='none';
   document.getElementById('mandateModal').classList.add('open');
 }
 function confirmMandate(){
@@ -843,12 +884,21 @@ function confirmMandate(){
   var shiftDate=document.getElementById('m-shiftdate').value;
   var notes=document.getElementById('m-notes').value.trim();
   var who=document.getElementById('m-user').value.trim();
+  // Determine hours
+  var hours=0;
+  if(shiftSel==='24 Hours')hours=24;
+  else if(shiftSel==='07-19 Day'||shiftSel==='19-07 Night')hours=12;
+  else if(shiftSel==='Other'){
+    var hVal=parseFloat(document.getElementById('m-hours-other').value);
+    hours=isNaN(hVal)?0:hVal;
+  }
   // Increment counts
   e.count=(e.count||0)+1;
   e.sessionCount=(e.sessionCount||0)+1;
+  e.sessionHours=(e.sessionHours||0)+hours;
   e.lastMandate=ts;
   e.preUndoPos=idx;
-  state.log.push({id:uid(),type:'mandation',empId:e.id,name:e.name,ts:ts,shift:shift,shiftOther:shiftOther,shiftDate:shiftDate,notes:notes,recordedBy:who,prePos:idx});
+  state.log.push({id:uid(),type:'mandation',empId:e.id,name:e.name,ts:ts,shift:shift,shiftOther:shiftOther,shiftDate:shiftDate,notes:notes,recordedBy:who,prePos:idx,hours:hours});
   // Remove from current position
   state.employees.splice(idx,1);
   // Find correct insertion point — go below all employees with <= same sessionCount
@@ -938,6 +988,7 @@ function confirmUndo(){
   var e=state.employees[empIdx];
   if(e.count>0)e.count--;
   if(e.sessionCount>0)e.sessionCount--;
+  e.sessionHours=Math.max(0,(e.sessionHours||0)-(entry.hours||0));
   // Restore lastMandate
   var prev=state.log.filter(function(l){return l.type==='mandation'&&l.empId===e.id&&l.id!==entry.id;}).sort(function(a,b){return new Date(b.ts)-new Date(a.ts);});
   e.lastMandate=prev.length>0?prev[0].ts:null;
@@ -977,8 +1028,8 @@ function confirmReset(){
   var who=document.getElementById('r-user').value.trim();
   var ts=document.getElementById('r-dt').value||new Date().toISOString();
   var notes=document.getElementById('r-notes').value.trim();
-  // Zero out session counts for all employees
-  state.employees.forEach(function(e){e.sessionCount=0;});
+  // Zero out session counts and hours for all employees
+  state.employees.forEach(function(e){e.sessionCount=0;e.sessionHours=0;});
   // Sort newest hire first, most senior last
   state.employees.sort(function(a,b){
     if(!a.hireDate&&!b.hireDate)return 0;
@@ -1000,7 +1051,7 @@ function addEmployee(){
   var dsn=document.getElementById('new-dsn').value.trim();
   var hire=document.getElementById('new-hire').value;
   document.getElementById('new-name').value='';document.getElementById('new-dsn').value='';document.getElementById('new-hire').value='';
-  var newEmp={id:uid(),name:name,dsn:dsn,hireDate:hire,count:0,sessionCount:0,lastMandate:null};
+  var newEmp={id:uid(),name:name,dsn:dsn,hireDate:hire,count:0,sessionCount:0,sessionHours:0,lastMandate:null};
   if(hire){
     // Slot into correct position by hire date (newest first)
     var inserted=false;
@@ -1070,7 +1121,14 @@ function confirmDeleteLog(){
   state.log.forEach(function(l,i){if(l.id===pendingDeleteLogId)idx=i;});
   if(idx>=0){
     var entry=state.log[idx];
-    if(entry.type==='mandation'){var emp=state.employees.filter(function(e){return e.id===entry.empId;})[0];if(emp&&emp.count>0)emp.count--;}
+    if(entry.type==='mandation'){
+      var emp=state.employees.filter(function(e){return e.id===entry.empId;})[0];
+      if(emp){
+        if(emp.count>0)emp.count--;
+        if(emp.sessionCount>0)emp.sessionCount--;
+        emp.sessionHours=Math.max(0,(emp.sessionHours||0)-(entry.hours||0));
+      }
+    }
     state.log.splice(idx,1);
   }
   pendingDeleteLogId=null;
@@ -1125,20 +1183,20 @@ function confirmDestroy(){
   saveData().then(function(){renderAll();});
 }
 function exportCSV(){
-  var rows=[['Type','Employee','DSN','Hire Date','Recorded By','Date/Time','Shift Type','Mandated Shift Date','Notes']];
+  var rows=[['Type','Employee','DSN','Hire Date','Recorded By','Date/Time','Shift Type','Mandated Shift Date','Hours','Notes']];
   state.log.slice().sort(function(a,b){return new Date(b.ts)-new Date(a.ts);}).forEach(function(l){
     var e=state.employees.filter(function(x){return x.id===l.empId;})[0]||{};
-    rows.push([l.type||'mandation',l.name,e.dsn||'',e.hireDate||'',l.recordedBy||'',l.ts,l.shiftOther||l.shift||'',l.shiftDate||'',l.notes||'']);
+    rows.push([l.type||'mandation',l.name,e.dsn||'',e.hireDate||'',l.recordedBy||'',l.ts,l.shiftOther||l.shift||'',l.shiftDate||'',l.hours||0,l.notes||'']);
   });
   var csv=rows.map(function(r){return r.map(function(v){return '"'+String(v).replace(/"/g,'""')+'"';}).join(',');}).join('\r\n');
   var a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='OEMS_History_'+new Date().toISOString().slice(0,10)+'.csv';a.click();
 }
 function exportEmployeeCSV(){
-  var rows=[['Queue Position','Name','DSN','Hire Date','Total Mandations','Last Mandated Date']];
+  var rows=[['Queue Position','Name','DSN','Hire Date','Total Mandations','Session Mandations','Session Hours','Last Mandated Date']];
   state.employees.forEach(function(e,i){
     var last=e.lastMandate?fmtDate(new Date(e.lastMandate)):'Never';
     var hire=e.hireDate?fmtDate(new Date(e.hireDate+'T12:00:00')):'';
-    rows.push([i+1,e.name,e.dsn||'',hire,e.count||0,last]);
+    rows.push([i+1,e.name,e.dsn||'',hire,e.count||0,e.sessionCount||0,e.sessionHours||0,last]);
   });
   var csv=rows.map(function(r){return r.map(function(v){return '"'+String(v).replace(/"/g,'""')+'"';}).join(',');}).join('\r\n');
   var a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='OEMS_Employees_'+new Date().toISOString().slice(0,10)+'.csv';a.click();
