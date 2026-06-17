@@ -694,6 +694,15 @@
       "recordedBy": "17123",
       "prePos": 1,
       "hours": 24
+    },
+    {
+      "id": "mqib95mj47f9an79izs",
+      "type": "skip",
+      "empId": "e12",
+      "name": "Ryan Hodge",
+      "ts": "2026-06-16T12:00",
+      "notes": "Schedule to work 06/21/2026",
+      "recordedBy": "17123"
     }
   ],
   "password": "oems2026"
