@@ -31,7 +31,7 @@
       "lastMandate": "2026-02-18T09:06",
       "preUndoPos": 1,
       "sessionCount": 2,
-      "sessionHours": 24.0
+      "sessionHours": 24
     },
     {
       "id": "e04",
@@ -42,7 +42,7 @@
       "lastMandate": "2026-06-25T08:00",
       "preUndoPos": 1,
       "sessionCount": 2,
-      "sessionHours": 39.0
+      "sessionHours": 39
     },
     {
       "id": "e05",
@@ -108,7 +108,7 @@
       "lastMandate": "2026-06-07T11:00",
       "preUndoPos": 4,
       "sessionCount": 2,
-      "sessionHours": 17.0
+      "sessionHours": 17
     },
     {
       "id": "e10",
@@ -163,7 +163,7 @@
       "lastMandate": "2026-06-12T14:57",
       "preUndoPos": 6,
       "sessionCount": 3,
-      "sessionHours": 36.0
+      "sessionHours": 36
     },
     {
       "id": "e07",
@@ -190,7 +190,7 @@
       "notes": "",
       "recordedBy": "1795",
       "prePos": 2,
-      "hours": 12.0
+      "hours": 12
     },
     {
       "id": "mq843j5q6fstnn927p",
@@ -218,7 +218,7 @@
       "notes": "",
       "recordedBy": "1786",
       "prePos": 1,
-      "hours": 1.0
+      "hours": 1
     },
     {
       "id": "mq84hkbfm3nik9tuox",
@@ -232,7 +232,7 @@
       "notes": "",
       "recordedBy": "1793",
       "prePos": 1,
-      "hours": 12.0
+      "hours": 12
     },
     {
       "id": "mq84jj04627sqecduud",
@@ -246,7 +246,7 @@
       "notes": "",
       "recordedBy": "1793",
       "prePos": 1,
-      "hours": 12.0
+      "hours": 12
     },
     {
       "id": "mq84mpl01nfxzgb78uf",
@@ -442,7 +442,7 @@
       "notes": "",
       "recordedBy": "1795",
       "prePos": 1,
-      "hours": 15.0
+      "hours": 15
     },
     {
       "id": "mq85bbi86u6fudwdjud",
@@ -568,7 +568,7 @@
       "notes": "",
       "recordedBy": "1795",
       "prePos": 4,
-      "hours": 5.0
+      "hours": 5
     },
     {
       "id": "mq8iph9w7pv3313avlr",
@@ -666,15 +666,6 @@
       "ts": "2026-06-12T14:58",
       "notes": "On Vacation",
       "recordedBy": "1793"
-    },
-    {
-      "id": "mqi8jrvy78wsoefc4bm",
-      "type": "skip",
-      "empId": "e12",
-      "name": "Ryan Hodge",
-      "ts": "2026-06-17T10:38",
-      "notes": "Already Scheduled",
-      "recordedBy": "17123"
     },
     {
       "id": "mqi8mn0f2829zdyv8li",
