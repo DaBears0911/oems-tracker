@@ -203,9 +203,9 @@ select option{background:var(--bg3);color:var(--text)}
         <div class="stat-card"><div class="stat-label">Employees</div><div class="stat-val" id="st-emp">0</div></div>
         <div class="stat-card"><div class="stat-label">Total mandations</div><div class="stat-val" id="st-total">0</div></div>
         <div class="stat-card"><div class="stat-label">This year</div><div class="stat-val" id="st-year">0</div></div>
-        <div class="stat-card"><div class="stat-label">Next up</div><div class="stat-val sm" id="st-next">—</div></div>
-        <div class="stat-card"><div class="stat-label">Hours (this year)</div><div class="stat-val" id="st-hours-year">0</div></div>
+        <div class="stat-card"><div class="stat-label">Total hours</div><div class="stat-val" id="st-hours-total">0</div></div>
         <div class="stat-card"><div class="stat-label">Hours (this session)</div><div class="stat-val" id="st-hours-session">0</div></div>
+        <div class="stat-card"><div class="stat-label">Next up</div><div class="stat-val sm" id="st-next">—</div></div>
       </div>
       <div class="sort-bar">
         <span class="sort-label">View:</span>
@@ -671,13 +671,13 @@ function renderStats(){
   var yr=new Date().getFullYear();
   var yc=state.log.filter(function(l){try{return new Date(l.ts).getFullYear()===yr&&l.type==='mandation';}catch(e){return false;}}).length;
   var total=state.log.filter(function(l){return l.type==='mandation';}).length;
-  var yearHours=state.log.filter(function(l){try{return new Date(l.ts).getFullYear()===yr&&l.type==='mandation';}catch(e){return false;}}).reduce(function(sum,l){return sum+(l.hours||0);},0);
+  var totalHours=state.log.filter(function(l){return l.type==='mandation';}).reduce(function(sum,l){return sum+(l.hours||0);},0);
   var sessionHours=state.employees.reduce(function(sum,e){return sum+(e.sessionHours||0);},0);
   document.getElementById('st-emp').textContent=state.employees.length;
   document.getElementById('st-total').textContent=total;
   document.getElementById('st-year').textContent=yc;
   document.getElementById('st-next').textContent=state.employees.length?state.employees[0].name:'—';
-  document.getElementById('st-hours-year').textContent=formatHours(yearHours);
+  document.getElementById('st-hours-total').textContent=formatHours(totalHours);
   document.getElementById('st-hours-session').textContent=formatHours(sessionHours);
 }
 function formatHours(h){
