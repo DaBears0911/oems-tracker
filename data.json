@@ -11,16 +11,6 @@
       "sessionCount": 1
     },
     {
-      "id": "e15",
-      "name": "Marty Nungesser",
-      "dsn": "1720",
-      "hireDate": "2002-07-30",
-      "count": 1,
-      "lastMandate": "2026-02-12T06:40",
-      "preUndoPos": 1,
-      "sessionCount": 1
-    },
-    {
       "id": "e16",
       "name": "Jay Garrett",
       "dsn": "1709",
@@ -137,6 +127,16 @@
       "hireDate": "2011-06-29",
       "count": 2,
       "lastMandate": "2026-06-12T08:11",
+      "preUndoPos": 1,
+      "sessionCount": 2
+    },
+    {
+      "id": "e15",
+      "name": "Marty Nungesser",
+      "dsn": "1720",
+      "hireDate": "2002-07-30",
+      "count": 2,
+      "lastMandate": "2026-06-16T12:00",
       "preUndoPos": 1,
       "sessionCount": 2
     },
@@ -626,6 +626,19 @@
       "ts": "2026-06-17T10:38",
       "notes": "Already Scheduled",
       "recordedBy": "17123"
+    },
+    {
+      "id": "mqi8mn0f2829zdyv8li",
+      "type": "mandation",
+      "empId": "e15",
+      "name": "Marty Nungesser",
+      "ts": "2026-06-16T12:00",
+      "shift": "24 Hours",
+      "shiftOther": "",
+      "shiftDate": "2026-06-21",
+      "notes": "",
+      "recordedBy": "17123",
+      "prePos": 1
     }
   ],
   "password": "oems2026"
