@@ -8,7 +8,8 @@
       "count": 1,
       "lastMandate": "2026-02-13T20:00",
       "preUndoPos": 1,
-      "sessionCount": 1
+      "sessionCount": 1,
+      "sessionHours": 12
     },
     {
       "id": "e01",
@@ -18,7 +19,8 @@
       "count": 1,
       "lastMandate": "2026-06-11T12:16",
       "sessionCount": 1,
-      "preUndoPos": 0
+      "preUndoPos": 0,
+      "sessionHours": 0
     },
     {
       "id": "e03",
@@ -28,7 +30,8 @@
       "count": 2,
       "lastMandate": "2026-02-18T09:06",
       "preUndoPos": 1,
-      "sessionCount": 2
+      "sessionCount": 2,
+      "sessionHours": 24.0
     },
     {
       "id": "e04",
@@ -38,7 +41,8 @@
       "count": 2,
       "lastMandate": "2026-06-25T08:00",
       "preUndoPos": 1,
-      "sessionCount": 2
+      "sessionCount": 2,
+      "sessionHours": 39.0
     },
     {
       "id": "e05",
@@ -48,7 +52,8 @@
       "count": 2,
       "lastMandate": "2026-02-18T16:39",
       "preUndoPos": 2,
-      "sessionCount": 2
+      "sessionCount": 2,
+      "sessionHours": 36
     },
     {
       "id": "e06",
@@ -58,7 +63,8 @@
       "count": 2,
       "lastMandate": "2026-02-24T17:00",
       "preUndoPos": 2,
-      "sessionCount": 2
+      "sessionCount": 2,
+      "sessionHours": 36
     },
     {
       "id": "e08",
@@ -68,7 +74,8 @@
       "count": 2,
       "lastMandate": "2026-06-08T13:00",
       "preUndoPos": 2,
-      "sessionCount": 2
+      "sessionCount": 2,
+      "sessionHours": 24
     },
     {
       "id": "e09",
@@ -78,7 +85,8 @@
       "count": 2,
       "lastMandate": "2026-05-14T20:30",
       "preUndoPos": 2,
-      "sessionCount": 2
+      "sessionCount": 2,
+      "sessionHours": 24
     },
     {
       "id": "e11",
@@ -88,7 +96,8 @@
       "count": 2,
       "lastMandate": "2026-05-14T20:35",
       "preUndoPos": 3,
-      "sessionCount": 2
+      "sessionCount": 2,
+      "sessionHours": 24
     },
     {
       "id": "e13",
@@ -98,7 +107,8 @@
       "count": 2,
       "lastMandate": "2026-06-07T11:00",
       "preUndoPos": 4,
-      "sessionCount": 2
+      "sessionCount": 2,
+      "sessionHours": 17.0
     },
     {
       "id": "e10",
@@ -108,7 +118,8 @@
       "count": 2,
       "lastMandate": "2026-06-10T15:24",
       "preUndoPos": 1,
-      "sessionCount": 2
+      "sessionCount": 2,
+      "sessionHours": 24
     },
     {
       "id": "e14",
@@ -118,7 +129,8 @@
       "count": 2,
       "lastMandate": "2026-06-12T08:11",
       "preUndoPos": 1,
-      "sessionCount": 2
+      "sessionCount": 2,
+      "sessionHours": 48
     },
     {
       "id": "e15",
@@ -128,7 +140,8 @@
       "count": 2,
       "lastMandate": "2026-06-16T12:00",
       "preUndoPos": 1,
-      "sessionCount": 2
+      "sessionCount": 2,
+      "sessionHours": 48
     },
     {
       "id": "e16",
@@ -138,7 +151,8 @@
       "count": 2,
       "lastMandate": "2026-06-16T12:00",
       "preUndoPos": 1,
-      "sessionCount": 2
+      "sessionCount": 2,
+      "sessionHours": 48
     },
     {
       "id": "e02",
@@ -148,7 +162,8 @@
       "count": 3,
       "lastMandate": "2026-06-12T14:57",
       "preUndoPos": 6,
-      "sessionCount": 3
+      "sessionCount": 3,
+      "sessionHours": 36.0
     },
     {
       "id": "e07",
@@ -158,7 +173,8 @@
       "count": 3,
       "lastMandate": "2026-06-12T14:58",
       "preUndoPos": 8,
-      "sessionCount": 3
+      "sessionCount": 3,
+      "sessionHours": 36
     }
   ],
   "log": [
@@ -173,7 +189,8 @@
       "shiftDate": "2026-01-05",
       "notes": "",
       "recordedBy": "1795",
-      "prePos": 2
+      "prePos": 2,
+      "hours": 12.0
     },
     {
       "id": "mq843j5q6fstnn927p",
@@ -186,7 +203,8 @@
       "shiftDate": "2026-03-07",
       "notes": "",
       "recordedBy": "1795",
-      "prePos": 3
+      "prePos": 3,
+      "hours": 24
     },
     {
       "id": "mq84fl2hd69hqvljak",
@@ -199,7 +217,8 @@
       "shiftDate": "2026-01-07",
       "notes": "",
       "recordedBy": "1786",
-      "prePos": 1
+      "prePos": 1,
+      "hours": 1.0
     },
     {
       "id": "mq84hkbfm3nik9tuox",
@@ -212,7 +231,8 @@
       "shiftDate": "2026-01-09",
       "notes": "",
       "recordedBy": "1793",
-      "prePos": 1
+      "prePos": 1,
+      "hours": 12.0
     },
     {
       "id": "mq84jj04627sqecduud",
@@ -225,7 +245,8 @@
       "shiftDate": "2026-01-09",
       "notes": "",
       "recordedBy": "1793",
-      "prePos": 1
+      "prePos": 1,
+      "hours": 12.0
     },
     {
       "id": "mq84mpl01nfxzgb78uf",
@@ -238,7 +259,8 @@
       "shiftDate": "2026-01-25",
       "notes": "",
       "recordedBy": "1786",
-      "prePos": 1
+      "prePos": 1,
+      "hours": 24
     },
     {
       "id": "mq84o1kchexvoug03kf",
@@ -251,7 +273,8 @@
       "shiftDate": "2026-01-25",
       "notes": "",
       "recordedBy": "1786",
-      "prePos": 1
+      "prePos": 1,
+      "hours": 24
     },
     {
       "id": "mq84pw43ob1sfqkv7x",
@@ -264,7 +287,8 @@
       "shiftDate": "2026-02-01",
       "notes": "",
       "recordedBy": "1795",
-      "prePos": 1
+      "prePos": 1,
+      "hours": 12
     },
     {
       "id": "mq84re8z0fdb1383r3tv",
@@ -277,7 +301,8 @@
       "shiftDate": "2026-02-01",
       "notes": "",
       "recordedBy": "1795",
-      "prePos": 1
+      "prePos": 1,
+      "hours": 12
     },
     {
       "id": "mq84tghjys39amdhjtr",
@@ -290,7 +315,8 @@
       "shiftDate": "2026-02-03",
       "notes": "",
       "recordedBy": "1795",
-      "prePos": 1
+      "prePos": 1,
+      "hours": 12
     },
     {
       "id": "mq84vpfznsbljz4e9ir",
@@ -303,7 +329,8 @@
       "shiftDate": "2026-04-06",
       "notes": "",
       "recordedBy": "1786",
-      "prePos": 1
+      "prePos": 1,
+      "hours": 12
     },
     {
       "id": "mq84z860mndsmpc50fh",
@@ -316,7 +343,8 @@
       "shiftDate": "2026-02-10",
       "notes": "",
       "recordedBy": "",
-      "prePos": 1
+      "prePos": 1,
+      "hours": 12
     },
     {
       "id": "mq851a646dhwv8561hj",
@@ -329,7 +357,8 @@
       "shiftDate": "2026-02-14",
       "notes": "",
       "recordedBy": "1793",
-      "prePos": 1
+      "prePos": 1,
+      "hours": 12
     },
     {
       "id": "mq852mdfeapfwuowzv6",
@@ -342,7 +371,8 @@
       "shiftDate": "2026-04-18",
       "notes": "",
       "recordedBy": "1793",
-      "prePos": 1
+      "prePos": 1,
+      "hours": 12
     },
     {
       "id": "mq8542bsel54q7g13ss",
@@ -355,7 +385,8 @@
       "shiftDate": "2026-06-10",
       "notes": "",
       "recordedBy": "1793",
-      "prePos": 1
+      "prePos": 1,
+      "hours": 24
     },
     {
       "id": "mq855ezem9quyozbft",
@@ -368,7 +399,8 @@
       "shiftDate": "2026-02-12",
       "notes": "",
       "recordedBy": "1786",
-      "prePos": 1
+      "prePos": 1,
+      "hours": 24
     },
     {
       "id": "mq856cm7ru41r5spncp",
@@ -381,7 +413,8 @@
       "shiftDate": "2026-06-05",
       "notes": "",
       "recordedBy": "1793",
-      "prePos": 1
+      "prePos": 1,
+      "hours": 24
     },
     {
       "id": "mq857t7yk0hrn7vo61",
@@ -394,7 +427,8 @@
       "shiftDate": "2026-02-19",
       "notes": "",
       "recordedBy": "1711",
-      "prePos": 1
+      "prePos": 1,
+      "hours": 12
     },
     {
       "id": "mq859kj4sl4eapy4aaj",
@@ -407,7 +441,8 @@
       "shiftDate": "2026-06-07",
       "notes": "",
       "recordedBy": "1795",
-      "prePos": 1
+      "prePos": 1,
+      "hours": 15.0
     },
     {
       "id": "mq85bbi86u6fudwdjud",
@@ -420,7 +455,8 @@
       "shiftDate": "2026-04-18",
       "notes": "",
       "recordedBy": "1793",
-      "prePos": 3
+      "prePos": 3,
+      "hours": 12
     },
     {
       "id": "mq85eox4vnw5alz2man",
@@ -433,7 +469,8 @@
       "shiftDate": "2026-02-14",
       "notes": "",
       "recordedBy": "1793",
-      "prePos": 2
+      "prePos": 2,
+      "hours": 12
     },
     {
       "id": "mq85gvmf4ne8clzvyr6",
@@ -446,7 +483,8 @@
       "shiftDate": "2026-02-19",
       "notes": "",
       "recordedBy": "1711",
-      "prePos": 2
+      "prePos": 2,
+      "hours": 12
     },
     {
       "id": "mq85uozki0y1j7jill",
@@ -459,7 +497,8 @@
       "shiftDate": "2026-02-28",
       "notes": "",
       "recordedBy": "1793",
-      "prePos": 2
+      "prePos": 2,
+      "hours": 12
     },
     {
       "id": "mq86c6syn3qjisa231",
@@ -472,7 +511,8 @@
       "shiftDate": "2026-02-28",
       "notes": "",
       "recordedBy": "1793",
-      "prePos": 2
+      "prePos": 2,
+      "hours": 12
     },
     {
       "id": "mq86dqh6c34upc99j0l",
@@ -485,7 +525,8 @@
       "shiftDate": "2026-06-09",
       "notes": "",
       "recordedBy": "1795",
-      "prePos": 2
+      "prePos": 2,
+      "hours": 12
     },
     {
       "id": "mq86fdaoas99kkj5775",
@@ -498,7 +539,8 @@
       "shiftDate": "2026-05-15",
       "notes": "",
       "recordedBy": "1793",
-      "prePos": 2
+      "prePos": 2,
+      "hours": 12
     },
     {
       "id": "mq86h8eh7cz22jjwgfi",
@@ -511,7 +553,8 @@
       "shiftDate": "2026-05-15",
       "notes": "",
       "recordedBy": "1793",
-      "prePos": 3
+      "prePos": 3,
+      "hours": 12
     },
     {
       "id": "mq86vged5r571mc4e18",
@@ -524,7 +567,8 @@
       "shiftDate": "2026-06-07",
       "notes": "",
       "recordedBy": "1795",
-      "prePos": 4
+      "prePos": 4,
+      "hours": 5.0
     },
     {
       "id": "mq8iph9w7pv3313avlr",
@@ -537,7 +581,8 @@
       "shiftDate": "2026-06-12",
       "notes": "",
       "recordedBy": "1793",
-      "prePos": 1
+      "prePos": 1,
+      "hours": 12
     },
     {
       "id": "mq9rfbx2c7i4bfqmn8k",
@@ -550,7 +595,8 @@
       "shiftDate": "",
       "notes": "To make list fair and equitable",
       "recordedBy": "1795",
-      "prePos": 0
+      "prePos": 0,
+      "hours": 0
     },
     {
       "id": "mq9rg2fs8itu7qtxz1r",
@@ -581,7 +627,8 @@
       "shiftDate": "2026-06-14",
       "notes": "1795 mandated for 1793",
       "recordedBy": "1795",
-      "prePos": 1
+      "prePos": 1,
+      "hours": 24
     },
     {
       "id": "mqbcn3np21iq6ku56jz",
@@ -594,7 +641,8 @@
       "shiftDate": "2026-06-13",
       "notes": "Hodge OOT, multiple no answers",
       "recordedBy": "1793",
-      "prePos": 6
+      "prePos": 6,
+      "hours": 12
     },
     {
       "id": "mqbcnual4el1i962xac",
@@ -607,7 +655,8 @@
       "shiftDate": "2026-06-13",
       "notes": "Hodge OOT, multiple no answers",
       "recordedBy": "1793",
-      "prePos": 8
+      "prePos": 8,
+      "hours": 12
     },
     {
       "id": "mqfa8vv6lex6ngiv2w",
@@ -638,7 +687,8 @@
       "shiftDate": "2026-06-21",
       "notes": "",
       "recordedBy": "17123",
-      "prePos": 1
+      "prePos": 1,
+      "hours": 24
     },
     {
       "id": "mqi8ow0q3qz08sc0tlf",
@@ -651,7 +701,8 @@
       "shiftDate": "2026-06-23",
       "notes": "",
       "recordedBy": "17123",
-      "prePos": 1
+      "prePos": 1,
+      "hours": 24
     }
   ],
   "password": "oems2026"
