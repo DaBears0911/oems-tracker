@@ -617,6 +617,15 @@
       "ts": "2026-06-12T14:58",
       "notes": "On Vacation",
       "recordedBy": "1793"
+    },
+    {
+      "id": "mqi8jrvy78wsoefc4bm",
+      "type": "skip",
+      "empId": "e12",
+      "name": "Ryan Hodge",
+      "ts": "2026-06-17T10:38",
+      "notes": "Already Scheduled",
+      "recordedBy": "17123"
     }
   ],
   "password": "oems2026"
