@@ -6,7 +6,7 @@
 <title>OEMS Mandation Rotation Tracker</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap');
-:root{--bg:#0f1117;--bg2:#181c25;--bg3:#1f2433;--border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);--text:#e8eaf0;--text2:#8b92a8;--text3:#555e73;--accent:#4f8ef7;--accent-bg:rgba(79,142,247,0.12);--accent-border:rgba(79,142,247,0.35);--red:#f75959;--red-bg:rgba(247,89,89,0.12);--red-border:rgba(247,89,89,0.3);--amber:#f7a94f;--amber-bg:rgba(247,169,79,0.12);--amber-border:rgba(247,169,79,0.3);--green:#4fc98a;--green-bg:rgba(79,201,138,0.10);--green-border:rgba(79,201,138,0.28);--purple:#a78bfa;--purple-bg:rgba(167,139,250,0.12);--purple-border:rgba(167,139,250,0.35);--radius:10px;--radius-sm:6px}
+:root{--bg:#0f1117;--bg2:#181c25;--bg3:#1f2433;--border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);--text:#e8eaf0;--text2:#8b92a8;--text3:#555e73;--accent:#4f8ef7;--accent-bg:rgba(79,142,247,0.12);--accent-border:rgba(79,142,247,0.35);--red:#f75959;--red-bg:rgba(247,89,89,0.12);--red-border:rgba(247,89,89,0.3);--amber:#f7a94f;--amber-bg:rgba(247,169,79,0.12);--amber-border:rgba(247,169,79,0.3);--green:#4fc98a;--green-bg:rgba(79,201,138,0.10);--green-border:rgba(79,201,138,0.28);--purple:#a78bfa;--purple-bg:rgba(167,139,250,0.12);--purple-border:rgba(167,139,250,0.35);--gold:#e8c84a;--gold-bg:rgba(232,200,74,0.14);--gold-border:rgba(232,200,74,0.35);--radius:10px;--radius-sm:6px}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.5}
 .shell{display:flex;min-height:100vh}
@@ -84,6 +84,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .log-entry.reset-entry{background:var(--amber-bg);border-left:3px solid var(--amber)}
 .log-entry.skip-entry{background:var(--purple-bg);border-left:3px solid var(--purple)}
 .log-entry.undo-entry{background:var(--red-bg);border-left:3px solid var(--red)}
+.log-entry.voluntary-entry{background:var(--gold-bg);border-left:3px solid var(--gold)}
 .log-name{font-size:14px;font-weight:500}
 .log-meta{font-size:12px;color:var(--text2);margin-top:3px;line-height:1.7}
 .log-by{font-size:11px;color:var(--text3);margin-top:2px;font-family:'DM Mono',monospace}
@@ -92,6 +93,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .reset-badge{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border);text-transform:uppercase;letter-spacing:.05em;margin-left:8px;vertical-align:middle}
 .skip-badge{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;background:var(--purple-bg);color:var(--purple);border:1px solid var(--purple-border);text-transform:uppercase;letter-spacing:.05em;margin-left:8px;vertical-align:middle}
 .undo-badge{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;background:var(--red-bg);color:var(--red);border:1px solid var(--red-border);text-transform:uppercase;letter-spacing:.05em;margin-left:8px;vertical-align:middle}
+.voluntary-badge{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold-border);text-transform:uppercase;letter-spacing:.05em;margin-left:8px;vertical-align:middle}
 .settings-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px}
 .settings-card h3{font-size:14px;font-weight:500;margin-bottom:12px}
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:100;align-items:center;justify-content:center}
@@ -309,7 +311,7 @@ select option{background:var(--bg3);color:var(--text)}
 <div class="modal-overlay" id="mandateModal">
   <div class="modal-box">
     <h3>Record mandation</h3>
-    <div class="modal-sub">No password required to record a mandation.</div>
+    <div class="modal-sub">Admin password required for this action.</div>
     <div class="modal-section">Who &amp; when notified</div>
     <div class="fg"><label>Employee</label><input id="m-emp" readonly style="opacity:.6" /></div>
     <div class="fg-row">
@@ -344,6 +346,10 @@ select option{background:var(--bg3);color:var(--text)}
         <label>Describe shift hours</label>
         <input id="m-shift-other" placeholder="e.g. 06-14, 22-06" />
       </div>
+    </div>
+    <div class="fg" style="background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:12px 14px;display:flex;align-items:center;gap:10px">
+      <input type="checkbox" id="m-voluntary" style="width:18px;height:18px;accent-color:var(--accent);cursor:pointer" />
+      <label for="m-voluntary" style="margin:0;cursor:pointer;color:var(--text);font-size:13px">This was a <strong>voluntary</strong> shift, not a mandation</label>
     </div>
     <div class="fg"><label>Notes / reason</label><textarea id="m-notes" placeholder="Who called off, circumstances, etc."></textarea></div>
     <div class="modal-actions">
@@ -721,7 +727,7 @@ function renderQueue(){
       '<div class="q-cell" style="font-family:\'DM Mono\',monospace;font-size:13px;color:var(--text2)" title="Lifetime: '+(e.count||0)+'x, '+formatHours(e.hoursLifetime||0)+'">'+(e.sessionCount||0)+'&times; &middot; '+formatHours(e.sessionHours||0)+'</div>'+
       '<div class="q-cell" style="font-size:12px;color:var(--text2)">'+last+'</div>'+
       '<div class="q-action">'+
-        '<button class="btn danger sm" onclick="openMandate(\''+e.id+'\')">Mandate</button>'+
+        '<button class="btn danger sm" onclick="requireAuth(function(){openMandate(\''+e.id+'\')},\'Admin password required to record a mandation.\')">Mandate</button>'+
         '<button class="btn warning sm" onclick="requireAuth(function(){openSkip(\''+e.id+'\')},\'Password required to skip an employee.\')">Skip</button>'+
         undoBtn+
       '</div>'+
@@ -825,8 +831,10 @@ function renderLog(){
     }
     var sdStr=l.shiftDate?fmtDate(new Date(l.shiftDate+'T12:00:00')):null;
     var shiftLabel=l.shiftOther||l.shift||'';
-    return '<div class="log-entry"><div>'+
-      '<div class="log-name">'+esc(l.name)+'</div>'+
+    var entryCls=l.voluntary?'log-entry voluntary-entry':'log-entry';
+    var volBadge=l.voluntary?' <span class="voluntary-badge">Voluntary</span>':'';
+    return '<div class="'+entryCls+'"><div>'+
+      '<div class="log-name">'+esc(l.name)+volBadge+'</div>'+
       '<div class="log-meta">'+(shiftLabel?'Shift: <strong>'+esc(shiftLabel)+'</strong>&nbsp;&nbsp;·&nbsp;&nbsp;':'')+(sdStr?'Shift date: <strong>'+sdStr+'</strong>&nbsp;&nbsp;·&nbsp;&nbsp;':'')+(l.notes?esc(l.notes):'<span style="opacity:.4">No notes</span>')+'</div>'+
       '<div class="log-by">'+(l.recordedBy?'Recorded by '+esc(l.recordedBy)+'  ·  ':'')+'Notified: '+ts+'</div></div>'+
       '<div class="log-right"><div class="log-ts">'+(sdStr||ts)+'</div>'+delBtn+'</div></div>';
@@ -866,6 +874,7 @@ function openMandate(id){
   document.getElementById('m-hours-other').value='';
   document.getElementById('m-hours-auto').value='';
   document.getElementById('m-notes').value='';
+  document.getElementById('m-voluntary').checked=false;
   document.getElementById('other-shift-wrap').style.display='none';
   document.getElementById('auto-hours-wrap').style.display='none';
   document.getElementById('mandateModal').classList.add('open');
@@ -883,6 +892,7 @@ function confirmMandate(){
   var shiftDate=document.getElementById('m-shiftdate').value;
   var notes=document.getElementById('m-notes').value.trim();
   var who=document.getElementById('m-user').value.trim();
+  var isVoluntary=document.getElementById('m-voluntary').checked;
   // Determine hours
   var hours=0;
   if(shiftSel==='24 Hours')hours=24;
@@ -891,13 +901,13 @@ function confirmMandate(){
     var hVal=parseFloat(document.getElementById('m-hours-other').value);
     hours=isNaN(hVal)?0:hVal;
   }
-  // Increment counts
+  // Increment counts — voluntary shifts count the same as real mandates
   e.count=(e.count||0)+1;
   e.sessionCount=(e.sessionCount||0)+1;
   e.sessionHours=(e.sessionHours||0)+hours;
   e.lastMandate=ts;
   e.preUndoPos=idx;
-  state.log.push({id:uid(),type:'mandation',empId:e.id,name:e.name,ts:ts,shift:shift,shiftOther:shiftOther,shiftDate:shiftDate,notes:notes,recordedBy:who,prePos:idx,hours:hours});
+  state.log.push({id:uid(),type:'mandation',empId:e.id,name:e.name,ts:ts,shift:shift,shiftOther:shiftOther,shiftDate:shiftDate,notes:notes,recordedBy:who,prePos:idx,hours:hours,voluntary:isVoluntary});
   // Remove from current position
   state.employees.splice(idx,1);
   // Find correct insertion point — go below all employees with <= same sessionCount
@@ -1182,10 +1192,11 @@ function confirmDestroy(){
   saveData().then(function(){renderAll();});
 }
 function exportCSV(){
-  var rows=[['Type','Employee','DSN','Hire Date','Recorded By','Date/Time','Shift Type','Mandated Shift Date','Hours','Notes']];
+  var rows=[['Type','Employee','DSN','Hire Date','Recorded By','Date/Time','Shift Type','Mandated Shift Date','Hours','Voluntary','Notes']];
   state.log.slice().sort(function(a,b){return new Date(b.ts)-new Date(a.ts);}).forEach(function(l){
     var e=state.employees.filter(function(x){return x.id===l.empId;})[0]||{};
-    rows.push([l.type||'mandation',l.name,e.dsn||'',e.hireDate||'',l.recordedBy||'',l.ts,l.shiftOther||l.shift||'',l.shiftDate||'',l.hours||0,l.notes||'']);
+    var volLabel=l.type==='mandation'?(l.voluntary?'Yes':'No'):'';
+    rows.push([l.type||'mandation',l.name,e.dsn||'',e.hireDate||'',l.recordedBy||'',l.ts,l.shiftOther||l.shift||'',l.shiftDate||'',l.hours||0,volLabel,l.notes||'']);
   });
   var csv=rows.map(function(r){return r.map(function(v){return '"'+String(v).replace(/"/g,'""')+'"';}).join(',');}).join('\r\n');
   var a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='OEMS_History_'+new Date().toISOString().slice(0,10)+'.csv';a.click();
