@@ -82,6 +82,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .log-entry{display:grid;grid-template-columns:1fr auto;gap:12px;padding:14px 20px;border-bottom:1px solid var(--border);align-items:start}
 .log-entry:last-child{border-bottom:none}
 .log-entry.reset-entry{background:var(--amber-bg);border-left:3px solid var(--amber)}
+.log-entry.seniority-reset-entry{background:#eef6ee;border-left:3px solid #2e7d32}
 .log-entry.skip-entry{background:var(--purple-bg);border-left:3px solid var(--purple)}
 .log-entry.undo-entry{background:var(--red-bg);border-left:3px solid var(--red)}
 .log-entry.voluntary-entry{background:var(--gold-bg);border-left:3px solid var(--gold)}
@@ -94,6 +95,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .skip-badge{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;background:var(--purple-bg);color:var(--purple);border:1px solid var(--purple-border);text-transform:uppercase;letter-spacing:.05em;margin-left:8px;vertical-align:middle}
 .undo-badge{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;background:var(--red-bg);color:var(--red);border:1px solid var(--red-border);text-transform:uppercase;letter-spacing:.05em;margin-left:8px;vertical-align:middle}
 .voluntary-badge{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold-border);text-transform:uppercase;letter-spacing:.05em;margin-left:8px;vertical-align:middle}
+.seniority-badge{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;background:#eef6ee;color:#2e7d32;border:1px solid #a5d6a7;text-transform:uppercase;letter-spacing:.05em;margin-left:8px;vertical-align:middle}
 .settings-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px}
 .settings-card h3{font-size:14px;font-weight:500;margin-bottom:12px}
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:100;align-items:center;justify-content:center}
@@ -297,6 +299,13 @@ select option{background:var(--bg3);color:var(--text)}
         </button>
       </div>
       <div class="settings-card">
+        <h3>⭐ Union seniority starting hours</h3>
+        <p style="font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.6">Run after the annual rotation reset. Calculates each employee's starting hours using <strong>seniority rank + prior-year hours rank</strong> (range: 2–<span id="sr-max-display">36</span>). Ties on hours go to the more senior employee. Does <strong>not</strong> count as a mandation.</p>
+        <button class="btn primary" onclick="requireAuth(showSeniorityResetModal,'Admin password required to apply seniority starting hours.')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Apply seniority starting hours
+        </button>
+      </div>
+      <div class="settings-card">
         <h3>🗑 Clear all data</h3>
         <p style="font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.6">Permanently deletes all employees and history. Cannot be undone.</p>
         <button class="btn danger" onclick="requireAuth(clearAll,'Admin password required to clear all data.')">Clear all data</button>
@@ -428,6 +437,26 @@ select option{background:var(--bg3);color:var(--text)}
     <div class="modal-actions">
       <button class="btn" onclick="closeModal('resetModal')">Cancel</button>
       <button class="btn danger" onclick="confirmReset()">Confirm reset</button>
+    </div>
+  </div>
+</div>
+
+<!-- SENIORITY RESET MODAL -->
+<div class="modal-overlay" id="seniorityResetModal">
+  <div class="modal-box" style="max-width:680px">
+    <h3>⭐ Apply seniority starting hours</h3>
+    <div class="modal-sub">Preview below. Hours are added to each employee's session total without counting as a mandation. Ranks are calculated from hire date (seniority) and prior-year session hours, with the more senior employee winning any tie on hours.</div>
+    <div id="sr-preview" style="margin:16px 0;max-height:340px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--radius-sm)"></div>
+    <div class="fg-row">
+      <div class="fg"><label>Applied by (Name or DSN)</label><input id="sr-user" placeholder="e.g. Chief Smith or 1760" /></div>
+      <div class="fg"><label>Date &amp; time</label><input type="datetime-local" id="sr-dt" /></div>
+    </div>
+    <div class="fg"><label>Notes (optional)</label><textarea id="sr-notes" placeholder="e.g. Annual union seniority reset..." style="min-height:55px"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('seniorityResetModal')">Cancel</button>
+      <button class="btn primary" onclick="confirmSeniorityReset()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width:14px;height:14px"><polyline points="20 6 9 17 4 12"/></svg>Confirm &amp; apply
+      </button>
     </div>
   </div>
 </div>
@@ -815,6 +844,17 @@ function renderLog(){
         '<div class="log-by">'+(l.recordedBy?'By '+esc(l.recordedBy)+'  ·  ':'')+ts+'</div></div>'+
         '<div class="log-right"><div class="log-ts">'+ts+'</div>'+delBtn+'</div></div>';
     }
+    if(l.type==='seniority-reset'){
+      var rows=(l.breakdown||[]).map(function(r){
+        return '<tr><td style="padding:3px 8px">'+esc(r.name)+'</td><td style="padding:3px 8px;text-align:center">'+r.senRank+'</td><td style="padding:3px 8px;text-align:center">'+r.hrsRank+'</td><td style="padding:3px 8px;text-align:center;font-weight:600">'+r.total+'</td></tr>';
+      }).join('');
+      var table=rows?'<details style="margin-top:6px;font-size:12px"><summary style="cursor:pointer;color:var(--text2)">View breakdown</summary><table style="margin-top:6px;border-collapse:collapse;font-size:11px;width:100%"><tr style="background:#c8e6c9"><th style="padding:3px 8px;text-align:left">Employee</th><th style="padding:3px 8px">Sen. Rank</th><th style="padding:3px 8px">Hrs Rank</th><th style="padding:3px 8px">Total Hrs</th></tr>'+rows+'</table></details>':'';
+      return '<div class="log-entry seniority-reset-entry"><div>'+
+        '<div class="log-name">Seniority Starting Hours Applied <span class="seniority-badge">Seniority Reset</span></div>'+
+        '<div class="log-meta">'+(l.notes?esc(l.notes):'Union seniority starting hours applied.')+table+'</div>'+
+        '<div class="log-by">'+(l.recordedBy?'By '+esc(l.recordedBy)+'  ·  ':'')+ts+'</div></div>'+
+        '<div class="log-right"><div class="log-ts">'+ts+'</div>'+delBtn+'</div></div>';
+    }
     if(l.type==='skip'){
       return '<div class="log-entry skip-entry"><div>'+
         '<div class="log-name">'+esc(l.name)+' <span class="skip-badge">Skipped</span></div>'+
@@ -1037,6 +1077,8 @@ function confirmReset(){
   var who=document.getElementById('r-user').value.trim();
   var ts=document.getElementById('r-dt').value||new Date().toISOString();
   var notes=document.getElementById('r-notes').value.trim();
+  // Snapshot prior-year hours for seniority reset calculation before zeroing
+  state.employees.forEach(function(e){e.lastYearHours=e.sessionHours||0;});
   // Zero out session counts and hours for all employees
   state.employees.forEach(function(e){e.sessionCount=0;e.sessionHours=0;});
   // Sort newest hire first, most senior last
@@ -1048,6 +1090,92 @@ function confirmReset(){
   });
   state.log.push({id:uid(),type:'reset',name:'Rotation Reset',empId:'',ts:ts,notes:notes||'Rotation reset to newest hire first. Session counts reset to zero.',recordedBy:who});
   saveData().then(function(){closeModal('resetModal');renderAll();});
+}
+
+function showSeniorityResetModal(){
+  var n=state.employees.length;
+  document.getElementById('sr-max-display').textContent=n*2;
+  // Update the modal max display too
+  var now=new Date();now.setMinutes(now.getMinutes()-now.getTimezoneOffset());
+  document.getElementById('sr-dt').value=now.toISOString().slice(0,16);
+  document.getElementById('sr-user').value='';
+  document.getElementById('sr-notes').value='';
+
+  // Build seniority rank: oldest hire = n (highest), newest = 1
+  var empsCopy=state.employees.map(function(e,i){return {i:i,e:e};});
+  var byHire=empsCopy.slice().sort(function(a,b){
+    if(!a.e.hireDate&&!b.e.hireDate)return 0;
+    if(!a.e.hireDate)return 1;
+    if(!b.e.hireDate)return -1;
+    return new Date(a.e.hireDate)-new Date(b.e.hireDate); // oldest first = highest rank
+  });
+  var senRankMap={};
+  byHire.forEach(function(item,idx){senRankMap[item.e.id]=n-idx;}); // oldest gets n, newest gets 1
+
+  // Build hours rank: most lastYearHours = n, tiebreaker = more senior gets higher rank
+  var byHours=empsCopy.slice().sort(function(a,b){
+    var ha=a.e.lastYearHours||0, hb=b.e.lastYearHours||0;
+    if(hb!==ha)return hb-ha; // most hours first
+    // Tie: more senior (older hireDate) gets higher rank
+    if(!a.e.hireDate&&!b.e.hireDate)return 0;
+    if(!a.e.hireDate)return 1;
+    if(!b.e.hireDate)return -1;
+    return new Date(a.e.hireDate)-new Date(b.e.hireDate); // older = higher rank in tie
+  });
+  var hrsRankMap={};
+  byHours.forEach(function(item,idx){hrsRankMap[item.e.id]=n-idx;});
+
+  // Build preview rows
+  var breakdown=state.employees.map(function(e){
+    var sr=senRankMap[e.id]||1, hr=hrsRankMap[e.id]||1;
+    return {id:e.id,name:e.name,senRank:sr,hrsRank:hr,total:sr+hr,lastYearHours:e.lastYearHours||0};
+  }).sort(function(a,b){return b.total-a.total;}); // preview sorted highest total first
+
+  window._srBreakdown=breakdown;
+
+  var html='<table style="width:100%;border-collapse:collapse;font-size:12px">'+
+    '<thead><tr style="background:#2e7d32;color:#fff">'+
+    '<th style="padding:6px 10px;text-align:left">Employee</th>'+
+    '<th style="padding:6px 10px;text-align:center">Prior-Year Hrs</th>'+
+    '<th style="padding:6px 10px;text-align:center">Seniority Rank</th>'+
+    '<th style="padding:6px 10px;text-align:center">Hours Rank</th>'+
+    '<th style="padding:6px 10px;text-align:center">Starting Hrs</th>'+
+    '</tr></thead><tbody>'+
+    breakdown.map(function(r,i){
+      var bg=i%2===0?'#f9f9f9':'#fff';
+      return '<tr style="background:'+bg+'">'+
+        '<td style="padding:5px 10px;font-weight:500">'+esc(r.name)+'</td>'+
+        '<td style="padding:5px 10px;text-align:center;color:#666">'+r.lastYearHours+'</td>'+
+        '<td style="padding:5px 10px;text-align:center">'+r.senRank+'</td>'+
+        '<td style="padding:5px 10px;text-align:center">'+r.hrsRank+'</td>'+
+        '<td style="padding:5px 10px;text-align:center;font-weight:700;color:#2e7d32">'+r.total+'</td>'+
+        '</tr>';
+    }).join('')+
+    '</tbody></table>';
+  document.getElementById('sr-preview').innerHTML=html;
+  document.getElementById('seniorityResetModal').classList.add('open');
+}
+
+function confirmSeniorityReset(){
+  var who=document.getElementById('sr-user').value.trim();
+  var ts=document.getElementById('sr-dt').value||new Date().toISOString();
+  var notes=document.getElementById('sr-notes').value.trim();
+  var breakdown=window._srBreakdown||[];
+  var rankById={};
+  breakdown.forEach(function(r){rankById[r.id]=r;});
+
+  // Apply starting hours WITHOUT touching count or sessionCount
+  state.employees.forEach(function(e){
+    var r=rankById[e.id];
+    if(r)e.sessionHours=(e.sessionHours||0)+r.total;
+  });
+
+  // Re-sort queue: least hours = top (first to be mandated)
+  state.employees.sort(function(a,b){return (a.sessionHours||0)-(b.sessionHours||0);});
+
+  state.log.push({id:uid(),type:'seniority-reset',name:'Seniority Starting Hours',empId:'',ts:ts,
+    notes:notes||'Union seniority starting hours applied.',recordedBy:who,breakdown:breakdown});
+  saveData().then(function(){closeModal('seniorityResetModal');renderAll();});
 }
 
 // ═══════════════════════════
@@ -1268,3 +1396,4 @@ checkSetup();
 </script>
 </body>
 </html>
+
