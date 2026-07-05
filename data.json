@@ -1,17 +1,6 @@
 {
   "employees": [
     {
-      "id": "e12",
-      "name": "Ryan Hodge",
-      "dsn": "17111",
-      "hireDate": "2020-12-22",
-      "count": 1,
-      "lastMandate": "2026-02-13T20:00",
-      "preUndoPos": 1,
-      "sessionCount": 1,
-      "sessionHours": 12
-    },
-    {
       "id": "e01",
       "name": "Chris Wilkerson",
       "dsn": "17147",
@@ -153,6 +142,17 @@
       "preUndoPos": 1,
       "sessionCount": 2,
       "sessionHours": 48
+    },
+    {
+      "id": "e12",
+      "name": "Ryan Hodge",
+      "dsn": "17111",
+      "hireDate": "2020-12-22",
+      "count": 2,
+      "lastMandate": "2026-07-04T22:40",
+      "preUndoPos": 0,
+      "sessionCount": 2,
+      "sessionHours": 24
     },
     {
       "id": "e02",
@@ -712,6 +712,21 @@
       "ts": "2026-06-16T12:00",
       "notes": "Already Scheduled 06/23/2026",
       "recordedBy": "17123"
+    },
+    {
+      "id": "mr7s1egug1wytyml9zu",
+      "type": "mandation",
+      "empId": "e12",
+      "name": "Ryan Hodge",
+      "ts": "2026-07-04T22:40",
+      "shift": "07-19 Day",
+      "shiftOther": "",
+      "shiftDate": "2026-07-05",
+      "notes": "1780 called off sick time",
+      "recordedBy": "17123",
+      "prePos": 0,
+      "hours": 12,
+      "voluntary": false
     }
   ],
   "password": "oems2026"
