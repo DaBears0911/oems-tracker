@@ -745,6 +745,7 @@ function renderQueue(){
   var list=getViewSortedQueue();
   if(!list.length){el.innerHTML='<div class="empty-state">No employees yet.</div>';return;}
   el.innerHTML=list.map(function(e,i){
+    try{
     var cls=i===0&&queueSort==='rotation'?'r1':i===1&&queueSort==='rotation'?'r2':i===2&&queueSort==='rotation'?'r3':'';
     var last=e.lastMandate?fmtDate(new Date(e.lastMandate)):'Never';
     var sub=[e.dsn?'DSN '+e.dsn:'',e.hireDate?'Hired: '+fmtDate(new Date(e.hireDate+'T12:00:00')):''].filter(Boolean).join('  ·  ');
@@ -753,7 +754,7 @@ function renderQueue(){
     return '<div class="qrow '+cls+'">'+
       '<div class="q-rank">'+(i+1)+'</div>'+
       '<div class="q-cell"><div class="q-name">'+esc(e.name)+nextBadge+'</div>'+(sub?'<div class="q-sub">'+esc(sub)+'</div>':'')+'</div>'+
-      '<div class="q-cell" style="font-family:\'DM Mono\',monospace;font-size:13px;color:var(--text2)" title="Lifetime: '+(e.count||0)+'x, '+formatHours(e.hoursLifetime||0)+'">'+(e.sessionCount||0)+'&times; &middot; '+formatHours(e.sessionHours||0)+'</div>'+
+      '<div class="q-cell" style="font-family:\'DM Mono\',monospace;font-size:13px;color:var(--text2)">'+(e.sessionCount||0)+'&times; &middot; '+formatHours(e.sessionHours||0)+'</div>'+
       '<div class="q-cell" style="font-size:12px;color:var(--text2)">'+last+'</div>'+
       '<div class="q-action">'+
         '<button class="btn danger sm" onclick="requireAuth(function(){openMandate(\''+e.id+'\')},\'Admin password required to record a mandation.\')">Mandate</button>'+
@@ -761,6 +762,9 @@ function renderQueue(){
         undoBtn+
       '</div>'+
     '</div>';
+    }catch(err){
+      return '<div class="qrow"><div class="q-rank">'+(i+1)+'</div><div class="q-cell"><div class="q-name">'+esc(e.name||'?')+'</div></div><div class="q-cell" style="color:var(--red);font-size:11px">Display error</div><div class="q-cell"></div><div class="q-action"></div></div>';
+    }
   }).join('');
 }
 
