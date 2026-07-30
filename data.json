@@ -78,17 +78,6 @@
       "sessionHours": 17
     },
     {
-      "id": "e10",
-      "name": "Kayla Hoese",
-      "dsn": "17116",
-      "hireDate": "2021-03-02",
-      "count": 2,
-      "lastMandate": "2026-06-10T15:24",
-      "preUndoPos": 1,
-      "sessionCount": 2,
-      "sessionHours": 24
-    },
-    {
       "id": "e14",
       "name": "Jason Butler",
       "dsn": "1743",
@@ -173,6 +162,17 @@
       "count": 3,
       "lastMandate": "2026-07-30T16:20",
       "preUndoPos": 5,
+      "sessionCount": 3,
+      "sessionHours": 36
+    },
+    {
+      "id": "e10",
+      "name": "Kayla Hoese",
+      "dsn": "17116",
+      "hireDate": "2021-03-02",
+      "count": 3,
+      "lastMandate": "2026-07-30T16:21",
+      "preUndoPos": 7,
       "sessionCount": 3,
       "sessionHours": 36
     }
@@ -755,6 +755,21 @@
       "notes": "",
       "recordedBy": "1786",
       "prePos": 5,
+      "hours": 12,
+      "voluntary": false
+    },
+    {
+      "id": "ms80qxxyaxjwsnid22u",
+      "type": "mandation",
+      "empId": "e10",
+      "name": "Kayla Hoese",
+      "ts": "2026-07-30T16:21",
+      "shift": "07-19 Day",
+      "shiftOther": "",
+      "shiftDate": "2026-08-01",
+      "notes": "",
+      "recordedBy": "1786",
+      "prePos": 7,
       "hours": 12,
       "voluntary": false
     }
