@@ -56,17 +56,6 @@
       "sessionHours": 24
     },
     {
-      "id": "e09",
-      "name": "Nick Grotowski",
-      "dsn": "17123",
-      "hireDate": "2022-09-15",
-      "count": 2,
-      "lastMandate": "2026-05-14T20:30",
-      "preUndoPos": 2,
-      "sessionCount": 2,
-      "sessionHours": 24
-    },
-    {
       "id": "e11",
       "name": "Doug Sutphin",
       "dsn": "17115",
@@ -173,6 +162,17 @@
       "count": 3,
       "lastMandate": "2026-06-12T14:58",
       "preUndoPos": 8,
+      "sessionCount": 3,
+      "sessionHours": 36
+    },
+    {
+      "id": "e09",
+      "name": "Nick Grotowski",
+      "dsn": "17123",
+      "hireDate": "2022-09-15",
+      "count": 3,
+      "lastMandate": "2026-07-30T16:20",
+      "preUndoPos": 5,
       "sessionCount": 3,
       "sessionHours": 36
     }
@@ -741,6 +741,21 @@
       "recordedBy": "1793",
       "prePos": 0,
       "hours": 24,
+      "voluntary": false
+    },
+    {
+      "id": "ms80qcvy7z4ousya5oi",
+      "type": "mandation",
+      "empId": "e09",
+      "name": "Nick Grotowski",
+      "ts": "2026-07-30T16:20",
+      "shift": "19-07 Night",
+      "shiftOther": "",
+      "shiftDate": "2026-08-01",
+      "notes": "",
+      "recordedBy": "1786",
+      "prePos": 5,
+      "hours": 12,
       "voluntary": false
     }
   ],
