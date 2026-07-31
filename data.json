@@ -802,6 +802,15 @@
       "prePos": 1,
       "hours": 12,
       "voluntary": false
+    },
+    {
+      "id": "ms89h90lhbs9nwbgnns",
+      "type": "skip",
+      "empId": "e03",
+      "name": "Rick Palmer",
+      "ts": "2026-07-30T20:24",
+      "notes": "unavailable- out of town",
+      "recordedBy": "1786"
     }
   ],
   "password": "oems2026"
