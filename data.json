@@ -12,17 +12,6 @@
       "sessionHours": 24
     },
     {
-      "id": "e06",
-      "name": "Chase McDaniel",
-      "dsn": "17135",
-      "hireDate": "2024-09-25",
-      "count": 2,
-      "lastMandate": "2026-02-24T17:00",
-      "preUndoPos": 2,
-      "sessionCount": 2,
-      "sessionHours": 36
-    },
-    {
       "id": "e08",
       "name": "Alyssa Danielson",
       "dsn": "17122",
@@ -175,6 +164,17 @@
       "preUndoPos": 1,
       "sessionCount": 3,
       "sessionHours": 48
+    },
+    {
+      "id": "e06",
+      "name": "Chase McDaniel",
+      "dsn": "17135",
+      "hireDate": "2024-09-25",
+      "count": 3,
+      "lastMandate": "2026-08-03T12:57",
+      "preUndoPos": 1,
+      "sessionCount": 3,
+      "sessionHours": 60
     }
   ],
   "log": [
@@ -811,6 +811,21 @@
       "ts": "2026-07-30T20:24",
       "notes": "unavailable- out of town",
       "recordedBy": "1786"
+    },
+    {
+      "id": "msdj9ng7dgwiyosrr8v",
+      "type": "mandation",
+      "empId": "e06",
+      "name": "Chase McDaniel",
+      "ts": "2026-08-03T12:57",
+      "shift": "24 Hours",
+      "shiftOther": "",
+      "shiftDate": "2026-08-04",
+      "notes": "No answer from 1780",
+      "recordedBy": "1793",
+      "prePos": 1,
+      "hours": 24,
+      "voluntary": false
     }
   ],
   "password": "oems2026"
