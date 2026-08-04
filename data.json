@@ -122,6 +122,17 @@
       "sessionHours": 36
     },
     {
+      "id": "e05",
+      "name": "Kevin Brown",
+      "dsn": "17133",
+      "hireDate": "2025-04-07",
+      "count": 3,
+      "lastMandate": "2026-07-30T20:24",
+      "preUndoPos": 1,
+      "sessionCount": 3,
+      "sessionHours": 48
+    },
+    {
       "id": "e07",
       "name": "Donovan Knapp",
       "dsn": "17125",
@@ -153,17 +164,6 @@
       "preUndoPos": 7,
       "sessionCount": 3,
       "sessionHours": 36
-    },
-    {
-      "id": "e05",
-      "name": "Kevin Brown",
-      "dsn": "17133",
-      "hireDate": "2025-04-07",
-      "count": 3,
-      "lastMandate": "2026-07-30T20:24",
-      "preUndoPos": 1,
-      "sessionCount": 3,
-      "sessionHours": 48
     },
     {
       "id": "e06",
