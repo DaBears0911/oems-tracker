@@ -133,6 +133,17 @@
       "sessionHours": 48
     },
     {
+      "id": "e06",
+      "name": "Chase McDaniel",
+      "dsn": "17135",
+      "hireDate": "2024-09-25",
+      "count": 3,
+      "lastMandate": "2026-08-03T12:57",
+      "preUndoPos": 1,
+      "sessionCount": 3,
+      "sessionHours": 60
+    },
+    {
       "id": "e07",
       "name": "Donovan Knapp",
       "dsn": "17125",
@@ -164,17 +175,6 @@
       "preUndoPos": 7,
       "sessionCount": 3,
       "sessionHours": 36
-    },
-    {
-      "id": "e06",
-      "name": "Chase McDaniel",
-      "dsn": "17135",
-      "hireDate": "2024-09-25",
-      "count": 3,
-      "lastMandate": "2026-08-03T12:57",
-      "preUndoPos": 1,
-      "sessionCount": 3,
-      "sessionHours": 60
     }
   ],
   "log": [
