@@ -1,6 +1,16 @@
 {
   "employees": [
     {
+      "id": "mtm3g2e96dq4x8svm4n",
+      "name": "Andrew Chapman",
+      "dsn": "17149",
+      "hireDate": "2026-06-29",
+      "count": 0,
+      "sessionCount": 0,
+      "sessionHours": 0,
+      "lastMandate": null
+    },
+    {
       "id": "e03",
       "name": "Rick Palmer",
       "dsn": "1780",
