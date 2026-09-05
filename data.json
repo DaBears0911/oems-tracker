@@ -856,6 +856,15 @@
       "prePos": 4,
       "hours": 2,
       "voluntary": false
+    },
+    {
+      "id": "mtoulh3xl2cl4gm2g0e",
+      "type": "skip",
+      "empId": "mtm3g2e96dq4x8svm4n",
+      "name": "Andrew Chapman",
+      "ts": "2026-09-05T15:41",
+      "notes": "out of town",
+      "recordedBy": "17123"
     }
   ],
   "password": "oems2026"
