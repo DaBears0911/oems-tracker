@@ -865,6 +865,15 @@
       "ts": "2026-09-05T15:41",
       "notes": "out of town",
       "recordedBy": "17123"
+    },
+    {
+      "id": "mtoum08tbzqd4qwb5pk",
+      "type": "skip",
+      "empId": "e03",
+      "name": "Rick Palmer",
+      "ts": "2026-09-05T15:41",
+      "notes": "call off",
+      "recordedBy": "17123"
     }
   ],
   "password": "oems2026"
