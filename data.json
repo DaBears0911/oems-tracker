@@ -45,17 +45,6 @@
       "sessionHours": 24
     },
     {
-      "id": "e13",
-      "name": "Terry Sill",
-      "dsn": "1765",
-      "hireDate": "2011-07-16",
-      "count": 2,
-      "lastMandate": "2026-06-07T11:00",
-      "preUndoPos": 4,
-      "sessionCount": 2,
-      "sessionHours": 17
-    },
-    {
       "id": "e14",
       "name": "Jason Butler",
       "dsn": "1743",
@@ -175,6 +164,17 @@
       "preUndoPos": 7,
       "sessionCount": 3,
       "sessionHours": 36
+    },
+    {
+      "id": "e13",
+      "name": "Terry Sill",
+      "dsn": "1765",
+      "hireDate": "2011-07-16",
+      "count": 3,
+      "lastMandate": "2026-09-04T16:00",
+      "preUndoPos": 4,
+      "sessionCount": 3,
+      "sessionHours": 19
     }
   ],
   "log": [
@@ -840,6 +840,21 @@
       "recordedBy": "1793",
       "prePos": 0,
       "hours": 24,
+      "voluntary": false
+    },
+    {
+      "id": "mtodd4of51ol74ypzho",
+      "type": "mandation",
+      "empId": "e13",
+      "name": "Terry Sill",
+      "ts": "2026-09-04T16:00",
+      "shift": "",
+      "shiftOther": "1700-1900",
+      "shiftDate": "2026-09-04",
+      "notes": "1780 sick time. entered by 17123 on behalf of 17111",
+      "recordedBy": "17123",
+      "prePos": 4,
+      "hours": 2,
       "voluntary": false
     }
   ],
