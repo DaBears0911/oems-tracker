@@ -874,6 +874,15 @@
       "ts": "2026-09-05T15:41",
       "notes": "call off",
       "recordedBy": "17123"
+    },
+    {
+      "id": "mtoumqgncvi51d4hr98",
+      "type": "skip",
+      "empId": "e11",
+      "name": "Doug Sutphin",
+      "ts": "2026-09-05T15:41",
+      "notes": "already on duty",
+      "recordedBy": "17123"
     }
   ],
   "password": "oems2026"
