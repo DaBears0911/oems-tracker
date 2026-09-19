@@ -5,10 +5,10 @@
       "name": "Andrew Chapman",
       "dsn": "17149",
       "hireDate": "2026-06-29",
-      "count": 1,
-      "sessionCount": 1,
-      "sessionHours": 24,
-      "lastMandate": "2026-09-03T17:36",
+      "count": 0,
+      "sessionCount": 0,
+      "sessionHours": 0,
+      "lastMandate": null,
       "preUndoPos": 0
     },
     {
@@ -839,21 +839,6 @@
       "voluntary": false
     },
     {
-      "id": "mtm3ukt6q3muwxjhin",
-      "type": "mandation",
-      "empId": "mtm3g2e96dq4x8svm4n",
-      "name": "Andrew Chapman",
-      "ts": "2026-09-03T17:36",
-      "shift": "24 Hours",
-      "shiftOther": "",
-      "shiftDate": "2026-09-03",
-      "notes": "Rotation Adjustment",
-      "recordedBy": "1793",
-      "prePos": 0,
-      "hours": 24,
-      "voluntary": false
-    },
-    {
       "id": "mtodd4of51ol74ypzho",
       "type": "mandation",
       "empId": "e13",
@@ -924,6 +909,15 @@
       "prePos": 0,
       "hours": 24,
       "voluntary": false
+    },
+    {
+      "id": "mu8e6hew5p737osnyvq",
+      "type": "undo",
+      "empId": "mtm3g2e96dq4x8svm4n",
+      "name": "Andrew Chapman",
+      "ts": "2026-09-19T07:57",
+      "notes": "",
+      "recordedBy": ""
     }
   ],
   "password": "oems2026"
