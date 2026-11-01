@@ -12,17 +12,6 @@
       "preUndoPos": 0
     },
     {
-      "id": "e03",
-      "name": "Rick Palmer",
-      "dsn": "1780",
-      "hireDate": "2025-08-25",
-      "count": 2,
-      "lastMandate": "2026-02-18T09:06",
-      "preUndoPos": 1,
-      "sessionCount": 2,
-      "sessionHours": 24
-    },
-    {
       "id": "e11",
       "name": "Doug Sutphin",
       "dsn": "17115",
@@ -184,6 +173,17 @@
       "count": 3,
       "lastMandate": "2026-09-05T15:42",
       "preUndoPos": 3,
+      "sessionCount": 3,
+      "sessionHours": 36
+    },
+    {
+      "id": "e03",
+      "name": "Rick Palmer",
+      "dsn": "1780",
+      "hireDate": "2025-08-25",
+      "count": 3,
+      "lastMandate": "2026-10-31T22:30",
+      "preUndoPos": 1,
       "sessionCount": 3,
       "sessionHours": 36
     }
@@ -925,6 +925,21 @@
       "notes": "Open shift",
       "recordedBy": "",
       "prePos": 0,
+      "hours": 12,
+      "voluntary": false
+    },
+    {
+      "id": "mvyd2fj1xmqdwvnohnm",
+      "type": "mandation",
+      "empId": "e03",
+      "name": "Rick Palmer",
+      "ts": "2026-10-31T22:30",
+      "shift": "07-19 Day",
+      "shiftOther": "",
+      "shiftDate": "2026-11-01",
+      "notes": "Sill off sick.",
+      "recordedBy": "1793",
+      "prePos": 1,
       "hours": 12,
       "voluntary": false
     }
