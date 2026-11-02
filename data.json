@@ -5,10 +5,10 @@
       "name": "Andrew Chapman",
       "dsn": "17149",
       "hireDate": "2026-06-29",
-      "count": 0,
-      "sessionCount": 0,
-      "sessionHours": 0,
-      "lastMandate": null,
+      "count": 1,
+      "sessionCount": 1,
+      "sessionHours": 24,
+      "lastMandate": "2026-11-02T12:32",
       "preUndoPos": 0
     },
     {
@@ -960,6 +960,21 @@
       "ts": "2026-10-31T12:30",
       "notes": "on shift Palmer mandated",
       "recordedBy": "1795"
+    },
+    {
+      "id": "mvzlj0pp49hk0f8qv23",
+      "type": "mandation",
+      "empId": "mtm3g2e96dq4x8svm4n",
+      "name": "Andrew Chapman",
+      "ts": "2026-11-02T12:32",
+      "shift": "24 Hours",
+      "shiftOther": "",
+      "shiftDate": "2026-11-02",
+      "notes": "",
+      "recordedBy": "1795",
+      "prePos": 0,
+      "hours": 24,
+      "voluntary": false
     }
   ],
   "password": "oems2026"
