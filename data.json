@@ -85,18 +85,6 @@
       "lastYearHours": 60
     },
     {
-      "id": "e09",
-      "name": "Nick Grotowski",
-      "dsn": "17123",
-      "hireDate": "2022-09-15",
-      "count": 3,
-      "lastMandate": "2026-07-30T16:20",
-      "preUndoPos": 5,
-      "sessionCount": 0,
-      "sessionHours": 0,
-      "lastYearHours": 36
-    },
-    {
       "id": "e10",
       "name": "Kayla Hoese",
       "dsn": "17116",
@@ -200,6 +188,18 @@
       "count": 4,
       "lastMandate": "2026-06-12T12:45",
       "preUndoPos": 8,
+      "sessionCount": 1,
+      "sessionHours": 12,
+      "lastYearHours": 36
+    },
+    {
+      "id": "e09",
+      "name": "Nick Grotowski",
+      "dsn": "17123",
+      "hireDate": "2022-09-15",
+      "count": 4,
+      "lastMandate": "2026-07-30T12:46",
+      "preUndoPos": 7,
       "sessionCount": 1,
       "sessionHours": 12,
       "lastYearHours": 36
@@ -1054,6 +1054,21 @@
       "notes": "",
       "recordedBy": "1795",
       "prePos": 8,
+      "hours": 12,
+      "voluntary": false
+    },
+    {
+      "id": "mvzm2q9f81tegvf6gyq",
+      "type": "mandation",
+      "empId": "e09",
+      "name": "Nick Grotowski",
+      "ts": "2026-07-30T12:46",
+      "shift": "19-07 Night",
+      "shiftOther": "",
+      "shiftDate": "2026-08-01",
+      "notes": "",
+      "recordedBy": "1795",
+      "prePos": 7,
       "hours": 12,
       "voluntary": false
     }
