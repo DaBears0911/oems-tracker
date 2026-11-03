@@ -1,18 +1,6 @@
 {
   "employees": [
     {
-      "id": "mtm3g2e96dq4x8svm4n",
-      "name": "Andrew Chapman",
-      "dsn": "17149",
-      "hireDate": "2026-06-29",
-      "count": 2,
-      "sessionCount": 0,
-      "sessionHours": 0,
-      "lastMandate": "2026-11-02T12:33",
-      "preUndoPos": 0,
-      "lastYearHours": 48
-    },
-    {
       "id": "mu8e2oa8xo0wrh0rwtc",
       "name": "Alex Kombol",
       "dsn": "17148",
@@ -203,6 +191,18 @@
       "sessionCount": 1,
       "sessionHours": 12,
       "lastYearHours": 51
+    },
+    {
+      "id": "mtm3g2e96dq4x8svm4n",
+      "name": "Andrew Chapman",
+      "dsn": "17149",
+      "hireDate": "2026-06-29",
+      "count": 3,
+      "sessionCount": 1,
+      "sessionHours": 24,
+      "lastMandate": "2026-11-03T07:24",
+      "preUndoPos": 0,
+      "lastYearHours": 48
     }
   ],
   "log": [
@@ -1115,6 +1115,21 @@
       "recordedBy": "1795",
       "prePos": 2,
       "hours": 12,
+      "voluntary": false
+    },
+    {
+      "id": "mw0pzs8qc3uzcpap7z",
+      "type": "mandation",
+      "empId": "mtm3g2e96dq4x8svm4n",
+      "name": "Andrew Chapman",
+      "ts": "2026-11-03T07:24",
+      "shift": "24 Hours",
+      "shiftOther": "",
+      "shiftDate": "2026-11-04",
+      "notes": "",
+      "recordedBy": "1793",
+      "prePos": 0,
+      "hours": 24,
       "voluntary": false
     }
   ],
